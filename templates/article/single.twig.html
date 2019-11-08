@@ -1,0 +1,10 @@
+{% extends "base.twig.html" %}
+{% block body %}
+    {% if article == null %}
+        <p>
+            L'article spécifié n'existe pas.
+        </p>
+    {% else %}
+        <h1>Article {{ article.code }}</h1>
+    {% endif %}
+{% endblock %}

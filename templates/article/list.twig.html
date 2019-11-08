@@ -1,0 +1,37 @@
+{% extends "base.twig.html" %}
+{% block body %}
+    <h1>Liste des articles</h1>
+
+    {% if articles == null %}
+    <p>Aucun article à afficher.</p>
+    {% else %}
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Code</th>
+                <th>Description</th>
+                <th>Poids</th>
+                <th>Largeur</th>
+                <th>Longueur</th>
+                <th>Hauteur</th>
+                <th>Code EAN</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td>{{ article.id }}</td>
+                <td>{{ article.code }}</td>
+                <td>{{ article.description }}</td>
+                <td>{{ article.weight }}</td>
+                <td>{{ article.width }}</td>
+                <td>{{ article.length }}</td>
+                <td>{{ article.height }}</td>
+                <td>{{ article.barcode }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+{% endblock %}
