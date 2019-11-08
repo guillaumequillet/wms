@@ -42,6 +42,8 @@ class ArticleController extends \App\Controller\Controller
             ];
         }
 
-        $this->getView()->render($template, $data);
+        if (!is_null($template) && !is_null($data)) {
+            $this->getView()->render($template, $data);
+        }
     }
 }
