@@ -9,3 +9,53 @@ table, th, td {
 th, td {
     padding: 10px;
 }
+
+.button {
+    display: inline-block;
+    text-decoration: none;
+    background-color: blue;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+}
+
+html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    padding: 10px;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+}
+
+header ul {
+    display: flex;
+}
+
+header li {
+    display: inline-block;
+    margin: 0 20px;
+}
+
+header nav {
+    background-color: grey;
+}
+
+#article-edit {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#article-edit li {
+    display: inline-block;
+    margin: 10px;
+}

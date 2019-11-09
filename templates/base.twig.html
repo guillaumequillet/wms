@@ -9,7 +9,20 @@
     </head>
 
     <body>
-        {% block body %}{% endblock %}
+        <header>
+            <img src="https://place-hold.it/300x150" alt="logo">
+            <nav>
+                <ul>
+                    <li>Articles</li>
+                    <li>Mouvements</li>
+                    <li>Emplacements</li>
+                    <li>Admin</li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            {% block body %}{% endblock %}
+        </main>
         <script src="js/script.js"></script>
     </body>
 </html>
