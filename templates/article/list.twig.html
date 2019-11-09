@@ -19,7 +19,7 @@
             <form method="POST" enctype="multipart/form-data" action="index.php?controller=article&action=import">
                 <input type="file" name="articleFile" id="articleFile" class="button" accept=".csv">
                 <input type="submit" name="Importer">
-                <input type="hidden" value="{{ token }}">
+                <input type="hidden" name="token" id="token" value="{{ token }}">
             </form>
         </div>
         <div class="articles-action">  

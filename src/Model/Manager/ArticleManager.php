@@ -19,7 +19,17 @@ class ArticleManager extends Manager
 
     public function createArticles(array $articles): void
     {
-        $this->repository->createArticles($articles);
+        foreach ($articles as $article) {
+            $articleExists = !(is_null($this->repository->findArticleWithCode($article->getCode())));
+            
+            if (!$articleExists) {
+                $this->repository->createArticle($article);
+            }
+
+            if ($articleExists) {
+                $this->repository->updateArticle($article);
+            }            
+        }
     }
 
     public function findAllArticles(): ?array

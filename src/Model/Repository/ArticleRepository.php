@@ -22,20 +22,34 @@ class ArticleRepository extends Repository
 
     public function createArticle(Article $article): void
     {
-        // we can't create an article if the code already exists
-        if (is_null($this->findArticleWithCode($article->getCode()))) {
-            $req = $this->database->getPDO()->prepare('INSERT INTO articles(code, description, weight, width, length, height, barcode) 
-                VALUES(:code, :description, :weight, :width, :length, :height, :barcode)');
-            $req->execute([
-                'code' => $article->getCode(),
-                'description' => $article->getDescription(),
-                'weight' => $article->getWeight(),
-                'width' => $article->getWidth(),
-                'length' => $article->getLength(),
-                'height' => $article->getHeight(),
-                'barcode' => $article->getBarcode()
-            ]);
-        }
+        $req = $this->database->getPDO()->prepare('INSERT INTO articles(code, description, weight, width, length, height, barcode) 
+            VALUES(:code, :description, :weight, :width, :length, :height, :barcode)');
+        $req->execute([
+            'code' => $article->getCode(),
+            'description' => $article->getDescription(),
+            'weight' => $article->getWeight(),
+            'width' => $article->getWidth(),
+            'length' => $article->getLength(),
+            'height' => $article->getHeight(),
+            'barcode' => $article->getBarcode()
+        ]);
+    }
+
+    public function updateArticle(Article $article): void
+    {
+        $req = $this->database->getPDO()->prepare('UPDATE articles 
+            SET code=:code, description=:description, weight=:weight, width=:width, length=:length, height=:height, barcode=:barcode 
+            WHERE code=:querycode');
+        $res = $req->execute([
+            'code' => $article->getCode(),
+            'description' => $article->getDescription(),
+            'weight' => $article->getWeight(),
+            'width' => $article->getWidth(),
+            'length' => $article->getLength(),
+            'height' => $article->getHeight(),
+            'barcode' => $article->getBarcode(),
+            'querycode' => $article->getCode()
+        ]);
     }
 
     public function findAllArticles(): ?array

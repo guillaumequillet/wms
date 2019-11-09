@@ -37,6 +37,7 @@ class ArticleController extends \App\Controller\Controller
 
         if (!isset($filename) || $filename === "") {
             header('location: index.php?controller=article&action=showlist&param=0');
+            exit();
         }
 
         $articles = [];
@@ -58,7 +59,6 @@ class ArticleController extends \App\Controller\Controller
             $article->hydrate($data);
             $articles[] = $article;
         }
-
         $this->entityManager->createArticles($articles);
         header('location: index.php?controller=article&action=viewlist&param=1');
     }
