@@ -43,21 +43,22 @@ class ArticleController extends \App\Controller\Controller
         $articles = [];
 
         $csv = Reader::CreateFromPath($filename, 'r');
-        $csv->setHeaderOffset(0);
-        foreach ($csv->getRecords() as $line) {
-            $article = new Article();
-            $data = [
-                'code' => $line['code'],
-                'description' => $line['description'],
-                'weight' => (int) $line['weight'],
-                'width' => (int) $line['width'],
-                'length' => (int) $line['length'],
-                'height' => (int) $line['height'],
-                'barcode' => $line['barcode']
-            ];
+        foreach ($csv->getRecords() as $k => $line) {
+            if ($k !== 0) {
+                $article = new Article();
+                $data = [
+                    'code' => $line[0],
+                    'description' => $line[1],
+                    'weight' => (int) $line[2],
+                    'width' => (int) $line[3],
+                    'length' => (int) $line[4],
+                    'height' => (int) $line[5],
+                    'barcode' => $line[6]
+                ];
 
-            $article->hydrate($data);
-            $articles[] = $article;
+                $article->hydrate($data);
+                $articles[] = $article;
+            }
         }
         $this->entityManager->createArticles($articles);
         header('location: index.php?controller=article&action=viewlist&param=1');
