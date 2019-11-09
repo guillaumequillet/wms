@@ -19,6 +19,10 @@ th, td {
     color: white;
 }
 
+h1 {
+    text-align: center;
+}
+
 html, body {
     width: 100%;
     margin: 0;
@@ -58,4 +62,16 @@ header nav {
 #article-edit li {
     display: inline-block;
     margin: 10px;
+}
+
+#articles-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.articles-action {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
 }

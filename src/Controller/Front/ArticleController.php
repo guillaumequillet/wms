@@ -37,8 +37,15 @@ class ArticleController extends \App\Controller\Controller
         if (!is_null($id))
         {
             $template = 'article/single.twig.html';
+            $res = $this->entityManager->findArticleWithId($id);
+            $article = null;
+
+            if (!is_null($res)) {
+                $article = (new Article())->hydrate($res);
+            }
+
             $data = [
-                'article' => $this->entityManager->findArticleWithId($id)
+                'article' => $article
             ];
         }
 

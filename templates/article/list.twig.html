@@ -3,10 +3,23 @@
 
 {% block body %}
     <h1>Gestion des articles</h1>
-    <p>
-        <a href="#" class="button">Ajouter un Article</a>
-    </p>
-    <h2>Liste des Articles</h2>
+    <div id="articles-actions">
+        <div class="articles-action">
+            <h2>Créer un nouvel Article</h2>
+            <a href="#" class="button">Ajouter un Article</a>
+        </div>
+        <div class="articles-action">
+            <h2>Importer un fichier Articles</h2>
+            <input type="file" name="articleFile" id="articleFile" class="button">
+            <input type="submit" name="Importer">
+        </div>
+        <div class="articles-action">  
+            <h2>Rechercher un Article</h2>
+            <input type="text" name="articleFind" id="articleFind">
+            <input type="submit" name="Rechercher">
+        </div>       
+    </div>
+    <h2>Liste des Articles</h02>
     {% if articles == null %}
     <p>Aucun article à afficher.</p>
     {% else %}
@@ -37,8 +50,8 @@
                 <td>{{ article.barcode }}</td>
                 <td>
                     <ul id="article-edit">
-                        <li><a href="#" class="button">Editer</a></li>
-                        <li><a href="#" class="button">Supprimer</a></li>
+                        <li><a href="index.php?controller=article&action=show&param={{ article.id }}" class="button">Editer</a></li>
+                        <li><a href="index.php?controller=article&action=delete&param={{ article.id }}" class="button" onclick="return confirm('Etes-vous sûr(e) de vouloir supprimer cet article ?');">Supprimer</a></li>
                     </ul>
                 </td>
             </tr>
