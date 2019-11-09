@@ -28,6 +28,11 @@ input {
     color: red;
 }
 
+.valid {
+    text-align: center;
+    color: green;
+}
+
 h1 {
     text-align: center;
 }

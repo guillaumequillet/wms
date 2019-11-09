@@ -7,6 +7,8 @@ use App\Model\Entity\Article;
 use App\Model\Manager\ArticleManager;
 use App\Tool\Token;
 
+use League\Csv\Reader;
+
 class ArticleController extends \App\Controller\Controller
 {
     public function __construct()
@@ -24,7 +26,7 @@ class ArticleController extends \App\Controller\Controller
 
     public function import(): void
     {
-
+        myLog(var_dump($_FILES));
     }
 
     public function showlist(?int $param): void 
@@ -41,8 +43,11 @@ class ArticleController extends \App\Controller\Controller
 
         $data = [
             'articles' => $articles,
-            'param' => $param
         ];        
+
+        if (!is_null($param)) {
+            $data['param'] = $param;
+        }
 
         if (!is_null($template) && !is_null($data)) {
             $data['token'] = $this->token->generateString();
