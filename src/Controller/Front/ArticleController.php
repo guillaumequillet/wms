@@ -26,6 +26,11 @@ class ArticleController extends \App\Controller\Controller
 
     public function import(): void
     {
+        if ($this->token->check() === false) {
+            header('location: index.php?controller=article&action=showlist&param=0');
+            exit();
+        }
+
         if (array_key_exists("articleFile", $_FILES)) {
             $filename = $_FILES["articleFile"]["tmp_name"];
         }
