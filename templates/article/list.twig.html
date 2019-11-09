@@ -28,21 +28,17 @@
             <input type="submit" name="Rechercher">
         </div>       
     </div>
-    <h2>Liste des Articles</h02>
     {% if articles == null %}
+    <h2>Liste des Articles</h02>
     <p>Aucun article à afficher.</p>
     {% else %}
     <table>
+        <caption>Liste des Articles</caption>
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Code</th>
                 <th>Description</th>
-                <th>Poids</th>
-                <th>Largeur</th>
-                <th>Longueur</th>
-                <th>Hauteur</th>
-                <th>Code EAN</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -52,11 +48,6 @@
                 <td>{{ article.id }}</td>
                 <td>{{ article.code }}</td>
                 <td>{{ article.description }}</td>
-                <td>{{ article.weight }}</td>
-                <td>{{ article.width }}</td>
-                <td>{{ article.length }}</td>
-                <td>{{ article.height }}</td>
-                <td>{{ article.barcode }}</td>
                 <td>
                     <ul id="article-edit">
                         <li><a href="index.php?controller=article&action=show&param={{ article.id }}" class="button">Editer</a></li>
