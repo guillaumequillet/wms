@@ -27,29 +27,37 @@ class ArticleController extends \App\Controller\Controller
 
     }
 
+    public function showlist(?int $param): void 
+    {
+        $template = 'article/list.twig.html';
+        $articles = [];
+        $res = $this->entityManager->findAllArticles();
+
+        if (!is_null($res)) {
+            foreach($res as $article) {
+                $articles[] = (new Article())->hydrate($article);                
+            }
+        }
+
+        $data = [
+            'articles' => $articles,
+            'param' => $param
+        ];        
+
+        if (!is_null($template) && !is_null($data)) {
+            $data['token'] = $this->token->generateString();
+            $this->getView()->render($template, $data);
+        }
+    }
+
     public function show(?int $id): void
     {
-        // we display all the articles if $id is null
-        if (is_null($id)) {
-            $template = 'article/list.twig.html';
-            $articles = [];
-            $res = $this->entityManager->findAllArticles();
-
-            if (!is_null($res)) {
-                foreach($res as $article) {
-                    $articles[] = (new Article())->hydrate($article);                
-                }
-            }
-
-            $data = [
-                'articles' => $articles
-            ];
-        }
+        $template = 'article/single.twig.html';
+        $data = [];
 
         // if some article id was specified, we only show this one
         if (!is_null($id))
         {
-            $template = 'article/single.twig.html';
             $res = $this->entityManager->findArticleWithId($id);
             $article = null;
 

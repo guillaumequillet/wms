@@ -14,6 +14,7 @@ function myLog(string $message): void
 }
 /* /toDelete */
 
+// Rooter
 $superglobalManager = new SuperglobalManager();
 
 $getController = $superglobalManager->findVariable("get", "controller");
@@ -33,7 +34,7 @@ $action = $getAction;
 
 if (!class_exists($controller) || !method_exists($controller, $getAction)) {
     $controller = "App\\Controller\\Front\\ArticleController";
-    $action = "show";
+    $action = "showlist";
 }
 
 (new $controller())->$action($param);

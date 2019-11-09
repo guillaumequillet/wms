@@ -23,6 +23,11 @@ input {
     color: white;
 }
 
+.error {
+    text-align: center;
+    color: red;
+}
+
 h1 {
     text-align: center;
 }
