@@ -22,11 +22,12 @@ $param = is_null($getParam) ? null : (int) $getParam;
 if (is_null($getController)) {
     $getController = "article";
 }
-$controller = "App\\Controller\\Front\\" . $getController;
+$controller = "App\\Controller\\Front\\" . ucfirst($getController) . "Controller";
 
 if (is_null($getAction)) {
     $getAction = "show";
 }
+$action = $getAction;
 
 if (!class_exists($controller) || !method_exists($controller, $getAction)) {
     $controller = "App\\Controller\\Front\\ArticleController";

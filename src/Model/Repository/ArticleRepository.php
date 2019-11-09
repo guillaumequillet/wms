@@ -5,6 +5,12 @@ namespace App\Model\Repository;
 
 class ArticleRepository extends Repository
 {
+    public function deleteArticle(int $id): void
+    {
+        $req = $this->database->getPDO()->prepare('DELETE FROM articles WHERE id=:id');
+        $req->execute(['id' => $id]);
+    }
+
     public function findAllArticles(): ?array
     {
         $req = $this->database->getPDO()->query('SELECT * FROM articles');

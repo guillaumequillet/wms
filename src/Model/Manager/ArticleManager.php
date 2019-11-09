@@ -12,6 +12,11 @@ class ArticleManager extends Manager
         $this->repository = new ArticleRepository();
     }
 
+    public function deleteArticle(int $id): void
+    {
+        $this->repository->deleteArticle($id);
+    }
+
     public function findAllArticles(): ?array
     {
         return $this->repository->findAllArticles();

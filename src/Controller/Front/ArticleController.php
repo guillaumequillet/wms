@@ -14,6 +14,12 @@ class ArticleController extends \App\Controller\Controller
         $this->entityManager = new ArticleManager();
     }
 
+    public function delete(int $id): void
+    {
+        $this->entityManager->deleteArticle($id);
+        header('location: index.php?page=article&action=show');
+    }
+
     public function show(?int $id): void
     {
         // we display all the articles if $id is null
