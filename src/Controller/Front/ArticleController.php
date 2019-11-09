@@ -21,12 +21,41 @@ class ArticleController extends \App\Controller\Controller
     public function delete(int $id): void
     {
         $this->entityManager->deleteArticle($id);
-        header('location: index.php?page=article&action=show');
+        header('location: index.php?page=article&action=showlist');
     }
 
     public function import(): void
     {
-        myLog(var_dump($_FILES));
+        if (array_key_exists("articleFile", $_FILES)) {
+            $filename = $_FILES["articleFile"]["tmp_name"];
+        }
+
+        if (!isset($filename) || $filename === "") {
+            header('location: index.php?controller=article&action=showlist&param=0');
+        }
+
+        $articles = [];
+
+        $csv = Reader::CreateFromPath($filename, 'r');
+        $csv->setHeaderOffset(0);
+        foreach ($csv->getRecords() as $line) {
+            $article = new Article();
+            $data = [
+                'code' => $line['code'],
+                'description' => $line['description'],
+                'weight' => (int) $line['weight'],
+                'width' => (int) $line['width'],
+                'length' => (int) $line['length'],
+                'height' => (int) $line['height'],
+                'barcode' => $line['barcode']
+            ];
+
+            $article->hydrate($data);
+            $articles[] = $article;
+        }
+
+        $this->entityManager->createArticles($articles);
+        header('location: index.php?controller=article&action=viewlist&param=1');
     }
 
     public function showlist(?int $param): void 
