@@ -9,9 +9,12 @@
             <a href="#" class="button">Ajouter un Article</a>
         </div>
         <div class="articles-action">
-            <h2>Importer un fichier Articles</h2>
-            <input type="file" name="articleFile" id="articleFile" class="button">
-            <input type="submit" name="Importer">
+            <h2>Importer un <a href="csv/importArticles.csv">fichier Articles</a></h2>
+            <form method="POST" enctype="multipart/form-data" action="index.php?controller=article&action=import">
+                <input type="file" name="articleFile" id="articleFile" class="button">
+                <input type="submit" name="Importer">
+                <input type="hidden" value="{{ token }}">
+            </form>
         </div>
         <div class="articles-action">  
             <h2>Rechercher un Article</h2>

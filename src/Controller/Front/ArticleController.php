@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 
 use App\Model\Entity\Article;
 use App\Model\Manager\ArticleManager;
+use App\Tool\Token;
 
 class ArticleController extends \App\Controller\Controller
 {
@@ -12,12 +13,18 @@ class ArticleController extends \App\Controller\Controller
     {
         parent::__construct();
         $this->entityManager = new ArticleManager();
+        $this->token = new Token();
     }
 
     public function delete(int $id): void
     {
         $this->entityManager->deleteArticle($id);
         header('location: index.php?page=article&action=show');
+    }
+
+    public function import(): void
+    {
+
     }
 
     public function show(?int $id): void
@@ -56,6 +63,7 @@ class ArticleController extends \App\Controller\Controller
         }
 
         if (!is_null($template) && !is_null($data)) {
+            $data['token'] = $this->token->generateString();
             $this->getView()->render($template, $data);
         }
     }

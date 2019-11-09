@@ -22,17 +22,17 @@ class SuperglobalManager
         }
         return false;
     }
-    private function getArray(string $table): ?array 
+    private function &getArray(string $table): ?array 
     {
         switch ($table) {
             case 'session':
-                $array = &$_SESSION;
+                $array = $_SESSION;
                 break;
             case 'get':
-                $array =  &$_GET;
+                $array =  $_GET;
                 break;
             case 'post':
-                $array =  &$_POST;
+                $array =  $_POST;
                 break;            
             default:
                 $array =  null;
