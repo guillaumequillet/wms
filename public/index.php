@@ -4,8 +4,11 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Controller\Front\ArticleController;
 
-$controller = "App\\Controller\\Front\\" . ucfirst($_GET['controller']) . 'Controller';
-$action = $_GET['action'];
-$param = isset($_GET['param']) ? (int) $_GET['param'] : null;
+function myLog(string $message): void
+{
+    echo "<script>console.log(\"" . $message . "\");</script>";
+}
 
-(new $controller())->$action($param);
+
+myLog("essai pour voir");
+(new ArticleController)->show(null);

@@ -5,7 +5,6 @@ namespace App\Model\Manager;
 
 use App\Model\Repository\ArticleRepository;
 
-/* create, update, delete */
 class ArticleManager extends Manager
 {
     public function __construct() 
