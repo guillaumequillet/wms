@@ -22,22 +22,16 @@ class Rooter
         $getParam = $this->superglobalManager->findVariable("get", "param");
         $param = is_null($getParam) ? null : (int) $getParam;
 
-        if (is_null($getController) || is_null($getAction))
-        {
-            $getController = "article";
-            $getAction = "show";
-            $param = null;
+        if (!is_null($getController)) {
+            $class = "App\\Controller\\Front\\" . ucfirst($getController) . "Controller";
         }
 
-        $controller = "App\\Controller\\Front\\" . ucfirst($getController) . "Controller";
-        $action = $getAction;
-
-        if (!class_exists($controller) || !method_exists($controller, $getAction)) {
-            $controller = "App\\Controller\\Front\\ArticleController";
-            $action = "showlist";
-            $param = null;
+        if (isset($class) && class_exists($class) && method_exists($class, $getAction)) {
+            (new $class())->$getAction($param);
+            exit();
         }
 
-        (new $controller())->$action($param);
+        // default
+        (new ArticleController())->showlist();
     }
 }

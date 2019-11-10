@@ -5,7 +5,6 @@ namespace App\Controller\Front;
 
 use App\Model\Entity\Article;
 use App\Model\Manager\ArticleManager;
-use App\Tool\Token;
 
 use League\Csv\Reader;
 
@@ -15,13 +14,12 @@ class ArticleController extends \App\Controller\Controller
     {
         parent::__construct();
         $this->entityManager = new ArticleManager();
-        $this->token = new Token();
     }
 
     public function delete(int $id): void
     {
         $this->entityManager->deleteArticle($id);
-        header('location: index.php?page=article&action=showlist');
+        header('location: index.php?controller=article&action=showlist');
     }
 
     public function import(): void
@@ -40,31 +38,35 @@ class ArticleController extends \App\Controller\Controller
             exit();
         }
 
-        $articles = [];
-
-        $csv = Reader::CreateFromPath($filename, 'r');
-        foreach ($csv->getRecords() as $k => $line) {
-            if ($k !== 0) {
-                $article = new Article();
-                $data = [
-                    'code' => $line[0],
-                    'description' => $line[1],
-                    'weight' => (int) $line[2],
-                    'width' => (int) $line[3],
-                    'length' => (int) $line[4],
-                    'height' => (int) $line[5],
-                    'barcode' => $line[6]
-                ];
-
-                $article->hydrate($data);
-                $articles[] = $article;
+        try {
+            $articles = [];
+            $csv = Reader::CreateFromPath($filename, 'r');
+            var_dump($csv);
+            foreach ($csv->getRecords() as $k => $line) {
+                if ($k !== 0) {
+                    $article = new Article();
+                    $data = [
+                        'code' => $line[0],
+                        'description' => $line[1],
+                        'weight' => (int) $line[2],
+                        'width' => (int) $line[3],
+                        'length' => (int) $line[4],
+                        'height' => (int) $line[5],
+                        'barcode' => $line[6]
+                    ];
+    
+                    $article->hydrate($data);
+                    $articles[] = $article;
+                }
             }
+            $this->entityManager->createArticles($articles);
+            header('location: index.php?controller=article&action=showlist&param=1');
+        } catch(Exception $e) {
+            header('location: index.php?controller=article&action=showlist&param=0');
         }
-        $this->entityManager->createArticles($articles);
-        header('location: index.php?controller=article&action=viewlist&param=1');
     }
 
-    public function showlist(?int $param): void 
+    public function showlist(?int $param = null): void 
     {
         $template = 'article/list.twig.html';
         $articles = [];
@@ -78,16 +80,14 @@ class ArticleController extends \App\Controller\Controller
 
         $data = [
             'articles' => $articles,
-        ];        
+            'token' => $this->token->generateString()
+        ];       
 
         if (!is_null($param)) {
             $data['param'] = $param;
         }
 
-        if (!is_null($template) && !is_null($data)) {
-            $data['token'] = $this->token->generateString();
-            $this->getView()->render($template, $data);
-        }
+        $this->getView()->render($template, $data);
     }
 
     public function show(?int $id): void
@@ -106,13 +106,11 @@ class ArticleController extends \App\Controller\Controller
             }
 
             $data = [
-                'article' => $article
+                'article' => $article,
+                'token' => $this->token->generateString()
             ];
         }
 
-        if (!is_null($template) && !is_null($data)) {
-            $data['token'] = $this->token->generateString();
-            $this->getView()->render($template, $data);
-        }
+        $this->getView()->render($template, $data);
     }
 }

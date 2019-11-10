@@ -7,7 +7,7 @@ class SuperglobalManager
 {
     public function findVariable(string $arrayName, string $value): ?string
     {
-        $array = $this->getArray($arrayName);
+        $array = &$this->getArray($arrayName);
         if (is_null($array)) {
             return null;
         }
@@ -15,7 +15,7 @@ class SuperglobalManager
     }
     public function setVariable(string $arrayName, string $key, string $value): bool
     {
-        $array = $this->getArray($arrayName);
+        $array = &$this->getArray($arrayName);
         if (!is_null($array)) {
             $array[$key] = $value;
             return true;
@@ -26,13 +26,13 @@ class SuperglobalManager
     {
         switch ($table) {
             case 'session':
-                $array = $_SESSION;
+                $array = &$_SESSION;
                 break;
             case 'get':
-                $array =  $_GET;
+                $array = &$_GET;
                 break;
             case 'post':
-                $array =  $_POST;
+                $array = &$_POST;
                 break;            
             default:
                 $array =  null;

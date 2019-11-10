@@ -31,6 +31,7 @@ input {
 .error {
     padding: 10px;
     background-color: rgba(255, 0, 0, 0.2);
+    border-left: 6px solid red;
     text-align: center;
     color: red;
 }
@@ -38,6 +39,7 @@ input {
 .valid {
     padding: 10px;
     background-color: rgba(0, 255, 0, 0.2);
+    border-left: 6px solid green;
     text-align: center;
     color: green;
 }
@@ -52,18 +54,34 @@ html, body {
     padding: 0;
 }
 
+body {
+    background: white url(../images/industrial-hall-1630742_1280.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+
 main {
     width: 70%;
-    margin: auto;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #92a5b3;
 }
 
 header {
+    height: auto;
+    background-color: #15476a;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+}
+
+header h1 { 
+    margin: 0;
+    padding: 10px;
 }
 
 header ul {
-    display: flex;
+    padding: 0;
+    text-align: center;
 }
 
 header li {
@@ -72,7 +90,7 @@ header li {
 }
 
 header nav {
-    background-color: grey;
+    background-color: #92a5b3;
 }
 
 #article-edit {
