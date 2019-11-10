@@ -4,6 +4,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 session_start();
 
-use App\Tool\Rooter;
+use App\Tool\Router;
 
-(new Rooter())->getRoute();
+(new Router())->getRoute();

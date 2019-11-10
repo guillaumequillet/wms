@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="/css/style.css" />
         <title>WMS - {% block title %}{% endblock %}</title>
     </head>
 
@@ -13,7 +13,7 @@
             <h1>Logiciel de Gestion de Stock</h1>
             <nav>
                 <ul>
-                    <li><a href="index.php?controller=article&action=showlist">Articles</a></li>
+                    <li><a href="/article/showlist">Articles</a></li>
                     <li>Mouvements</li>
                     <li>Emplacements</li>
                     <li>Admin</li>
@@ -23,6 +23,6 @@
         <main>
             {% block body %}{% endblock %}
         </main>
-        <script src="js/script.js"></script>
+        <script src="/js/script.js"></script>
     </body>
 </html>

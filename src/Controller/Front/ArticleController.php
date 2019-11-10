@@ -19,13 +19,13 @@ class ArticleController extends \App\Controller\Controller
     public function delete(int $id): void
     {
         $this->entityManager->deleteArticle($id);
-        header('location: index.php?controller=article&action=showlist');
+        header('location: /article/showlist');
     }
 
     public function import(): void
     {
         if ($this->token->check() === false) {
-            header('location: index.php?controller=article&action=showlist&param=0');
+            header('location: /article/showlist/0');
             exit();
         }
 
@@ -34,7 +34,7 @@ class ArticleController extends \App\Controller\Controller
         }
 
         if (!isset($filename) || $filename === "") {
-            header('location: index.php?controller=article&action=showlist&param=0');
+            header('location: /article/showlist/0');
             exit();
         }
 
@@ -60,9 +60,9 @@ class ArticleController extends \App\Controller\Controller
                 }
             }
             $this->entityManager->createArticles($articles);
-            header('location: index.php?controller=article&action=showlist&param=1');
+            header('location: /article/showlist/1');
         } catch(Exception $e) {
-            header('location: index.php?controller=article&action=showlist&param=0');
+            header('location: /article/showlist/0');
         }
     }
 
@@ -90,7 +90,7 @@ class ArticleController extends \App\Controller\Controller
         $this->getView()->render($template, $data);
     }
 
-    public function show(?int $id): void
+    public function show(int $id): void
     {
         $template = 'article/single.twig.html';
         $data = [];

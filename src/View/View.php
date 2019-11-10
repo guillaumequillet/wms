@@ -21,5 +21,4 @@ class View
     {
         echo $this->twigEnvironment->render($template, $data);
     }
-
 }
