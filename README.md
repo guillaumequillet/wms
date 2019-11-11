@@ -96,3 +96,7 @@ Le design sera composé de trois zones principales :
 Le back-end sera uniquement accessible aux profils de type administrateur. Il permettra notamment de créer / modifier les comptes utilisateur, créer / modifier les clients et autres informations sensibles (comptes FTP client par exemple).
 
 L'entrepôt sera également créé sous le Back-End (Emplacements).
+
+## UML Design des classes
+
+Le schéma UML est disponible [ici](https://docs.google.com/spreadsheets/d/1e8GH1DivJCnVaNDi2MvVgp4dRYz9yQcRUVLldaiGxB0/edit?usp=sharing).
