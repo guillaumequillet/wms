@@ -57,7 +57,7 @@ th, td {
     padding-left: 30px;
     text-transform: uppercase;
     text-decoration: none;
-    color: white;
+    color: #003366;
 }
 
 .icon:hover {
@@ -67,13 +67,17 @@ th, td {
 .icon::before {
     font-family: FontAwesome;
     font-size: 20px;
-    color: white;
+    color: #3399cc;
     position: absolute;
     left: 0px;
 }
 
 .article-icon::before {
     content: "\f1c0";
+}
+
+.stock-icon::before {
+    content: "\f1b3";
 }
 
 .movement-icon::before {
@@ -147,7 +151,7 @@ header li {
 }
 
 header nav {
-    background-color: #92a5b3;
+    background-color: #dbe2e7;
 }
 
 #article-edit {

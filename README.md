@@ -14,6 +14,7 @@ Il s’agit de réaliser un logiciel de gestion de stocks disposant des fonction
 * Il y aura un compte administrateur. On prévoit une gestion des  UTILISATEURS afin de créer des comptes supplémentaires, aux droits restreints.
 * Un menu ARTICLES permettant de créer un article par saisie formulaire ou import fichier type (format CSV), ou bien les rechercher / éditer.
 Informations : Code, Description, [Code EAN13, poids, longueur, largeur, hauteur].
+* un menu STOCKS permettant de consulter l'état des stocks aux emplacements, résultants des mouvements.
 * Un menu EMPLACEMENTS permettant de créer des zones de stockage, ou bien les rechercher / éditer : Zone, Allée, Colonne, Niveau. 
 * Un menu MOUVEMENTS permettant de créer des mouvements de stock de type : réception / livraison / ajustement inventaire. 
 Informations : code, quantité, emplacement, fournisseur, destinataire, référence mouvement. 
@@ -53,6 +54,15 @@ Technique :
 * Traitement d’un fichier CSV pour multi import des articles et log à l’utilisateur du résultat.
 * Contrôle du formulaire par Token et javascript pour les champs. 
 * Contrôle du code article inexistant avant création.
+
+## Menu Stocks
+
+Métier : 
+* Menu recherche permettant de saisir un code article ou une adresse pour en afficher le stock.
+
+Technique :
+* Recherche via une requête SQL des articles ou emplacements demandés pour en afficher la vue.
+* Contrôle du formulaire par Token et javascript pour les champs. 
 
 ## Menu Emplacements
 
