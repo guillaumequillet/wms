@@ -15,9 +15,15 @@ class Router
         $this->createRoutes();
     }
 
-    public function createRoutes(): void {
+    public function unfound(): void
+    {
+        header('location: /article/showlist');
+    }
+
+    public function createRoutes(): void 
+    {
         $this->router->map('GET', '/', function() {
-            (new ArticleController)->showlist();
+            $this->unfound();
         });
 
         $this->router->map('GET', '/article/showlist', function() {
@@ -51,7 +57,7 @@ class Router
 
         // if route is not correct
         if ($match === false) {
-            (new ArticleController)->showlist();
+            $this->unfound();
         }
     }
 }
