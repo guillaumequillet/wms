@@ -36,6 +36,18 @@ table, th, td {
 th, td {
     padding: 10px;
 }
+
+th {
+    background-color: #3399cc;
+}
+
+tr:nth-of-type(odd) {
+    background-color: #dbe2e7;
+}
+
+tr:nth-of-type(even) {
+    background-color: #c7ced3;
+}
 /* END tables */
 
 /* links */
@@ -162,6 +174,7 @@ main {
     padding: 20px;
     background-color: #92a5b3;
     box-shadow: -1px 2px 5px 1px rgba(0, 51, 102, 0.4);
+    border-radius: 10px;
 }
 
 header {
