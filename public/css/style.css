@@ -1,4 +1,8 @@
 /* common */
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
 @font-face {
     font-family: "FontAwesome";
     font-weight: normal;
@@ -87,6 +91,10 @@ th, td {
 .admin-icon::before {
     content: "\f013";
 }
+
+.logout-icon::before {
+    content: "\f08b";
+}
 /* END links */
 
 .error {
@@ -129,10 +137,19 @@ main {
 
 header {
     height: auto;
-    background-color: #15476a;
+    background-color: #92a5b3;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.4); 
+}
+
+.blue {
+    color: #006699;
+}
+
+.white {
+    color: white;
 }
 
 header h1 { 
