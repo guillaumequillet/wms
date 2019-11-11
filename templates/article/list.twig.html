@@ -8,7 +8,7 @@
     {% if param == 1 %}
     <p class="valid">Le fichier a bien été importé.</p>
     {% endif %}
-    <h1>Gestion des articles</h1>
+    <h1><span class="blue">Gestion des </span><span class="white">Articles</span></h1>
     <hr>
     <section id="articles-actions">
         <div class="articles-action">
@@ -32,7 +32,7 @@
     <hr>
     <section>
         {% if articles == null %}
-        <h2>Liste des Articles</h02>
+        <h2>Liste des Articles</h2>
         <p class="error">Aucun article à afficher.</p>
         {% else %}
         <table>

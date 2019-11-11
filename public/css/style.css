@@ -113,8 +113,12 @@ th, td {
     color: green;
 }
 
-h1 {
+#site-title {
+    padding: 10px;
+    margin: 0;
     text-align: center;
+    font-size: 2.0em;
+    font-weight: bold;
 }
 
 html, body {
@@ -152,9 +156,8 @@ header {
     color: white;
 }
 
-header h1 { 
-    margin: 0;
-    padding: 10px;
+h1 { 
+    text-align: center;
 }
 
 header ul {
