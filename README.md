@@ -1,88 +1,98 @@
-# Project Title
+# Projet 5 - Formation DWJ Quillet Guillaume 2019
 
-One Paragraph of project description goes here
+Le dernier projet de la formation Développeur Web Junior par OpenClassrooms est un projet libre ou bien la réalisation d’un stage. 
 
-## Getting Started
+## Un projet conjuguant mes expériences professionnelles
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+J’ai choisi de réaliser un logiciel de type WMS (Warehouse Management System), principalement orienté gestion de stocks, en écho avec ma carrière précédente de Directeur logistique.
 
-### Prerequisites
+### Périmètre
 
-What things you need to install the software and how to install them
+Il s’agit de réaliser un logiciel de gestion de stocks disposant des fonctionnalités élémentaires afin de pouvoir gérer effectivement un stock. Ce projet sera développé en maximum 1.5 mois et doit donc aller à l’essentiel tout en proposant au minimum les fonctionnalités suivantes :
 
-```
-Give examples
-```
+* Accès par IDENTIFICATION à l’ensemble du logiciel.
+* Il y aura un compte administrateur. On prévoit une gestion des  UTILISATEURS afin de créer des comptes supplémentaires, aux droits restreints.
+* Un menu ARTICLES permettant de créer un article par saisie formulaire ou import fichier type (format CSV), ou bien les rechercher / éditer.
+Informations : Code, Description, [Code EAN13, poids, longueur, largeur, hauteur].
+* Un menu EMPLACEMENTS permettant de créer des zones de stockage, ou bien les rechercher / éditer : Zone, Allée, Colonne, Niveau. 
+* Un menu MOUVEMENTS permettant de créer des mouvements de stock de type : réception / livraison / ajustement inventaire. 
+Informations : code, quantité, emplacement, fournisseur, destinataire, référence mouvement. 
 
-### Installing
+### Évolutions possibles
 
-A step by step series of examples that tell you how to get a development env running
+On peut prévoir un menu CLIENTS afin d’avoir plusieurs clients dans notre entrepôt, à qui rattacher des ARTICLES voire des EMPLACEMENTS.
 
-Say what the step will be
+On peut ajouter un menu HISTORIQUE afin de consulter les différents mouvements d’un ARTICLE.
 
-```
-Give the example
-```
+### Technologies
 
-And repeat
+HTML / CSS, PHP / MySQL, Javascript. Responsive tablette / mobile.
+AJAX pour la saisie du mouvement (pour les champs article, description, emplacement : recherche dynamique en BDD).
 
-```
-until finished
-```
+## Menu Identification
 
-End with an example of getting some data out of the system or using it for a little demo
+Métier : 
+* Menu invitant à se connecter à l’application (login / mot de passe). 
+* Message d’erreur en cas d’échec d’identification.
 
-## Running the tests
+Technique : 
+* Connexion à une base de données MySQL en PHP pour vérification du login et mot de passe enregistré. 
+* Comparaison case sensitive avec cryptage du mot de passe. 
+* Protection du formulaire via Token et contrôle javascript des champs de saisie. 
 
-Explain how to run the automated tests for this system
+## Menu Articles
 
-### Break down into end to end tests
+Métier : 
+* Menu recherche permettant de saisir un code article pour en afficher la fiche.
+* Bouton importer pour créer des articles en masse via un fichier.
+* Formulaire de saisie pour un nouvel article.
 
-Explain what these tests test and why
 
-```
-Give an example
-```
+Technique :
+* Recherche via une requête SQL de l’article demandé pour en afficher la vue.
+* Traitement d’un fichier CSV pour multi import des articles et log à l’utilisateur du résultat.
+* Contrôle du formulaire par Token et javascript pour les champs. 
+* Contrôle du code article inexistant avant création.
 
-### And coding style tests
+## Menu Emplacements
 
-Explain what these tests test and why
+Métier : 
+* Possibilité de créer une zone / allée / colonne / niveau et d’en supprimer si non utilisée. 
+* Création unique ou pas intervalles.
 
-```
-Give an example
-```
+Technique :
+* Listes déroulantes dynamiques.
+* Formulaire protégé par Token et javascript pour les champs.
+* Contrôle de la non utilisation avant suppression d’un emplacement.
 
-## Deployment
+## Menu Mouvements
 
-Add additional notes about how to deploy this on a live system
+Métier :
+* on choisit par un bouton radio le type de mouvement souhaité : “entrée”, “sortie” et “inventaire”. L’entrée correspond à une réception (fournisseur, retour…), la sortie à une commande de vente et l’inventaire à un mouvement autre (contrôle de stock ponctuel ou annuel par exemple).
 
-## Built With
+On a alors accès à un formulaire dont l’entête diffère selon le choix (informations fournisseur / informations destinataire / motif ajustement) et à une liste d’articles à saisir (code, quantité, emplacement)
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* Dans le cadre d’une sortie, l’emplacement est automatiquement affecté par le système.
 
-## Contributing
+* on peut importer des fichiers de type CSV à la place d’une saisie manuelle.
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Technique :
+* tous les types de mouvement ont un impact similaire sur le stock : faire varier des quantités à des emplacements (pouvant amener à la création ou la destruction de stocks) donc on souhaite factoriser le code en ce sens.
 
-## Versioning
+* formulaire protégé par Token et javascript pour les champs.
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+* traitement de fichiers CSV pour les imports en masse et retour utilisateur.
 
-## Authors
+## Design
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+Le design sera composé de trois zones principales :
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* le Header au sein d’une balise <header> qui contiendra un logo (image) et une navigation (balise <nav> qui contiendra une liste non ordonnée pour afficher le menu vers Articles | Mouvements | Emplacements | Admin.
+* le Main au sein d’une balise <main> qui contiendra les sections de chaque catégorie.
+* le footer contenant les informations légales et un retour top.
 
-## License
+## Back-End
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+Le back-end sera uniquement accessible aux profils de type administrateur. Il permettra notamment de créer / modifier les comptes utilisateur, créer / modifier les clients et autres informations sensibles (comptes FTP client par exemple).
 
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
-
+L'entrepôt sera également créé sous le Back-End (Emplacements).
