@@ -38,23 +38,6 @@ th, td {
 }
 /* END tables */
 
-/* buttons */
-.button {
-    text-align: center;
-    display: inline-block;
-    text-decoration: none;
-    background-color: #3399cc;
-    border-bottom: 2px solid #006699;
-    padding: 10px;
-    color: white;
-}
-
-.button:hover {
-    background-color: #006699;
-    border-bottom: 2px solid #003366;
-}
-/* END buttons */
-
 /* links */
 .icon {
     position: relative;
@@ -95,7 +78,48 @@ th, td {
 .logout-icon::before {
     content: "\f08b";
 }
+
+.new-icon::before {
+    content: "\f15c";
+    color: white;
+    left: 6px;
+}
+
+.edit-icon::before {
+    content: "\f044";
+    color: white;
+    left: 6px;
+}
+
+.delete-icon::before {
+    content: "\f014";
+    color: white;
+    left: 6px;
+}
+
+.file-icon::before {
+    content: "\f07b";
+    color: white;
+    left: 6px;
+}
 /* END links */
+
+/* buttons */
+.button {
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    background-color: #3399cc;
+    border-bottom: 2px solid #006699;
+    padding: 10px 10px 10px 30px;
+    color: white;
+}
+
+.button:hover {
+    background-color: #006699;
+    border-bottom: 2px solid #003366;
+}
+/* END buttons */
 
 .error {
     padding: 10px;
@@ -137,6 +161,7 @@ main {
     margin: 20px auto;
     padding: 20px;
     background-color: #92a5b3;
+    box-shadow: -1px 2px 5px 1px rgba(0, 51, 102, 0.4);
 }
 
 header {
@@ -159,6 +184,12 @@ header {
 h1 { 
     text-align: center;
 }
+
+h2 { 
+    text-align: center;
+    color: #006699;
+}
+
 
 header ul {
     padding: 0;
@@ -194,9 +225,12 @@ header nav {
 }
 
 .articles-action {
-    padding: 10px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: #dbe2e7;
+    box-shadow: -1px 2px 5px 1px rgba(0, 51, 102, 0.4);
+    border-radius: 15px; 
 }

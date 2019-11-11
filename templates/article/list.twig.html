@@ -9,16 +9,15 @@
     <p class="valid">Le fichier a bien été importé.</p>
     {% endif %}
     <h1><span class="blue">Gestion des </span><span class="white">Articles</span></h1>
-    <hr>
     <section id="articles-actions">
         <div class="articles-action">
             <h3>Créer un Article</h3>
-            <a href="/article/new" class="button">Ajouter un Article</a>
+            <a href="/article/new" class="button icon new-icon">Ajouter un Article</a>
         </div>
         <div class="articles-action">
             <h3>Importer un <a href="/csv/importArticles.csv">fichier Articles</a></h3>
             <form method="POST" enctype="multipart/form-data" action="/article/import">
-                <input type="file" name="articleFile" id="articleFile" class="button" accept=".csv" required>
+                <input type="file" name="articleFile" id="articleFile" class="button icon file-icon" accept=".csv" required>
                 <input type="submit" name="Importer">
                 <input type="hidden" name="token" id="token" value="{{ token }}">
             </form>
@@ -29,14 +28,12 @@
             <input type="submit" name="Rechercher">
         </div>       
     </section>
-    <hr>
     <section>
-        {% if articles == null %}
         <h2>Liste des Articles</h2>
+        {% if articles == null %}
         <p class="error">Aucun article à afficher.</p>
         {% else %}
         <table>
-            <caption>Liste des Articles</caption>
             <thead>
                 <tr>
                     <th>ID</th>
@@ -53,8 +50,8 @@
                     <td>{{ article.description }}</td>
                     <td>
                         <ul id="article-edit">
-                            <li><a href="/article/show/{{ article.id }}" class="button">Editer</a></li>
-                            <li><a href="/article/delete/{{ article.id }}" class="button" onclick="return confirm('Etes-vous sûr(e) de vouloir supprimer cet article ?');">Supprimer</a></li>
+                            <li><a href="/article/show/{{ article.id }}" class="button icon edit-icon">Editer</a></li>
+                            <li><a href="/article/delete/{{ article.id }}" class="button icon delete-icon" onclick="return confirm('Etes-vous sûr(e) de vouloir supprimer cet article ?');">Supprimer</a></li>
                         </ul>
                     </td>
                 </tr>
