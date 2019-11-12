@@ -25,8 +25,8 @@
         <div class="articles-action">  
             <h3>Rechercher un Article</h3>
             <form method="POST" action="/article/showlist">
-                <input type="text" name="queryString" id="queryString">
-                <input type="submit" name="Rechercher">
+                <input type="text" name="queryString" id="queryString" value="{{ queryString }}">
+                <input type="submit" value="Rechercher">
                 <input type="hidden" name="token" id="token" value="{{ token }}">
             </form>
         </div>       

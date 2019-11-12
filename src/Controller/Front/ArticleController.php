@@ -139,6 +139,10 @@ class ArticleController extends \App\Controller\Controller
             'token' => $this->token->generateString()
         ];       
 
+        if (!is_null($queryString)) {
+            $data['queryString'] = $queryString;
+        }
+
         $this->render($template, $data);
     }
 
