@@ -58,6 +58,14 @@ class ArticleRepository extends Repository
         return ($req === false) ? null : $req->fetchAll();
     }
 
+    public function findArticlesWithCodeLike(string $queryString): ?array
+    {
+        $req = $this->database->getPDO()->prepare('SELECT * FROM articles WHERE code LIKE :pattern');
+        $req->execute(['pattern' => '%' . $queryString . '%']);
+        $res = $req->fetchAll();
+        return ($res === false) ? null : $res;
+    }
+
     public function findArticleWithId(int $id): ?array 
     {
         $req = $this->database->getPDO()->prepare('SELECT * FROM articles WHERE id=:id');

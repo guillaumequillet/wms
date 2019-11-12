@@ -29,6 +29,11 @@ class Router
         $this->router->map('GET', '/article/showlist', function() {
             (new ArticleController)->showlist();
         });
+
+        // we also need some route from POST, for the search input form
+        $this->router->map('POST', '/article/showlist', function() {
+            (new ArticleController)->showlist();
+        });
     
         $this->router->map('GET', '/article/new', function() {
             (new ArticleController)->create();

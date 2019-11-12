@@ -24,8 +24,11 @@
         </div>
         <div class="articles-action">  
             <h3>Rechercher un Article</h3>
-            <input type="text" name="articleFind" id="articleFind">
-            <input type="submit" name="Rechercher">
+            <form method="POST" action="/article/showlist">
+                <input type="text" name="queryString" id="queryString">
+                <input type="submit" name="Rechercher">
+                <input type="hidden" name="token" id="token" value="{{ token }}">
+            </form>
         </div>       
     </section>
     <section>

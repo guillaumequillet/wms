@@ -37,9 +37,15 @@ class ArticleManager extends Manager
         $this->repository->updateArticle($article);
     }
 
-    public function findAllArticles(): ?array
+    public function findAllArticles(?string $queryString = null): ?array
     {
-        return $this->repository->findAllArticles();
+        if (is_null($queryString)) {
+            return $this->repository->findAllArticles($queryString);
+        }
+
+        if (!is_null($queryString)) {
+            return $this->repository->findArticlesWithCodeLike($queryString);
+        }
     }
 
     public function findArticleWithId(int $id): ?array

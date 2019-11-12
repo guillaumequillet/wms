@@ -122,7 +122,11 @@ class ArticleController extends \App\Controller\Controller
     {
         $template = 'article/list.twig.html';
         $articles = [];
-        $res = $this->entityManager->findAllArticles();
+
+        // we check if some search was submitted
+        $queryString = $this->superglobalManager->findVariable('post', 'queryString');
+
+        $res = $this->entityManager->findAllArticles($queryString);
 
         if (!is_null($res)) {
             foreach($res as $article) {
