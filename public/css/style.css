@@ -3,12 +3,38 @@
     font-family: 'Roboto', sans-serif;
 }
 
+.error {
+    padding: 10px;
+    background-color: rgba(255, 0, 0, 0.2);
+    border-left: 6px solid red;
+    text-align: center;
+    color: red;
+}
+
+.valid {
+    padding: 10px;
+    background-color: rgba(0, 255, 0, 0.2);
+    border-left: 6px solid green;
+    text-align: center;
+    color: green;
+}
+
 @font-face {
     font-family: "FontAwesome";
     font-weight: normal;
     font-display: auto;
     font-style: normal;
     src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/fonts/fontawesome-webfont.woff2") format("woff2");
+}
+
+h1, h2 {
+    padding: 5px 0;
+    text-align: center;
+    background-color: rgb(64, 64, 64);
+    border-radius: 20px 5px 20px 5px;
+    border-bottom: 4px solid rgb(112, 112, 112);
+    box-shadow: -1px 2px 5px 1px rgba(0, 51, 102, 0.4);
+    color: #3399cc;
 }
 /* END common */
 
@@ -77,7 +103,7 @@ tr:nth-of-type(even) {
 }
 /* END tables */
 
-/* links */
+/* icons */
 .icon {
     position: relative;
     padding-left: 30px;
@@ -141,7 +167,7 @@ tr:nth-of-type(even) {
     color: white;
     left: 6px;
 }
-/* END links */
+/* END icons */
 
 /* buttons */
 .button {
@@ -160,29 +186,6 @@ tr:nth-of-type(even) {
 }
 /* END buttons */
 
-.error {
-    padding: 10px;
-    background-color: rgba(255, 0, 0, 0.2);
-    border-left: 6px solid red;
-    text-align: center;
-    color: red;
-}
-
-.valid {
-    padding: 10px;
-    background-color: rgba(0, 255, 0, 0.2);
-    border-left: 6px solid green;
-    text-align: center;
-    color: green;
-}
-
-#site-title {
-    padding: 10px;
-    margin: 0;
-    text-align: center;
-    font-size: 2.0em;
-    font-weight: bold;
-}
 
 html, body {
     width: 100%;
@@ -204,6 +207,7 @@ main {
     border-radius: 10px;
 }
 
+/* header */
 header {
     height: auto;
     background-color: #92a5b3;
@@ -221,16 +225,6 @@ header {
     color: white;
 }
 
-h1, h2 {
-    padding: 5px 0;
-    text-align: center;
-    background-color: rgb(64, 64, 64);
-    border-radius: 20px 5px 20px 5px;
-    border-bottom: 4px solid rgb(112, 112, 112);
-    box-shadow: -1px 2px 5px 1px rgba(0, 51, 102, 0.4);
-    color: #3399cc;
-}
-
 header ul {
     padding: 0;
     text-align: center;
@@ -245,6 +239,16 @@ header nav {
     background-color: #dbe2e7;
 }
 
+#site-title {
+    padding: 10px;
+    margin: 0;
+    text-align: center;
+    font-size: 2.0em;
+    font-weight: bold;
+}
+/* end Header*/
+
+/* article */
 #article-edit {
     margin: 0;
     padding: 0;
@@ -274,3 +278,4 @@ header nav {
     box-shadow: -1px 2px 5px 1px rgba(0, 51, 102, 0.4);
     border-radius: 15px; 
 }
+/* end article */
