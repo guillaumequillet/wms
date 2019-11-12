@@ -9,7 +9,7 @@ class Article extends Entity
     private $id;
     private $code;
     private $description;
-    private $weight;
+    private $weight;    
     private $width;
     private $height;
     private $length;

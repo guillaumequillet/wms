@@ -17,8 +17,11 @@ class View
         $this->twigEnvironment = new Environment($this->twigLoader, []); // we'll add cache later
     }
 
-    public function render(string $template, array $data): void 
+    public function render(string $template, ?array $data = null): void 
     {
+        if (is_null($data)) {
+            $data = [];
+        }
         echo $this->twigEnvironment->render($template, $data);
     }
 }

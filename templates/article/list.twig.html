@@ -3,10 +3,10 @@
 
 {% block body %}
     {% if log is defined and log == 0 %}
-    <p class="error">Le fichier n'a pas été importé.</p>
+        <p class="error">Le fichier n'a pas été importé.</p>
     {% endif %}
     {% if log == 1 %}
-    <p class="valid">Le fichier a bien été importé.</p>
+        <p class="valid">Le fichier a bien été importé.</p>
     {% endif %}
     <h1>Gestion des <span class="white">Articles</span></h1>
     <section id="articles-actions">
@@ -30,34 +30,34 @@
     </section>
     <section>
         <h2>Liste des Articles</h2>
-        {% if articles == null %}
-        <p class="error">Aucun article à afficher.</p>
-        {% else %}
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Code</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for article in articles %}
-                <tr>
-                    <td>{{ article.id }}</td>
-                    <td>{{ article.code }}</td>
-                    <td>{{ article.description }}</td>
-                    <td>
-                        <ul id="article-edit">
-                            <li><a href="/article/show/{{ article.id }}" class="button icon edit-icon">Editer</a></li>
-                            <li><a href="/article/delete/{{ article.id }}" class="button icon delete-icon" onclick="return confirm('Etes-vous sûr(e) de vouloir supprimer cet article ?');">Supprimer</a></li>
-                        </ul>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+            {% if articles == null %}
+                <p class="error">Aucun article à afficher.</p>
+            {% else %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Code</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for article in articles %}
+                            <tr>
+                                <td>{{ article.id }}</td>
+                                <td>{{ article.code }}</td>
+                                <td>{{ article.description }}</td>
+                                <td>
+                                    <ul id="article-edit">
+                                        <li><a href="/article/show/{{ article.id }}" class="button icon edit-icon">Editer</a></li>
+                                        <li><a href="/article/delete/{{ article.id }}" class="button icon delete-icon" onclick="return confirm('Etes-vous sûr(e) de vouloir supprimer cet article ?');">Supprimer</a></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
         {% endif %}
     </section>
 {% endblock %}

@@ -16,6 +16,12 @@ class ArticleController extends \App\Controller\Controller
         $this->entityManager = new ArticleManager();
     }
 
+    public function create(): void 
+    {
+        $template = 'article/new.twig.html';
+        $this->render($template);
+    }
+
     public function update(int $id): void
     {
         if (!$this->token->check()) {
@@ -152,7 +158,7 @@ class ArticleController extends \App\Controller\Controller
             'article' => $article,
             'token' => $this->token->generateString()
         ];
-        
+
         $this->render($template, $data);
     }
 }

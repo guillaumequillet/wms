@@ -32,7 +32,7 @@ class Controller
         $this->superglobalManager->setVariable('session', 'log', $message);
     }
 
-    protected function render(string $template, array $data): void
+    protected function render(string $template, ?array $data = null): void
     {
         $log = $this->superglobalManager->findVariable('session', 'log');
 

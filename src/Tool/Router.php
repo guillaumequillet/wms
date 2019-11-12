@@ -29,6 +29,10 @@ class Router
         $this->router->map('GET', '/article/showlist', function() {
             (new ArticleController)->showlist();
         });
+    
+        $this->router->map('GET', '/article/new', function() {
+            (new ArticleController)->create();
+        });
 
         $this->router->map('GET', '/article/show/[i:id]', function($id) {
             (new ArticleController)->show((int)$id);
