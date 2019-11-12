@@ -16,6 +16,50 @@ class ArticleController extends \App\Controller\Controller
         $this->entityManager = new ArticleManager();
     }
 
+    public function update(int $id): void
+    {
+        if (!$this->token->check()) {
+            header('location: /article/show/' . $id . '/0');
+            exit();
+        }
+
+        $mandatoryKeys = [
+            'code',
+            'description',
+            'weight',
+            'width',
+            'height',
+            'length',
+            'barcode'
+        ];
+
+        $allKeysOk = true;
+        $data = [];
+
+        foreach($mandatoryKeys as $key) {
+            $data[$key] = html_entity_decode($this->superglobalManager->findVariable('post', $key));
+            if (is_null($data[$key])) {
+                $allKeysOk = false;
+                break;
+            }
+        }            
+
+        if (!$allKeysOk) {
+            header('location: /article/show/' . $id . '/0');
+            exit();
+        }
+
+        $data['weight'] = (int)$data['weight'];
+        $data['width'] = (int)$data['width'];
+        $data['height'] = (int)$data['height'];
+        $data['length'] = (int)$data['length'];
+        $article = new Article();
+        $article->hydrate($data);
+
+        $this->entityManager->updateArticle($article);
+        header('location: /article/show/' . $id . '/1');
+    }
+
     public function delete(int $id): void
     {
         $this->entityManager->deleteArticle($id);
@@ -38,32 +82,28 @@ class ArticleController extends \App\Controller\Controller
             exit();
         }
 
-        try {
-            $articles = [];
-            $csv = Reader::CreateFromPath($filename, 'r');
-            var_dump($csv);
-            foreach ($csv->getRecords() as $k => $line) {
-                if ($k !== 0) {
-                    $article = new Article();
-                    $data = [
-                        'code' => $line[0],
-                        'description' => $line[1],
-                        'weight' => (int) $line[2],
-                        'width' => (int) $line[3],
-                        'length' => (int) $line[4],
-                        'height' => (int) $line[5],
-                        'barcode' => $line[6]
-                    ];
-    
-                    $article->hydrate($data);
-                    $articles[] = $article;
-                }
+        $articles = [];
+        $csv = Reader::CreateFromPath($filename, 'r');
+
+        foreach ($csv->getRecords() as $k => $line) {
+            if ($k !== 0) {
+                $article = new Article();
+                $data = [
+                    'code' => $line[0],
+                    'description' => $line[1],
+                    'weight' => (int) $line[2],
+                    'width' => (int) $line[3],
+                    'length' => (int) $line[4],
+                    'height' => (int) $line[5],
+                    'barcode' => $line[6]
+                ];
+
+                $article->hydrate($data);
+                $articles[] = $article;
             }
-            $this->entityManager->createArticles($articles);
-            header('location: /article/showlist/1');
-        } catch(Exception $e) {
-            header('location: /article/showlist/0');
         }
+        $this->entityManager->createArticles($articles);
+        header('location: /article/showlist/1');
     }
 
     public function showlist(?int $param = null): void 
@@ -90,7 +130,7 @@ class ArticleController extends \App\Controller\Controller
         $this->getView()->render($template, $data);
     }
 
-    public function show(int $id): void
+    public function show(int $id, ?int $param = null): void
     {
         $template = 'article/single.twig.html';
         $data = [];
@@ -100,15 +140,19 @@ class ArticleController extends \App\Controller\Controller
         {
             $res = $this->entityManager->findArticleWithId($id);
             $article = null;
+        }
 
-            if (!is_null($res)) {
-                $article = (new Article())->hydrate($res);
-            }
+        if (!is_null($res)) {
+            $article = (new Article())->hydrate($res);
+        }
 
-            $data = [
-                'article' => $article,
-                'token' => $this->token->generateString()
-            ];
+        $data = [
+            'article' => $article,
+            'token' => $this->token->generateString()
+        ];
+
+        if (!is_null($param)) {
+            $data['param'] = $param;
         }
 
         $this->getView()->render($template, $data);

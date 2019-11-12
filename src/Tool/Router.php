@@ -45,6 +45,14 @@ class Router
         $this->router->map('POST', '/article/import', function() {
             (new ArticleController)->import();
         });
+
+        $this->router->map('POST', '/article/update/[i:id]', function($id) {
+            (new ArticleController)->update((int)$id);
+        });
+
+        $this->router->map('GET', '/article/show/[i:id]/[i:param]', function($id, $param) {
+            (new ArticleController)->show((int)$id, (int)$param);
+        });
     }
 
     public function getRoute(): void

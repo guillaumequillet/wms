@@ -14,11 +14,38 @@
 
 /* forms */
 input {
+    width: 70%;
+    box-sizing: border-box;
     margin: 10px;
 }
 
-.articles-action form {
+form {
     text-align: center;
+    display: block;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+label {
+    padding: 5px 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+label:nth-of-type(odd) {
+    background-color: #dbe2e7;
+}
+
+label:nth-of-type(even) {
+    background-color: #c7ced3;
+}
+
+input[type=submit] {
+    width: auto;
+    padding: 5px;
 }
 /* END forms */
 
@@ -201,7 +228,7 @@ h1, h2 {
     border-radius: 20px 5px 20px 5px;
     border-bottom: 4px solid rgb(112, 112, 112);
     box-shadow: -1px 2px 5px 1px rgba(0, 51, 102, 0.4);
-    color: #006699;
+    color: #3399cc;
 }
 
 header ul {

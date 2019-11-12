@@ -2,11 +2,47 @@
 {% block title %}Visualisation d'un article{% endblock %}
 
 {% block body %}
+    <section>
+    {% if param is defined and param == 0 %}
+        <p class="error">
+            La mise à jour a échoué.
+        </p>
+    {% elseif param == 1 %}
+        <p class="valid">
+            La mise à jour a été effectuée.
+        </p>
+    {% endif %}
+
     {% if article == null %}
+        <h1>Fichier Article : <span class="white">Inexistant</span></h1>
         <p class="error">
             L'article spécifié n'existe pas.
         </p>
     {% else %}
-        <h1>Article {{ article.code }}</h1>
+        <h1>Fiche Article : <span class="white">{{ article.code }}</span> [id: {{ article.id }}]</h1>
+        <form method="POST" action="/article/update/{{ article.id }}">
+           <label>Description
+               <input type="text" id="description" name="description" value="{{ article.description }}" required>
+            </label>
+            <label>Poids
+                <input type="number" id="weight" name="weight" value="{{ article.weight }}" required>
+            </label>
+            <label>Largeur
+               <input type="number" id="width" name="width" value="{{ article.width }}" required>
+            </label>
+            <label>Hauteur
+                <input type="number" id="height" name="height" value="{{ article.height }}" required>
+            </label>
+            <label>Longueur
+               <input type="number" id="length" name="length" value="{{ article.length }}" required>
+            </label>
+            <label>Code à Barre
+               <input type="text" id="barcode" name="barcode" value="{{ article.barcode }}" required>
+            </label>
+            <input type="submit" value="Mettre à jour">
+            <input type="hidden" id="code" name="code" value = {{ article.code }}>
+            <input type="hidden" id="token" name="token" value = {{ token }}>
+        </form>
     {% endif %}
+    </section>
 {% endblock %}

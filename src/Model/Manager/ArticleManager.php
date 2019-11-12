@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Manager;
 
+use App\Model\Entity\Article;
 use App\Model\Repository\ArticleRepository;
 
 class ArticleManager extends Manager
@@ -30,6 +31,10 @@ class ArticleManager extends Manager
                 $this->repository->updateArticle($article);
             }            
         }
+    }
+
+    public function updateArticle(Article $article): void {
+        $this->repository->updateArticle($article);
     }
 
     public function findAllArticles(): ?array

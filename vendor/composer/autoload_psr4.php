@@ -7,8 +7,10 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Twig\\' => array($vendorDir . '/twig/twig/src'),
+    'Symfony\\Polyfill\\Php72\\' => array($vendorDir . '/symfony/polyfill-php72'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
+    'Symfony\\Component\\VarDumper\\' => array($vendorDir . '/symfony/var-dumper'),
     'League\\Csv\\' => array($vendorDir . '/league/csv/src'),
     'App\\' => array($baseDir . '/src'),
 );
