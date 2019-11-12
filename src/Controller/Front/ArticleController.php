@@ -19,7 +19,8 @@ class ArticleController extends \App\Controller\Controller
     public function update(int $id): void
     {
         if (!$this->token->check()) {
-            header('location: /article/show/' . $id . '/0');
+            $this->setLog('0');
+            header('location: /article/show/' . $id);
             exit();
         }
 
@@ -45,7 +46,8 @@ class ArticleController extends \App\Controller\Controller
         }            
 
         if (!$allKeysOk) {
-            header('location: /article/show/' . $id . '/0');
+            $this->setLog('0');
+            header('location: /article/show/' . $id);
             exit();
         }
 
@@ -57,7 +59,8 @@ class ArticleController extends \App\Controller\Controller
         $article->hydrate($data);
 
         $this->entityManager->updateArticle($article);
-        header('location: /article/show/' . $id . '/1');
+        $this->setLog('1');
+        header('location: /article/show/' . $id);
     }
 
     public function delete(int $id): void
@@ -69,7 +72,8 @@ class ArticleController extends \App\Controller\Controller
     public function import(): void
     {
         if ($this->token->check() === false) {
-            header('location: /article/showlist/0');
+            $this->setLog('0');
+            header('location: /article/showlist');
             exit();
         }
 
@@ -78,7 +82,8 @@ class ArticleController extends \App\Controller\Controller
         }
 
         if (!isset($filename) || $filename === "") {
-            header('location: /article/showlist/0');
+            $this->setLog('0');
+            header('location: /article/showlist');
             exit();
         }
 
@@ -103,10 +108,11 @@ class ArticleController extends \App\Controller\Controller
             }
         }
         $this->entityManager->createArticles($articles);
-        header('location: /article/showlist/1');
+        $this->setLog('1');
+        header('location: /article/showlist');
     }
 
-    public function showlist(?int $param = null): void 
+    public function showlist(): void 
     {
         $template = 'article/list.twig.html';
         $articles = [];
@@ -123,14 +129,10 @@ class ArticleController extends \App\Controller\Controller
             'token' => $this->token->generateString()
         ];       
 
-        if (!is_null($param)) {
-            $data['param'] = $param;
-        }
-
-        $this->getView()->render($template, $data);
+        $this->render($template, $data);
     }
 
-    public function show(int $id, ?int $param = null): void
+    public function show(int $id): void
     {
         $template = 'article/single.twig.html';
         $data = [];
@@ -150,11 +152,7 @@ class ArticleController extends \App\Controller\Controller
             'article' => $article,
             'token' => $this->token->generateString()
         ];
-
-        if (!is_null($param)) {
-            $data['param'] = $param;
-        }
-
-        $this->getView()->render($template, $data);
+        
+        $this->render($template, $data);
     }
 }

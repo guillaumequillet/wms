@@ -22,8 +22,25 @@ class Controller
         $this->token = new Token();
     }
 
-    public function getView(): View
+    protected function getView(): View
     {
         return $this->view;
+    }
+
+    protected function setLog(string $message): void 
+    {
+        $this->superglobalManager->setVariable('session', 'log', $message);
+    }
+
+    protected function render(string $template, array $data): void
+    {
+        $log = $this->superglobalManager->findVariable('session', 'log');
+
+        if (!is_null($log)) {
+            $data['log'] = $log;
+            $this->superglobalManager->unsetVariable('session', 'log');
+        }
+
+        $this->getView()->render($template, $data);
     }
 }

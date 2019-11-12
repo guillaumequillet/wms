@@ -13,6 +13,7 @@ class SuperglobalManager
         }
         return isset($array[$value]) ? htmlentities($array[$value]) : null;
     }
+
     public function setVariable(string $arrayName, string $key, string $value): bool
     {
         $array = &$this->getArray($arrayName);
@@ -22,6 +23,17 @@ class SuperglobalManager
         }
         return false;
     }
+
+    public function unsetVariable(string $arrayName, string $key): bool
+    {
+        $array = &$this->getArray($arrayName);
+        if (!is_null($array) && isset($array[$key])) {
+            unset($array[$key]);
+            return true;
+        }
+        return false;
+    }
+
     private function &getArray(string $table): ?array 
     {
         switch ($table) {

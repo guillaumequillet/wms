@@ -3,11 +3,11 @@
 
 {% block body %}
     <section>
-    {% if param is defined and param == 0 %}
+    {% if log is defined and log == 0 %}
         <p class="error">
             La mise à jour a échoué.
         </p>
-    {% elseif param == 1 %}
+    {% elseif log == 1 %}
         <p class="valid">
             La mise à jour a été effectuée.
         </p>

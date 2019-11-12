@@ -30,10 +30,6 @@ class Router
             (new ArticleController)->showlist();
         });
 
-        $this->router->map('GET', '/article/showlist/[i:id]', function($id) {
-            (new ArticleController)->showlist((int)$id);
-        });
-
         $this->router->map('GET', '/article/show/[i:id]', function($id) {
             (new ArticleController)->show((int)$id);
         });
@@ -48,10 +44,6 @@ class Router
 
         $this->router->map('POST', '/article/update/[i:id]', function($id) {
             (new ArticleController)->update((int)$id);
-        });
-
-        $this->router->map('GET', '/article/show/[i:id]/[i:param]', function($id, $param) {
-            (new ArticleController)->show((int)$id, (int)$param);
         });
     }
 

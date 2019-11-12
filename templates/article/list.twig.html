@@ -2,10 +2,10 @@
 {% block title %}Liste des articles{% endblock %}
 
 {% block body %}
-    {% if param is defined and param == 0 %}
+    {% if log is defined and log == 0 %}
     <p class="error">Le fichier n'a pas été importé.</p>
     {% endif %}
-    {% if param == 1 %}
+    {% if log == 1 %}
     <p class="valid">Le fichier a bien été importé.</p>
     {% endif %}
     <h1>Gestion des <span class="white">Articles</span></h1>
