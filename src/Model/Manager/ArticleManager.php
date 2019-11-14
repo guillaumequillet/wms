@@ -5,6 +5,7 @@ namespace App\Model\Manager;
 
 use App\Model\Entity\Article;
 use App\Model\Repository\ArticleRepository;
+use League\Csv\Reader;
 
 class ArticleManager extends Manager
 {
@@ -25,8 +26,37 @@ class ArticleManager extends Manager
         $this->repository->deleteArticle($id);
     }
 
-    public function createArticles(array $articles): void
+    public function createArticles(): bool
     {
+        if ($this->superglobalManager->findFile('articleFile')) {
+            $filename = $this->superglobalManager->findFile('articleFile')["tmp_name"];
+        }
+
+        if (!isset($filename) || $filename === "") {
+            return false;
+        }
+
+        $articles = [];
+        $csv = Reader::CreateFromPath($filename, 'r');
+
+        foreach ($csv->getRecords() as $k => $line) {
+            if ($k !== 0) {
+                $article = new Article();
+                $data = [
+                    'code' => $line[0],
+                    'description' => $line[1],
+                    'weight' => (int) $line[2],
+                    'width' => (int) $line[3],
+                    'length' => (int) $line[4],
+                    'height' => (int) $line[5],
+                    'barcode' => $line[6]
+                ];
+
+                $article->hydrate($data);
+                $articles[] = $article;
+            }
+        }
+
         foreach ($articles as $article) {
             $articleExists = !(is_null($this->repository->findArticleWithCode($article->getCode())));
             
@@ -38,6 +68,7 @@ class ArticleManager extends Manager
                 $this->repository->updateArticle($article);
             }            
         }
+        return true;
     }
 
     public function updateArticle(): bool 

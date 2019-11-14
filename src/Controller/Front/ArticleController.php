@@ -5,8 +5,6 @@ namespace App\Controller\Front;
 
 use App\Model\Manager\ArticleManager;
 
-use League\Csv\Reader;
-
 class ArticleController extends \App\Controller\Controller
 {
     public function __construct()
@@ -49,38 +47,8 @@ class ArticleController extends \App\Controller\Controller
             exit();
         }
 
-        if (array_key_exists("articleFile", $_FILES)) {
-            $filename = $_FILES["articleFile"]["tmp_name"];
-        }
-
-        if (!isset($filename) || $filename === "") {
-            $this->setLog('0');
-            header('location: /article/showlist');
-            exit();
-        }
-
-        $articles = [];
-        $csv = Reader::CreateFromPath($filename, 'r');
-
-        foreach ($csv->getRecords() as $k => $line) {
-            if ($k !== 0) {
-                $article = new Article();
-                $data = [
-                    'code' => $line[0],
-                    'description' => $line[1],
-                    'weight' => (int) $line[2],
-                    'width' => (int) $line[3],
-                    'length' => (int) $line[4],
-                    'height' => (int) $line[5],
-                    'barcode' => $line[6]
-                ];
-
-                $article->hydrate($data);
-                $articles[] = $article;
-            }
-        }
-        $this->entityManager->createArticles($articles);
-        $this->setLog('1');
+        $res = $this->entityManager->createArticles();
+        $this->setLog($res ? '1' : '0');
         header('location: /article/showlist');
     }
 

@@ -14,6 +14,14 @@ class SuperglobalManager
         return isset($array[$value]) ? htmlentities($array[$value]) : null;
     }
 
+    public function findFile(string $filename): ?array
+    {
+        if (array_key_exists($filename, $_FILES)) {
+            return $_FILES[$filename];
+        }
+        return null;
+    }
+
     public function setVariable(string $arrayName, string $key, string $value): bool
     {
         $array = &$this->getArray($arrayName);
