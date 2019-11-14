@@ -31,7 +31,7 @@ class Router
         $this->createUserRoutes();
     }
 
-    public function createArticleRoutes(): void 
+    private function createArticleRoutes(): void 
     {
         $this->router->map('GET', '/article/showlist/[i:page]?', function(int $page = null) {
             (new ArticleController)->showlist($page);
@@ -67,7 +67,7 @@ class Router
         });
     }
 
-    public function createUserRoutes(): void
+    private function createUserRoutes(): void
     {
         $this->router->map('GET', '/user/index', function() {
             (new UserController)->index();
