@@ -7,8 +7,8 @@ abstract class Entity
 {
     public function __construct()
     {
-        $this->hydrate();
+        $this->checkTypes();
     }
 
-    abstract public function hydrate(): void;
+    abstract public function checkTypes(): void;
 }

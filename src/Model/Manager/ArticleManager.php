@@ -10,6 +10,7 @@ class ArticleManager extends Manager
 {
     public function __construct() 
     {
+        parent::__construct();
         $this->repository = new ArticleRepository();
     }
 
@@ -39,8 +40,39 @@ class ArticleManager extends Manager
         }
     }
 
-    public function updateArticle(Article $article): void {
-        $this->repository->updateArticle($article);
+    public function updateArticle(): bool 
+    {
+        $data = [];
+
+        $mandatoryKeys = [
+            'code',
+            'description',
+            'weight',
+            'width',
+            'height',
+            'length',
+            'barcode'
+        ];
+
+        foreach($mandatoryKeys as $key) {
+            $value = html_entity_decode($this->superglobalManager->findVariable('post', $key));
+
+            if ($key === 'code' || $key === 'description' || $key === 'barcode') {
+                $data[$key] = (string)$value;
+            }
+
+            if ($key === 'weight' || $key === 'width' || $key === 'height' || $key === 'length') {
+                $data[$key] = (int)$value;
+            }
+
+            if (is_null($data[$key])) {
+                return false;
+            }
+        }            
+       
+        $article = new Article();
+        $article->hydrate($data);
+        return $this->repository->updateArticle($article);
     }
 
     public function findAllArticles(?string $queryString = null): ?array

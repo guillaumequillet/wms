@@ -45,7 +45,7 @@ class ArticleRepository extends Repository
         ]);
     }
 
-    public function updateArticle(Article $article): void
+    public function updateArticle(Article $article): bool
     {
         $req = $this->database->getPDO()->prepare('UPDATE articles 
             SET code=:code, description=:description, weight=:weight, width=:width, length=:length, height=:height, barcode=:barcode 
@@ -60,6 +60,7 @@ class ArticleRepository extends Repository
             'barcode' => $article->getBarcode(),
             'querycode' => $article->getCode()
         ]);
+        return $res;
     }
 
     public function findAllArticles(): ?array

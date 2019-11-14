@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Front;
 
-use App\Model\Entity\Article;
 use App\Model\Manager\ArticleManager;
 
 use League\Csv\Reader;
@@ -16,12 +15,6 @@ class ArticleController extends \App\Controller\Controller
         $this->entityManager = new ArticleManager();
     }
 
-    public function test() 
-    {
-        $article = $this->entityManager->test();
-        dump($article);
-    }
-
     public function create(): void 
     {
         $template = 'article/new.twig.html';
@@ -30,47 +23,14 @@ class ArticleController extends \App\Controller\Controller
 
     public function update(int $id): void
     {
-        if (!$this->token->check()) {
+        $result = $this->entityManager->updateArticle();
+        
+        if (!$result || !$this->token->check()) {
             $this->setLog('0');
             header('location: /article/show/' . $id);
             exit();
         }
 
-        $mandatoryKeys = [
-            'code',
-            'description',
-            'weight',
-            'width',
-            'height',
-            'length',
-            'barcode'
-        ];
-
-        $allKeysOk = true;
-        $data = [];
-
-        foreach($mandatoryKeys as $key) {
-            $data[$key] = html_entity_decode($this->superglobalManager->findVariable('post', $key));
-            if (is_null($data[$key])) {
-                $allKeysOk = false;
-                break;
-            }
-        }            
-
-        if (!$allKeysOk) {
-            $this->setLog('0');
-            header('location: /article/show/' . $id);
-            exit();
-        }
-
-        $data['weight'] = (int)$data['weight'];
-        $data['width'] = (int)$data['width'];
-        $data['height'] = (int)$data['height'];
-        $data['length'] = (int)$data['length'];
-        $article = new Article();
-        $article->hydrate($data);
-
-        $this->entityManager->updateArticle($article);
         $this->setLog('1');
         header('location: /article/show/' . $id);
     }
@@ -132,7 +92,6 @@ class ArticleController extends \App\Controller\Controller
         // we check if some search was submitted
         $queryString = $this->superglobalManager->findVariable('post', 'queryString');
         $articles = $this->entityManager->findAllArticles($queryString);
-
 
         if (!is_null($articles)) {
             $data['articles'] = $articles;

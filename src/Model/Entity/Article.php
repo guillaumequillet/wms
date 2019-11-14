@@ -15,7 +15,7 @@ class Article extends Entity
     private $length;
     private $barcode;
 
-    public function hydrate(): void
+    public function checkTypes(): void
     {
         $this->setId((int) $this->id);        
         $this->setCode((string) $this->code);        
@@ -25,6 +25,16 @@ class Article extends Entity
         $this->setHeight((int) $this->height);        
         $this->setLength((int) $this->length);        
         $this->setBarcode((string) $this->barcode);        
+    }
+
+    public function hydrate(array $data): void
+    {
+        foreach($data as $key => $v) {
+            $method = 'set' . ucfirst($key);
+            if (method_exists(get_class($this), $method)) {
+                $this->$method($v);
+            }
+        }
     }
 
     /* public getters */
