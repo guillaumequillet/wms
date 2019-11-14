@@ -59,6 +59,10 @@ class ArticleManager extends Manager
 
         foreach ($csv->getRecords() as $k => $line) {
             if ($k !== 0) {
+                # exit if header is incorrect
+                if (sizeof($line) < 7) {
+                    return false;
+                }
                 $article = new Article();
                 $data = [
                     'code' => $line[0],
