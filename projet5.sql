@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  jeu. 14 nov. 2019 à 10:26
+-- Généré le :  jeu. 14 nov. 2019 à 18:44
 -- Version du serveur :  10.4.6-MariaDB
 -- Version de PHP :  7.3.9
 
@@ -165,7 +165,8 @@ CREATE TABLE `users` (
 -- Index pour la table `articles`
 --
 ALTER TABLE `articles`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `code` (`code`);
 
 --
 -- Index pour la table `incomings`
