@@ -10,7 +10,7 @@ use App\Tool\Token;
 
 class Controller 
 {
-    protected $entityManager;
+    protected $manager;
     protected $view;
     protected $token;
     protected $superglobalManager;

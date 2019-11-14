@@ -10,18 +10,39 @@ class ArticleController extends \App\Controller\Controller
     public function __construct()
     {
         parent::__construct();
-        $this->entityManager = new ArticleManager();
+        $this->manager = new ArticleManager();
     }
 
     public function create(): void 
     {
         $template = 'article/new.twig.html';
-        $this->render($template);
+        $data = ['token' => $this->token->generateString()];
+        $this->render($template, $data);
+    }
+
+    public function record(): void
+    {
+        if (!$this->token->check()) {
+            $this->setLog('0');
+            header('location: /article/new');
+            exit();
+        }
+
+        $id = $this->manager->createArticle();
+
+        if (is_null($id)) {
+            $this->setLog('1');
+            header('location: /article/new');            
+            exit();
+        }
+
+        $this->setLog('3');
+        header('location: /article/show/' . $id);
     }
 
     public function update(int $id): void
     {
-        $result = $this->entityManager->updateArticle();
+        $result = $this->manager->updateArticle();
         
         if (!$result || !$this->token->check()) {
             $this->setLog('0');
@@ -35,7 +56,7 @@ class ArticleController extends \App\Controller\Controller
 
     public function delete(int $id): void
     {
-        $this->entityManager->deleteArticle($id);
+        $this->manager->deleteArticle($id);
         header('location: /article/showlist');
     }
 
@@ -47,19 +68,19 @@ class ArticleController extends \App\Controller\Controller
             exit();
         }
 
-        $res = $this->entityManager->createArticles();
+        $res = $this->manager->createArticles();
         $this->setLog($res ? '1' : '0');
         header('location: /article/showlist');
     }
 
-    public function showlist(): void 
+    public function showlist(?int $page = null): void 
     {
         $template = 'article/list.twig.html';
         $data = ['token' => $this->token->generateString()];
 
         // we check if some search was submitted
         $queryString = $this->superglobalManager->findVariable('post', 'queryString');
-        $articles = $this->entityManager->findAllArticles($queryString);
+        $articles = $this->manager->findAllArticles($queryString, $page);
 
         if (!is_null($articles)) {
             $data['articles'] = $articles;
@@ -80,7 +101,7 @@ class ArticleController extends \App\Controller\Controller
         // if some article id was specified, we only show this one
         if (!is_null($id))
         {
-            $article = $this->entityManager->findArticleWithId($id);
+            $article = $this->manager->findArticleWithId($id);
         }
 
         if (!is_null($article)) {

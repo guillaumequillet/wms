@@ -7,20 +7,11 @@ use App\Model\Entity\Article;
 
 class ArticleRepository extends Repository
 {
-    public function test(): Article 
-    {
-        $db = $this->database->getPDO();
-        $stmt = $db->prepare("SELECT * FROM articles LIMIT 1 OFFSET 1");
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\Article'); 
-        $stmt->execute();
-        $obj = $stmt->fetch();
-        return $obj;
-    }
-
-    public function deleteArticle(int $id): void
+    public function deleteArticle(int $id): bool
     {
         $req = $this->database->getPDO()->prepare('DELETE FROM articles WHERE id=:id');
-        $req->execute(['id' => $id]);
+        $res = $req->execute(['id' => $id]);
+        return $res;
     }
 
     public function createArticles(array $articles): void
@@ -30,11 +21,11 @@ class ArticleRepository extends Repository
         }
     }
 
-    public function createArticle(Article $article): void
+    public function createArticle(Article $article): bool
     {
         $req = $this->database->getPDO()->prepare('INSERT INTO articles(code, description, weight, width, length, height, barcode) 
             VALUES(:code, :description, :weight, :width, :length, :height, :barcode)');
-        $req->execute([
+        $res = $req->execute([
             'code' => $article->getCode(),
             'description' => $article->getDescription(),
             'weight' => $article->getWeight(),
@@ -43,6 +34,7 @@ class ArticleRepository extends Repository
             'height' => $article->getHeight(),
             'barcode' => $article->getBarcode()
         ]);
+        return $res;
     }
 
     public function updateArticle(Article $article): bool
@@ -81,19 +73,21 @@ class ArticleRepository extends Repository
         return ($res === false) ? null : $res;
     }
 
-    public function findArticleWithId(int $id): ?array 
+    public function findArticleWithId(int $id): ?Article 
     {
-        $req = $this->database->getPDO()->prepare('SELECT * FROM articles WHERE id=:id');
-        $req->execute(['id' => $id]);
-        $res = $req->fetch();
+        $stmt = $this->database->getPDO()->prepare('SELECT * FROM articles WHERE id=:id');
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\Article'); 
+        $stmt->execute(['id' => $id]);
+        $res = $stmt->fetch();
         return ($res === false) ? null : $res;
     }
 
-    public function findArticleWithCode(string $code): ?array 
+    public function findArticleWithCode(string $code): ?Article 
     {
-        $req = $this->database->getPDO()->prepare('SELECT * FROM articles WHERE code=:code');
-        $req->execute(['code' => $code]);
-        $res = $req->fetch();
+        $stmt = $this->database->getPDO()->prepare('SELECT * FROM articles WHERE code=:code');
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\Article'); 
+        $stmt->execute(['code' => $code]);
+        $res = $stmt->fetch();
         return ($res === false) ? null : $res;
     }
 }

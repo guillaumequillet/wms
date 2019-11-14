@@ -77,9 +77,10 @@ input[type=submit] {
 
 /* tables */
 table {
+    width: 80%;
     border-collapse: collapse;
     text-align: center;
-    width: 100%;
+    margin: 0 auto;
 }
   
 table, th, td {
@@ -254,7 +255,7 @@ header nav {
     padding: 0;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 #article-edit li {

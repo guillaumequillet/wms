@@ -26,24 +26,28 @@ class Router
             $this->unfound();
         });
 
-        $this->router->map('GET', '/article/showlist', function() {
-            (new ArticleController)->showlist();
+        $this->router->map('GET', '/article/showlist/[i:page]?', function(int $page = null) {
+            (new ArticleController)->showlist($page);
         });
 
         // we also need some route from POST, for the search input form
-        $this->router->map('POST', '/article/showlist', function() {
-            (new ArticleController)->showlist();
+        $this->router->map('POST', '/article/showlist/[i:page]?', function(int $page = null) {
+            (new ArticleController)->showlist($page);
         });
     
         $this->router->map('GET', '/article/new', function() {
             (new ArticleController)->create();
         });
 
-        $this->router->map('GET', '/article/show/[i:id]', function($id) {
+        $this->router->map('POST', '/article/record', function() {
+            (new ArticleController)->record();
+        });
+
+        $this->router->map('GET', '/article/show/[i:id]', function(int $id) {
             (new ArticleController)->show((int)$id);
         });
 
-        $this->router->map('GET', '/article/delete/[i:id]', function($id) {
+        $this->router->map('GET', '/article/delete/[i:id]', function(int $id) {
             (new ArticleController)->delete((int)$id);
         });
 
@@ -51,13 +55,8 @@ class Router
             (new ArticleController)->import();
         });
 
-        $this->router->map('POST', '/article/update/[i:id]', function($id) {
+        $this->router->map('POST', '/article/update/[i:id]', function(int $id) {
             (new ArticleController)->update((int)$id);
-        });
-
-        /* TEMP */
-        $this->router->map('GET', '/test', function() {
-            (new ArticleController)->test();
         });
     }
 

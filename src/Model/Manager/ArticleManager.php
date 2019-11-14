@@ -15,15 +15,33 @@ class ArticleManager extends Manager
         $this->repository = new ArticleRepository();
     }
 
-    public function test(): Article
-    {
-        $result = $this->repository->test();
-        return $result;
-    }
-
     public function deleteArticle(int $id): void
     {
         $this->repository->deleteArticle($id);
+    }
+
+    public function createArticle(): ?int
+    {
+        $article = new Article();
+        $data = [
+            'code' => $this->superglobalManager->findVariable("post", "code"),
+            'description' => $this->superglobalManager->findVariable("post", "description"),
+            'weight' => (int)$this->superglobalManager->findVariable("post", "weight"),
+            'width' => (int)$this->superglobalManager->findVariable("post", "width"),
+            'height' => (int)$this->superglobalManager->findVariable("post", "height"),
+            'length' => (int)$this->superglobalManager->findVariable("post", "length"),
+            'barcode' => $this->superglobalManager->findVariable("post", "barcode"),
+        ];
+        $article->hydrate($data);
+        $res = $this->repository->createArticle($article);
+
+        // Article was not created
+        if (!$res) {
+            return null;
+        }
+
+        $id = $this->repository->findArticleWithCode($article->getCode())->getId();
+        return (is_null($id) ? null : $id);
     }
 
     public function createArticles(): bool
@@ -106,7 +124,7 @@ class ArticleManager extends Manager
         return $this->repository->updateArticle($article);
     }
 
-    public function findAllArticles(?string $queryString = null): ?array
+    public function findAllArticles(?string $queryString = null, ?int $page = null): ?array
     {
         if (is_null($queryString)) {
             return $this->repository->findAllArticles($queryString);
@@ -117,7 +135,7 @@ class ArticleManager extends Manager
         }
     }
 
-    public function findArticleWithId(int $id): ?array
+    public function findArticleWithId(int $id): ?Article
     {
         return $this->repository->findArticleWithId($id);
     }
