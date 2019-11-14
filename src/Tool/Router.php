@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Tool;
 
 use App\Controller\Front\ArticleController;
+use App\Controller\Back\UserController;
 
 class Router
 {
@@ -26,6 +27,12 @@ class Router
             $this->unfound();
         });
 
+        $this->createArticleRoutes();
+        $this->createUserRoutes();
+    }
+
+    public function createArticleRoutes(): void 
+    {
         $this->router->map('GET', '/article/showlist/[i:page]?', function(int $page = null) {
             (new ArticleController)->showlist($page);
         });
@@ -58,6 +65,13 @@ class Router
         $this->router->map('POST', '/article/update/[i:id]', function(int $id) {
             (new ArticleController)->update((int)$id);
         });
+    }
+
+    public function createUserRoutes(): void
+    {
+        $this->router->map('GET', '/user/index', function() {
+            (new UserController)->index();
+        });        
     }
 
     public function getRoute(): void

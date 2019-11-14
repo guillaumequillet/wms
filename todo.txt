@@ -1,0 +1,14 @@
+TODO LIST
+
+PAGE ARTICLE
+pagination de la page showlist : 
+- 10 articles par page si pas de recherche 
+- 10 articles max + message "plus de 10 résultats, affinez votre recherche" si recherche et > 10 résultats
+gérer responsive
+
+PAGE ADMIN
+si accès via le login inital (l'user a le statut ADMIN), on change le menu pour :
+UTILISATEURS EMPLACEMENTS "retour FRONT"
+
+
+

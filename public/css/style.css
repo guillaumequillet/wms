@@ -145,6 +145,18 @@ tr:nth-of-type(even) {
     content: "\f08b";
 }
 
+.user-icon::before {
+    content: "\f0c0";
+}
+
+.location-icon::before {
+    content: "\f187";
+}
+
+.return-icon::before {
+    content: "\f0e2";
+}
+
 .new-icon::before {
     content: "\f15c";
     color: white;
