@@ -7,6 +7,16 @@ use App\Model\Entity\Article;
 
 class ArticleRepository extends Repository
 {
+    public function test(): Article 
+    {
+        $db = $this->database->getPDO();
+        $stmt = $db->prepare("SELECT * FROM articles LIMIT 1 OFFSET 1");
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\Article'); 
+        $stmt->execute();
+        $obj = $stmt->fetch();
+        return $obj;
+    }
+
     public function deleteArticle(int $id): void
     {
         $req = $this->database->getPDO()->prepare('DELETE FROM articles WHERE id=:id');
@@ -54,15 +64,19 @@ class ArticleRepository extends Repository
 
     public function findAllArticles(): ?array
     {
-        $req = $this->database->getPDO()->query('SELECT * FROM articles');
-        return ($req === false) ? null : $req->fetchAll();
+        $stmt = $this->database->getPDO()->prepare('SELECT * FROM articles');
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\Article'); 
+        $stmt->execute();
+        $res = $stmt->fetchAll();
+        return ($res === false) ? null : $res;
     }
 
     public function findArticlesWithCodeLike(string $queryString): ?array
     {
-        $req = $this->database->getPDO()->prepare('SELECT * FROM articles WHERE code LIKE :pattern');
-        $req->execute(['pattern' => '%' . $queryString . '%']);
-        $res = $req->fetchAll();
+        $stmt = $this->database->getPDO()->prepare('SELECT * FROM articles WHERE code LIKE :pattern');
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\Article'); 
+        $stmt->execute(['pattern' => '%' . $queryString . '%']);
+        $res = $stmt->fetchAll();
         return ($res === false) ? null : $res;
     }
 

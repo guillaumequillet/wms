@@ -15,6 +15,18 @@ class Article extends Entity
     private $length;
     private $barcode;
 
+    public function hydrate(): void
+    {
+        $this->setId((int) $this->id);        
+        $this->setCode((string) $this->code);        
+        $this->setDescription((string) $this->description);
+        $this->setWeight((int) $this->weight);        
+        $this->setWidth((int) $this->width);        
+        $this->setHeight((int) $this->height);        
+        $this->setLength((int) $this->length);        
+        $this->setBarcode((string) $this->barcode);        
+    }
+
     /* public getters */
     public function getId(): int
     {

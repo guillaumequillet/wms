@@ -54,6 +54,11 @@ class Router
         $this->router->map('POST', '/article/update/[i:id]', function($id) {
             (new ArticleController)->update((int)$id);
         });
+
+        /* TEMP */
+        $this->router->map('GET', '/test', function() {
+            (new ArticleController)->test();
+        });
     }
 
     public function getRoute(): void

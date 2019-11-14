@@ -13,6 +13,12 @@ class ArticleManager extends Manager
         $this->repository = new ArticleRepository();
     }
 
+    public function test(): Article
+    {
+        $result = $this->repository->test();
+        return $result;
+    }
+
     public function deleteArticle(int $id): void
     {
         $this->repository->deleteArticle($id);

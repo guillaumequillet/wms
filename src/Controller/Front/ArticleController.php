@@ -16,6 +16,12 @@ class ArticleController extends \App\Controller\Controller
         $this->entityManager = new ArticleManager();
     }
 
+    public function test() 
+    {
+        $article = $this->entityManager->test();
+        dump($article);
+    }
+
     public function create(): void 
     {
         $template = 'article/new.twig.html';
@@ -121,23 +127,16 @@ class ArticleController extends \App\Controller\Controller
     public function showlist(): void 
     {
         $template = 'article/list.twig.html';
-        $articles = [];
+        $data = ['token' => $this->token->generateString()];
 
         // we check if some search was submitted
         $queryString = $this->superglobalManager->findVariable('post', 'queryString');
+        $articles = $this->entityManager->findAllArticles($queryString);
 
-        $res = $this->entityManager->findAllArticles($queryString);
 
-        if (!is_null($res)) {
-            foreach($res as $article) {
-                $articles[] = (new Article())->hydrate($article);                
-            }
+        if (!is_null($articles)) {
+            $data['articles'] = $articles;
         }
-
-        $data = [
-            'articles' => $articles,
-            'token' => $this->token->generateString()
-        ];       
 
         if (!is_null($queryString)) {
             $data['queryString'] = $queryString;
@@ -149,23 +148,17 @@ class ArticleController extends \App\Controller\Controller
     public function show(int $id): void
     {
         $template = 'article/single.twig.html';
-        $data = [];
+        $data = ['token' => $this->token->generateString()];
 
         // if some article id was specified, we only show this one
         if (!is_null($id))
         {
-            $res = $this->entityManager->findArticleWithId($id);
-            $article = null;
+            $article = $this->entityManager->findArticleWithId($id);
         }
 
-        if (!is_null($res)) {
-            $article = (new Article())->hydrate($res);
+        if (!is_null($article)) {
+            $data['article'] = $article;
         }
-
-        $data = [
-            'article' => $article,
-            'token' => $this->token->generateString()
-        ];
 
         $this->render($template, $data);
     }
