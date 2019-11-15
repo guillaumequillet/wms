@@ -3,20 +3,26 @@ declare(strict_types=1);
 
 namespace App\Controller\Front;
 
-use App\Model\Manager\UserManager;
+use App\Model\Manager\LoginManager;
 
 class LoginController extends \App\Controller\Controller
 {
     public function __construct()
     {
         parent::__construct();
-        $this->manager = new UserManager();
+        $this->manager = new LoginManager();
     }
 
     public function connected(): bool
     {
         $res = $this->superglobalManager->findVariable('session', 'username');
         return (!is_null($res));
+    }
+
+    public function isAdmin(): bool
+    {
+        $res = $this->superglobalManager->findVariable('session', 'role');
+        return ($res === 'admin');        
     }
 
     public function login(): void

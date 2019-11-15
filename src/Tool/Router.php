@@ -52,6 +52,10 @@ class Router
             });
     
             $this->createArticleRoutes();
+        }
+
+        // all the admin routes
+        if ($this->loginController->isAdmin()) {
             $this->createUserRoutes();
         }
     }

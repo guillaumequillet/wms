@@ -7,7 +7,7 @@ use App\Model\Entity\User;
 use App\Model\Repository\UserRepository;
 use App\Tool\Token;
 
-class UserManager extends Manager
+class LoginManager extends Manager
 {
     public function __construct() 
     {
