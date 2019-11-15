@@ -10,7 +10,7 @@ abstract class Entity
         $this->checkTypes();
     }
 
-    protected function hydrate(array $data): self
+    public function hydrate(array $data): self
     {
         foreach($data as $key => $v) {
             $method = 'set' . ucfirst($key);

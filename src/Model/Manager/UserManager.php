@@ -5,6 +5,7 @@ namespace App\Model\Manager;
 
 use App\Model\Entity\User;
 use App\Model\Repository\UserRepository;
+use App\Tool\Token;
 
 class UserManager extends Manager
 {
@@ -14,30 +15,33 @@ class UserManager extends Manager
         $this->repository = new UserRepository();
     }
 
-    public function checkLogin(): bool
+    public function checkLogin(Token $token): string
     {
         $username = $this->superglobalManager->findVariable('post', 'username');
         $password = $this->superglobalManager->findVariable('post', 'password');
 
         if (is_null($username) || is_null($password)) {
-            return false;
+            return '';
+        }
+
+        if (!$token->check()) {
+            return 'token';
         }
 
         $user = $this->repository->getUserFromUsername($username);
 
         if (is_null($user)) {
-            return false;
+            return 'user';
         }
 
-        $hashedPwd = $res->getPassword();
-        if (!password_verify($password, $hashedPwd)) {
-            return false;
+        if (!password_verify($password, $user->getPassword())) {
+            return 'pwd';
         }
 
         // user was successfully logged in
         $this->superglobalManager->setVariable('session', 'username', $user->getUsername());
-        $this->superglobalManager->setVariable('session', 'profile', $user->getProfile());
+        $this->superglobalManager->setVariable('session', 'role', $user->getRole());
 
-        return true;
+        return 'ok';
     }
 }

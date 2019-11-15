@@ -46,6 +46,10 @@ class Router
             $this->router->map('GET', '/', function() {
                 $this->unfound();
             });
+
+            $this->router->map('GET', '/logout', function() {
+                $this->loginController->logout();
+            });
     
             $this->createArticleRoutes();
             $this->createUserRoutes();

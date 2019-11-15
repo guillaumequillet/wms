@@ -13,18 +13,18 @@
         <header>
             <p id="site-title"><span class="blue">Mana</span><span class="white">Stock</span></p>
             <nav>
-                {% if profile is defined %}
+                {% if role is defined %}
                     <ul>
                         <li><a href="/article/showlist" class="icon article-icon">Articles</a></li>
                         <li><a href="/stock/showlist" class="icon stock-icon">Stocks</a></li>
                         <li><a href="/movement/showlist" class="icon movement-icon">Mouvements</a></li>
-                        {% if profile == 'admin' %}
+                        {% if role == 'admin' %}
                             <li><a href="/user/index" class="icon admin-icon">Admin</a></li>
                         {% endif %}
-                        <li><a href="/user/logout" class="icon logout-icon">Déconnexion</a></li>
+                        <li><a href="/logout" class="icon logout-icon">Déconnexion</a></li>
                     </ul>
                 {% else %}
-                    <p class="error">Veuillez vous connecter pour accéder au menu</p>
+                    <p class="error">Veuillez vous connecter pour accéder au site</p>
                 {% endif %}
             </nav>
         </header>

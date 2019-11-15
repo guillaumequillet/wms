@@ -19,6 +19,7 @@ class Token
     {
         $postToken = $this->superglobalManager->findVariable('post', 'token');
         $sessionToken = $this->superglobalManager->findVariable('session', 'token');
+        $this->superglobalManager->unsetVariable('session', 'token');
         return ($postToken === $sessionToken && !is_null($postToken));
     }	
 }

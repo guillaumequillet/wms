@@ -250,6 +250,7 @@ header li {
 
 header nav {
     background-color: #dbe2e7;
+    padding: 0 20px;
 }
 
 #site-title {

@@ -5,15 +5,21 @@
 {% block body %}
     <section>
         {% if log is defined %}
-            <p class="error"></p>
+            {% if log == 0 %}
+                <p class="error">Les identifiants fournis sont incorrects.</p>
+            {% elseif log == 1 %}
+                <p class="error">Une erreur technique est survenue.</p>
+            {% elseif log == 2 %}
+                <p class="valid">Vous avez bien été déconnecté(e).</p>
+            {% endif %}
         {% endif %}
         <h1>Connexion</h1>
-        <form method="POST" action="login">
+        <form method="POST" action="/login">
             <label>Nom d'utilisateur
-                <input type="text" name="username" id="username">
+                <input type="text" name="username" id="username" required>
             </label>
             <label>Mot de passe
-                <input type="password" name="password" id="password">
+                <input type="password" name="password" id="password" required>
             </label>
             <input type="submit" value="Se connecter">
             <input type="hidden" name="token" id="token" value="{{ token }}">

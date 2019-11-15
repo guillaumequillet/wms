@@ -21,13 +21,32 @@ class LoginController extends \App\Controller\Controller
 
     public function login(): void
     {
-        $template = 'login.twig.html';
-        $data = ['token' => $this->token->generateString()];       
-
-        if ($this->manager->checkLogin()) {
-
+        // if login was successful
+        $loggedIn = $this->manager->checkLogin($this->token);
+        
+        if ($loggedIn === "ok") {
+            header('location: /');
+            exit();
         }
 
+        if ($loggedIn === "user" || $loggedIn === "pwd") {
+            $this->setLog("0");
+        }
+
+        if ($loggedIn === "token") {
+            $this->setLog("1");
+        }
+
+        $template = 'login.twig.html';
+        $data = ['token' => $this->token->generateString()];       
         $this->render($template, $data);        
+    }
+
+    public function logout(): void
+    {
+        $this->superglobalManager->unsetVariable('session', 'username');
+        $this->superglobalManager->unsetVariable('session', 'role');        
+        $this->setLog("2");
+        header('location: /');
     }
 }

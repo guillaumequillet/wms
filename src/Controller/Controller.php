@@ -39,15 +39,15 @@ class Controller
         }
         
         $log = $this->superglobalManager->findVariable('session', 'log');
-        $profile = $this->superglobalManager->findVariable('session', 'profile');
+        $role = $this->superglobalManager->findVariable('session', 'role');
 
         if (!is_null($log)) {
             $data['log'] = $log;
             $this->superglobalManager->unsetVariable('session', 'log');
         }
 
-        if (!is_null($profile)) {
-            $data['profile'] = $profile;
+        if (!is_null($role)) {
+            $data['role'] = $role;
         }
 
         $this->getView()->render($template, $data);
