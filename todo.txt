@@ -12,9 +12,7 @@ pagination de la page showlist :
 gérer responsive
 
 EMPLACEMENTS
-créer un champ concaténation et le placer en unique dans SQL
 sinon intervalles, ça serait cool...
-pas trop se prendre la tête dessus...
 
 STOCKS
 ce ne sont que des affichages. Ils sont générés par les mouvements. Prévoir un formulaire de 

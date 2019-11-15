@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  jeu. 14 nov. 2019 à 18:44
+-- Généré le :  ven. 15 nov. 2019 à 08:45
 -- Version du serveur :  10.4.6-MariaDB
 -- Version de PHP :  7.3.9
 
@@ -92,7 +92,8 @@ CREATE TABLE `locations` (
   `area` varchar(5) NOT NULL,
   `aisle` varchar(5) NOT NULL,
   `col` varchar(5) NOT NULL,
-  `level` varchar(5) NOT NULL
+  `level` varchar(5) NOT NULL,
+  `concatenate` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -194,7 +195,8 @@ ALTER TABLE `lines`
 -- Index pour la table `locations`
 --
 ALTER TABLE `locations`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `concatenate` (`concatenate`);
 
 --
 -- Index pour la table `outgoings`
