@@ -1,11 +1,7 @@
 TODO LIST
 
 PAGE ARTICLE
-pagination de la page showlist : 
-- 10 articles par page si pas de recherche 
-- 10 articles max + message "plus de 10 résultats, affinez votre recherche" si recherche et > 10 résultats
-gérer responsive
-nouvel article : même en cas d'erreur, les infos ne se remettent pas dans le formulaire
+nouvel article : utiliser AJAX pour vérifier disponibilité du nom avant envoi formulaire
 
 EMPLACEMENTS
 sinon intervalles, ça serait cool...
@@ -24,5 +20,5 @@ MOUVEMENTS
 - transfert
 - inventaire
 
-
+GERER RESPONSIVE
 

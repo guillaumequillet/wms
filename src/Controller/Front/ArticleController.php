@@ -84,19 +84,21 @@ class ArticleController extends \App\Controller\Controller
         if ($queryString === '') {
             $queryString = null;
         }
-        
-        $articles = $this->manager->findAllArticles($queryString, $page);
+
+        $pageSize = 5;
+        $articles = $this->manager->findAllArticles($queryString, $page, $pageSize);
 
         // pagination
         $articlesCount = $this->manager->getArticlesCount();
 
         if (is_null($queryString) && $articlesCount > 0) {
             $data['currentPage'] = $page;
+            $data['pageSize'] = $pageSize;
         }
         if (is_null($queryString) && isset($data['currentPage']) && $page > 1) {
             $data['previousPage'] = $page - 1;
         }
-        if (is_null($queryString) && isset($data['currentPage']) && $page * 5 < $articlesCount) {
+        if (is_null($queryString) && isset($data['currentPage']) && $page * $pageSize < $articlesCount) {
             $data['nextPage'] = $page + 1;
         }
 

@@ -46,7 +46,7 @@
                     </thead>
                     <tbody>
                         {% for article in articles %}
-                            {% if loop.last and loop.length > 5 %}
+                            {% if loop.last and loop.length > pageSize %}
                                 <tr>
                                     <td colspan=3>Trop de résultats. Affinez votre recherche.</td>
                                 </tr>
