@@ -46,6 +46,11 @@
                     </thead>
                     <tbody>
                         {% for article in articles %}
+                            {% if loop.last and loop.length > 5 %}
+                                <tr>
+                                    <td colspan=3>Trop de résultats. Affinez votre recherche.</td>
+                                </tr>
+                            {% else %}
                             <tr>
                                 <td>{{ article.id }}</td>
                                 <td>{{ article.code }}</td>
@@ -56,7 +61,22 @@
                                     </ul>
                                 </td>
                             </tr>
+                            {% endif %}
                         {% endfor %}
+                        {% if currentPage is defined %}
+                            <tr>
+                                <td colspan="3">
+                                    Pages :
+                                    {% if previousPage is defined %} 
+                                        <a href="/article/showlist/{{ previousPage }}">{{ previousPage }}</a>
+                                    {% endif %}
+                                    {{ currentPage }} 
+                                    {% if nextPage is defined %} 
+                                        <a href="/article/showlist/{{ nextPage }}">{{ nextPage }}</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endif %}
                     </tbody>
                 </table>
         {% endif %}

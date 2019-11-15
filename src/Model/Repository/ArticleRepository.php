@@ -55,20 +55,44 @@ class ArticleRepository extends Repository
         return $res;
     }
 
-    public function findAllArticles(): ?array
+    public function findArticlesCount(): int
     {
-        $stmt = $this->database->getPDO()->prepare('SELECT * FROM articles');
+        $req = 'SELECT COUNT(*) as total FROM articles';
+        $res = $this->database->getPDO()->query($req);
+        return $res->fetch()['total'];
+    }
+
+    public function findAllArticles(?int $page = null, ?int $perPage = null): ?array
+    {
+        $req = 'SELECT * FROM articles';
+        $fields = [];
+
+        if (!is_null($page) && !is_null($perPage)) {
+            $req .= ' LIMIT :limit OFFSET :offset';
+            $fields['limit'] = $perPage;
+            $fields['offset'] = $perPage * ($page - 1);
+        }
+
+        $stmt = $this->database->getPDO()->prepare($req);
         $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\Article'); 
-        $stmt->execute();
+        $stmt->execute($fields);
         $res = $stmt->fetchAll();
         return ($res === false) ? null : $res;
     }
 
-    public function findArticlesWithCodeLike(string $queryString): ?array
+    public function findArticlesWithCodeLike(string $queryString, ?int $limit = null): ?array
     {
-        $stmt = $this->database->getPDO()->prepare('SELECT * FROM articles WHERE code LIKE :pattern');
+        $req = 'SELECT * FROM articles WHERE code LIKE :pattern';
+        $fields = ['pattern' => '%' . $queryString . '%'];
+
+        if (isset($limit)) {
+            $req .= ' LIMIT :limit';
+            $fields['limit'] = $limit;
+        }
+
+        $stmt = $this->database->getPDO()->prepare($req);
         $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\Article'); 
-        $stmt->execute(['pattern' => '%' . $queryString . '%']);
+        $stmt->execute($fields);
         $res = $stmt->fetchAll();
         return ($res === false) ? null : $res;
     }

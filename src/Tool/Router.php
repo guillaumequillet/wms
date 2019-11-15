@@ -41,6 +41,11 @@ class Router
             });
         }
 
+        // all the ADMIN routes
+        if ($this->loginController->isAdmin()) {
+            $this->createUserRoutes();
+        }
+
         // all other routes IF LOGGED
         if ($this->loginController->connected()) {
             $this->router->map('GET', '/', function() {
@@ -53,21 +58,16 @@ class Router
     
             $this->createArticleRoutes();
         }
-
-        // all the admin routes
-        if ($this->loginController->isAdmin()) {
-            $this->createUserRoutes();
-        }
     }
 
     private function createArticleRoutes(): void 
     {
-        $this->router->map('GET', '/article/showlist/[i:page]?', function(int $page = null) {
+        $this->router->map('GET', '/article/showlist/[i:page]?', function(int $page = 1) {
             (new ArticleController)->showlist($page);
         });
 
         // we also need some route from POST, for the search input form
-        $this->router->map('POST', '/article/showlist/[i:page]?', function(int $page = null) {
+        $this->router->map('POST', '/article/showlist/[i:page]?', function(int $page = 1) {
             (new ArticleController)->showlist($page);
         });
     

@@ -73,14 +73,32 @@ class ArticleController extends \App\Controller\Controller
         header('location: /article/showlist');
     }
 
-    public function showlist(?int $page = null): void 
+    public function showlist(int $page = 1): void 
     {
         $template = 'article/list.twig.html';
         $data = ['token' => $this->token->generateString()];
 
         // we check if some search was submitted
         $queryString = $this->superglobalManager->findVariable('post', 'queryString');
+
+        if ($queryString === '') {
+            $queryString = null;
+        }
+        
         $articles = $this->manager->findAllArticles($queryString, $page);
+
+        // pagination
+        $articlesCount = $this->manager->getArticlesCount();
+
+        if (is_null($queryString) && $articlesCount > 0) {
+            $data['currentPage'] = $page;
+        }
+        if (is_null($queryString) && isset($data['currentPage']) && $page > 1) {
+            $data['previousPage'] = $page - 1;
+        }
+        if (is_null($queryString) && isset($data['currentPage']) && $page * 5 < $articlesCount) {
+            $data['nextPage'] = $page + 1;
+        }
 
         if (!is_null($articles)) {
             $data['articles'] = $articles;
