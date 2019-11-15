@@ -10,7 +10,7 @@ class UserController extends \App\Controller\Controller
     {
         parent::__construct();
         // $this->manager = new UserManager();
-    }      
+    }
 
     public function index(): void
     {

@@ -35,10 +35,15 @@ class Controller
     protected function render(string $template, ?array $data = null): void
     {
         $log = $this->superglobalManager->findVariable('session', 'log');
+        $profile = $this->superglobalManager->findVariable('session', 'profile');
 
         if (!is_null($log)) {
             $data['log'] = $log;
             $this->superglobalManager->unsetVariable('session', 'log');
+        }
+
+        if (!is_null($profile)) {
+            $data['profile'] = $profile;
         }
 
         $this->getView()->render($template, $data);

@@ -4,15 +4,18 @@ declare(strict_types=1);
 namespace App\Tool;
 
 use App\Controller\Front\ArticleController;
+use App\Controller\Front\LoginController;
 use App\Controller\Back\UserController;
 
 class Router
 {
     private $router;
+    private $loginController;
 
     public function __construct() 
     {
         $this->router = new \AltoRouter();
+        $this->loginController = new LoginController();
         $this->createRoutes();
     }
 
@@ -76,6 +79,11 @@ class Router
 
     public function getRoute(): void
     {
+        if (!$this->loginController->connected()) {
+            $this->loginController->login();
+            exit();
+        }
+
         $match = $this->router->match();
 
         if ($match !== false) {
