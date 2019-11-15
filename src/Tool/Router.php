@@ -21,17 +21,35 @@ class Router
 
     public function unfound(): void
     {
+        if (!$this->loginController->connected()) {
+            header('location: /login');
+            exit();
+        }
         header('location: /article/showlist');
     }
 
     public function createRoutes(): void 
     {
-        $this->router->map('GET', '/', function() {
-            $this->unfound();
-        });
+        // routes to LOGIN
+        if (!$this->loginController->connected()) {
+            $this->router->map('GET', '/login', function() {
+                $this->loginController->login();
+            });
 
-        $this->createArticleRoutes();
-        $this->createUserRoutes();
+            $this->router->map('POST', '/login', function() {
+                $this->loginController->login();
+            });
+        }
+
+        // all other routes IF LOGGED
+        if ($this->loginController->connected()) {
+            $this->router->map('GET', '/', function() {
+                $this->unfound();
+            });
+    
+            $this->createArticleRoutes();
+            $this->createUserRoutes();
+        }
     }
 
     private function createArticleRoutes(): void 
@@ -79,11 +97,6 @@ class Router
 
     public function getRoute(): void
     {
-        if (!$this->loginController->connected()) {
-            $this->loginController->login();
-            exit();
-        }
-
         $match = $this->router->match();
 
         if ($match !== false) {

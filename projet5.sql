@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  ven. 15 nov. 2019 à 08:45
+-- Généré le :  ven. 15 nov. 2019 à 10:47
 -- Version du serveur :  10.4.6-MariaDB
 -- Version de PHP :  7.3.9
 
@@ -159,6 +159,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Déchargement des données de la table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `email`, `role`) VALUES
+(1, 'admin', '$2y$10$MPztmE1MbMP9jyNZqSYxQueEeNUMXOa09g0LxyB0u/m/2XCmfOTWC', 'chocoguigui@yahoo.fr', 'admin');
+
+--
 -- Index pour les tables déchargées
 --
 
@@ -284,7 +291,7 @@ ALTER TABLE `transfers`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Contraintes pour les tables déchargées

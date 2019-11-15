@@ -27,16 +27,6 @@ class Article extends Entity
         $this->setBarcode((string) $this->barcode);        
     }
 
-    public function hydrate(array $data): void
-    {
-        foreach($data as $key => $v) {
-            $method = 'set' . ucfirst($key);
-            if (method_exists(get_class($this), $method)) {
-                $this->$method($v);
-            }
-        }
-    }
-
     /* public getters */
     public function getId(): int
     {
@@ -121,8 +111,8 @@ class Article extends Entity
         return $this;
     }    
 
-    // protected setter
-    protected function setId(int $id): self
+    // private setter
+    private function setId(int $id): self
     {
         $this->id = $id;
         return $this;

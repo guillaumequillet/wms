@@ -1,5 +1,23 @@
 {% extends "base.twig.html" %}
 
+{% block title %}Connexion{% endblock %}
+
 {% block body %}
-    <h1>Connexion</h1>
+    <section>
+        {% if log is defined %}
+            <p class="error"></p>
+        {% endif %}
+        <h1>Connexion</h1>
+        <form method="POST" action="login">
+            <label>Nom d'utilisateur
+                <input type="text" name="username" id="username">
+            </label>
+            <label>Mot de passe
+                <input type="password" name="password" id="password">
+            </label>
+            <input type="submit" value="Se connecter">
+            <input type="hidden" name="token" id="token" value="{{ token }}">
+        </form>
+    </section>
+
 {% endblock %}

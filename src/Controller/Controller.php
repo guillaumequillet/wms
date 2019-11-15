@@ -34,6 +34,10 @@ class Controller
 
     protected function render(string $template, ?array $data = null): void
     {
+        if (is_null($data)) {
+            $data = [];
+        }
+        
         $log = $this->superglobalManager->findVariable('session', 'log');
         $profile = $this->superglobalManager->findVariable('session', 'profile');
 

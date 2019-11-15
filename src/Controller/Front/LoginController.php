@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace App\Controller\Front;
 
+use App\Model\Manager\UserManager;
+
 class LoginController extends \App\Controller\Controller
 {
     public function __construct()
     {
         parent::__construct();
+        $this->manager = new UserManager();
     }
 
     public function connected(): bool
@@ -19,7 +22,12 @@ class LoginController extends \App\Controller\Controller
     public function login(): void
     {
         $template = 'login.twig.html';
-        $data = [];
+        $data = ['token' => $this->token->generateString()];       
+
+        if ($this->manager->checkLogin()) {
+
+        }
+
         $this->render($template, $data);        
     }
 }
