@@ -1,8 +1,4 @@
 TODO LIST
-
-PAGE ARTICLE
-nouvel article : utiliser AJAX pour vérifier disponibilité du nom avant envoi formulaire
-
 EMPLACEMENTS
 sinon intervalles, ça serait cool...
 

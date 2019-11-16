@@ -4,9 +4,10 @@
 {% block body %}
     {% if log is defined and log == 0 %}
         <p class="error">Le fichier n'a pas été importé. il contient des erreurs.</p>
-    {% endif %}
-    {% if log == 1 %}
+    {% elseif log == 1 %}
         <p class="valid">Le fichier a bien été importé.</p>
+    {% elseif log == 2 %}
+        <p class="error">L'article ne peut être supprimé.</p>
     {% endif %}
     <h1>Gestion des <span class="white">Articles</span></h1>
     <section id="articles-actions">

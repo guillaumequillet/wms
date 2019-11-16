@@ -15,9 +15,9 @@ class ArticleManager extends Manager
         $this->repository = new ArticleRepository();
     }
 
-    public function deleteArticle(int $id): void
+    public function deleteArticle(int $id): bool
     {
-        $this->repository->deleteArticle($id);
+        return $this->repository->deleteArticle($id);
     }
 
     public function createArticle(): ?int

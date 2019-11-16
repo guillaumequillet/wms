@@ -67,7 +67,10 @@ class ArticleController extends \App\Controller\Controller
 
     public function delete(int $id): void
     {
-        $this->manager->deleteArticle($id);
+        $res = $this->manager->deleteArticle($id);
+        if (!$res) {
+            $this->setLog('2');
+        }
         header('location: /article/showlist');
     }
 
