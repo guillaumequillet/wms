@@ -40,6 +40,17 @@ class ArticleController extends \App\Controller\Controller
         header('location: /article/show/' . $id);
     }
 
+    public function articleExists(): void
+    {
+        $code = $this->superglobalManager->findVariable('post', 'code');
+
+        if (is_null($code)) {
+            echo "false";
+        }
+
+        echo ($this->manager->articleExists($code)) ? "true" : "false";
+    }
+
     public function update(int $id): void
     {
         $result = $this->manager->updateArticle();

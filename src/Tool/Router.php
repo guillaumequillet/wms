@@ -94,6 +94,10 @@ class Router
         $this->router->map('POST', '/article/update/[i:id]', function(int $id) {
             (new ArticleController)->update((int)$id);
         });
+
+        $this->router->map('POST', '/article/exists', function() {
+            (new ArticleController)->articleExists();
+        });
     }
 
     private function createUserRoutes(): void

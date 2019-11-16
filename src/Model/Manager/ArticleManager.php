@@ -44,6 +44,11 @@ class ArticleManager extends Manager
         return (is_null($id) ? null : $id);
     }
 
+    public function articleExists(string $code): bool
+    {
+        return !(is_null($this->repository->findArticleWithCode($code)));
+    }
+
     public function createArticles(): bool
     {
         if ($this->superglobalManager->findFile('articleFile')) {

@@ -12,30 +12,31 @@
                 Le code article existe déjà.
             </p>
         {% endif %}
+        <p id="articleFeedback" class="error"></p>
         <h1>Création d'un <span class="white">Article</span></h1>
-        <form method="POST" action="/article/record">
+        <form method="POST" action="/article/record" id="articleForm">
             <label>Code
-                <input type="text" id="code" name="code" value="{{ article.code }}" required>
+                <input type="text" id="code" name="code" required>
             </label>
             <label>Description
-                <input type="text" id="description" name="description" value="{{ article.description }}" required>
+                <input type="text" id="description" name="description" required>
             </label>
             <label>Poids
-                <input type="number" id="weight" name="weight" value="{{ article.weight }}" required>
+                <input type="number" id="weight" name="weight" value="0" required>
             </label>
             <label>Largeur
-                <input type="number" id="width" name="width" value="{{ article.width }}" required>
+                <input type="number" id="width" name="width" value="0" required>
             </label>
             <label>Hauteur
-                <input type="number" id="height" name="height" value="{{ article.height }}" required>
+                <input type="number" id="height" name="height" value="0" required>
             </label>
             <label>Longueur
-                <input type="number" id="length" name="length" value="{{ article.length }}" required>
+                <input type="number" id="length" name="length" value="0" required>
             </label>
             <label>Code à Barre
-                <input type="text" id="barcode" name="barcode" value="{{ article.barcode }}" required>
+                <input type="text" id="barcode" name="barcode" required>
             </label>
-            <input type="submit" value="Créer l'article">
+            <input type="submit" value="Créer l'article" id="articleSubmit">
             <input type="hidden" id="token" name="token" value = {{ token }}>
         </form>
     </section>
