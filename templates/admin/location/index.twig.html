@@ -1,0 +1,37 @@
+{% extends "admin.twig.html" %}
+{% block title %}Gestion des Emplacements{% endblock %}
+
+{% block body %}
+    <section>
+        <h1>Gestion des <span class="white">Emplacements</span></h1>
+
+        <h2>Créer un emplacement unique</h2>
+        {% if log is defined and log == 0 %}
+        <p class="error">L'emplacement n'a pu être créé.</p>
+        {% elseif log == 1 %}
+        <p class="valid">L'emplacement a bien été créé.</p>
+        {% endif %}
+        <p id="locationSingleFeedback" class="error"></p>
+        <form method="POST" id="locationSingleForm" action="/location/createsingle">
+            <label>Zone
+                <input type="text" name="area" id="area" required>
+            </label>
+            <label>Allée
+                <input type="text" name="aisle" id="aisle" required>
+            </label>
+            <label>Colonne
+                <input type="text" name="col" id="col" required>
+            </label>
+            <label>Niveau
+                <input type="text" name="level" id="level" required>
+            </label>
+            <input type="submit" value="Créer l'emplacement" id="locationSingleSubmit">
+            <input type="hidden" name="token" id="token" value="{{ token }}">
+        </form>
+        <h2>Créer un intervalle d'emplacements</h2>
+
+        <h2>Importer un fichier</h2>
+
+        <h2>Liste</h2>
+    </section>
+{% endblock %}

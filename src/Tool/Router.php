@@ -6,6 +6,7 @@ namespace App\Tool;
 use App\Controller\Front\ArticleController;
 use App\Controller\Front\LoginController;
 use App\Controller\Back\UserController;
+use App\Controller\Back\LocationController;
 
 class Router
 {
@@ -44,6 +45,7 @@ class Router
         // all the ADMIN routes
         if ($this->loginController->isAdmin()) {
             $this->createUserRoutes();
+            $this->createLocationRoutes();
         }
 
         // all other routes IF LOGGED
@@ -105,6 +107,17 @@ class Router
         $this->router->map('GET', '/user/index', function() {
             (new UserController)->index();
         });        
+    }
+
+    private function createLocationRoutes(): void
+    {
+        $this->router->map('GET', '/location/index', function() {
+            (new LocationController)->index();
+        });        
+
+        $this->router->map('POST', '/location/createsingle', function() {
+            (new LocationController)->createSingle();
+        });
     }
 
     public function getRoute(): void

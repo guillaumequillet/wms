@@ -1,4 +1,5 @@
-$(document).ready(function(){
+$(document).ready(function() {
+    // Article FORM 
     let codeRegExp = regex = /^[\w_]+$/;
     $('#articleFeedback').hide();
 
@@ -25,5 +26,27 @@ $(document).ready(function(){
                 }
 			});
 		}
+    });
+
+    // Location FORM
+    $('#locationSingleFeedback').hide();
+    let globalRegex = /(^[a-zA-Z]$)|(^[0-9]{1,3}$)/;
+
+    $('#locationSingleForm').submit(function(event) {
+        let error = false;
+        $('#locationSingleForm input[type="text"]').each(function() {
+            if (!globalRegex.test($(this).val())) {
+                error = true;
+            }
+        });
+        if (error) {
+            event.preventDefault();           
+            $('#locationSingleFeedback').show();
+            $('#locationSingleFeedback').text("Les champs n'acceptent qu'une lettre non accentuée et des nombres de 0 à 999."); 
+            $('#loginForm #locationSingleSubmit').prop("disabled", true);
+        } else {
+            $('#locationSingleFeedback').hide();
+            $('#loginForm #locationSingleSubmit').prop("disabled", false);            
+        }
     });
 });

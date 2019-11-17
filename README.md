@@ -78,7 +78,7 @@ Technique :
 ## Menu Mouvements
 
 Métier :
-* on choisit par un bouton radio le type de mouvement souhaité : “entrée”, “sortie” et “inventaire”. L’entrée correspond à une réception (fournisseur, retour…), la sortie à une commande de vente et l’inventaire à un mouvement autre (contrôle de stock ponctuel ou annuel par exemple).
+* on choisit par un bouton radio le type de mouvement souhaité : “entrée”, “sortie”, "transfert" et “inventaire”. L’entrée correspond à une réception (fournisseur, retour…), la sortie à une commande de vente, un transfert au déplacement d'une quantité de produit et l’inventaire à un mouvement autre (contrôle de stock ponctuel ou annuel par exemple).
 
 On a alors accès à un formulaire dont l’entête diffère selon le choix (informations fournisseur / informations destinataire / motif ajustement) et à une liste d’articles à saisir (code, quantité, emplacement)
 

@@ -36,6 +36,14 @@ h1, h2 {
     box-shadow: -1px 2px 5px 1px rgba(0, 51, 102, 0.4);
     color: #3399cc;
 }
+
+h1 {
+    font-size: 2em;
+}
+
+h2 {
+    font-size: 1.5em;
+}
 /* END common */
 
 /* forms */
