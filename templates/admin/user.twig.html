@@ -2,5 +2,35 @@
 {% block title %}Gestion des Utilisateurs{% endblock %}
 
 {% block body %}
-    <h1>Gestion des utilisateurs</h1>
+    <section>
+        <h1>Gestion des <span class="white">Utilisateurs</span></h1>
+        <p id="userFeedback"></p>
+        <table>
+            <thead>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Nouveau mot de passe</th>
+                <th>Mise à jour</th>
+            </thead>
+
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td contenteditable="true">{{ user.id }}</td>
+                    <td contenteditable="true">{{ user.username }}</td>
+                    <td contenteditable="true">{{ user.email }}</td>
+                    <td contenteditable="true">
+                        <select name="role" id="{{ user.id }}">
+                            <option {% if user.role == "admin" %}{{ "selected" }}{% endif %}>Admin</option>
+                            <option {% if user.role == "simple" %}{{ "selected" }}{% endif %}>Simple</option>
+                        </select>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"><a href="#" class="button icon save-icon">Valider</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
 {% endblock %}

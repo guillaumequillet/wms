@@ -15,4 +15,13 @@ class UserRepository extends Repository
         $res = $stmt->fetch();
         return ($res ? $res : null);
     }
+
+    public function getCompleteList(): ?array
+    {
+        $stmt = $this->database->getPDO()->prepare('SELECT * FROM users');
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\User'); 
+        $stmt->execute();
+        $res = $stmt->fetchAll();
+        return ($res ? $res : null);        
+    }
 }
