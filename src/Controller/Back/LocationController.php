@@ -24,7 +24,8 @@ class LocationController extends \App\Controller\Controller
     public function createSingle(): void
     {
         if (!$this->token->check()) {
-            echo "false";
+            $this->setLog("0");
+            header('location: /location/index');
             exit();
         }
 
