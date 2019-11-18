@@ -29,7 +29,40 @@
             <input type="hidden" name="token" id="token" value="{{ token }}">
         </form>
         <h2>Créer un intervalle d'emplacements</h2>
-
+        <form method="POST" id="locationIntervalForm" action="/location/createinterval">
+            <label>Zone
+                <input type="text" name="area" id="area" required>
+            </label>
+            <fieldset>
+                <legend>Allées</legend>
+                <label>Début
+                    <input type="text" name="fromAisle" id="fromAisle" required>
+                </label>
+                <label>Fin
+                    <input type="text" name="toAisle" id="toAisle" required>
+                </label>
+            </fieldset>
+            <fieldset>
+                    <legend>Colonnes</legend>
+                    <label>Début
+                        <input type="text" name="fromCol" id="fromCol" required>
+                    </label>
+                    <label>Fin
+                        <input type="text" name="toCol" id="toCol" required>
+                    </label>
+                </fieldset>
+                <fieldset>
+                        <legend>Niveaux</legend>
+                        <label>Début
+                            <input type="text" name="fromLevel" id="fromLevel" required>
+                        </label>
+                        <label>Fin
+                            <input type="text" name="toLevel" id="toLevel" required>
+                        </label>
+                    </fieldset>
+            <input type="submit" value="Créer les emplacements" id="locationIntervalSubmit">
+            <input type="hidden" name="token" id="token" value="{{ token }}">
+        </form>
         <h2>Importer un fichier</h2>
 
         <h2>Liste</h2>

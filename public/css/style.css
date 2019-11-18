@@ -61,6 +61,16 @@ form {
     align-items: center;
 }
 
+fieldset {
+    margin: 20px 0;
+}
+
+fieldset legend {
+    padding: 0 10px;
+    color: white;
+    font-weight: bold;
+}
+
 label {
     padding: 5px 80px;
     display: flex;
