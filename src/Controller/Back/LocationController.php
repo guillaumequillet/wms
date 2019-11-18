@@ -30,7 +30,7 @@ class LocationController extends \App\Controller\Controller
         }
 
         $res = $this->manager->createSingleLocation();
-        $this->setLog($res ? "1" : "0");
+        $this->setLog($res ? "okSingle" : "errorSingle");
         header('location: /location/index');
     }
 
@@ -43,7 +43,7 @@ class LocationController extends \App\Controller\Controller
         }
 
         $res = $this->manager->createIntervalLocations();
-        $this->setLog($res ? "3" : "2");
+        $this->setLog($res);
         header('location: /location/index');
     }
 }

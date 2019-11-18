@@ -11,6 +11,14 @@
     color: red;
 }
 
+.warning {
+    padding: 10px;
+    background-color: rgba(255, 0, 0, 0.2);
+    border-left: 6px solid orangered;
+    text-align: center;
+    color: orangered;
+}
+
 .valid {
     padding: 10px;
     background-color: rgba(0, 255, 0, 0.2);

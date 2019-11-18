@@ -33,7 +33,6 @@ class LocationManager extends Manager
             if (preg_match('/^[a-z]$/', $v)) {
                 $data[$k] = strtoupper($v);
             }
-
             if (preg_match('/^[0-9]{1,3}$/', $v)) {
                 $data[$k] = $location->intToString((int)$v);
             }
@@ -44,7 +43,7 @@ class LocationManager extends Manager
         return $this->repository->createLocation($location);
     }
 
-    public function createIntervalLocations(): bool
+    public function createIntervalLocations(): string
     {
         $fields = [
             'area' => $this->superglobalManager->findVariable("post", "area"),
@@ -57,7 +56,7 @@ class LocationManager extends Manager
         ];
 
         if (in_array(null, $fields)) {
-            return false;
+            return "none";
         }
 
         $types = [];
@@ -66,34 +65,54 @@ class LocationManager extends Manager
         }
 
         if ($types['fromAisle'] !== $types['toAisle']) {
-            return false;
+            return "none";
         }
 
         if ($types['fromCol'] !== $types['toCol']) {
-            return false;
+            return "none";
         }
 
         if ($types['fromLevel'] !== $types['toLevel']) {
-            return false;
+            return "none";
         }
 
-        $res = true;
+        $res = [];
 
         foreach (range($fields['fromAisle'], $fields['toAisle']) as $aisle) {
             foreach (range($fields['fromCol'], $fields['toCol']) as $col) {
                 foreach (range($fields['fromLevel'], $fields['toLevel']) as $level) {
                     $location = new Location();
-                    $location->hydrate([
+                    $data = [
                         'area' => (string)$fields['area'],
                         'aisle' => (string)$aisle,
                         'col' => (string)$col,
                         'level' => (string)$level                        
-                    ]);
+                    ];
+
+                    foreach($data as $k=>$v) {
+                        if (preg_match('/^[a-z]$/', $v)) {
+                            $data[$k] = strtoupper($v);
+                        }
+                        if (preg_match('/^[0-9]{1,3}$/', $v)) {
+                            $data[$k] = $location->intToString((int)$v);
+                        }
+                    }                    
+
+                    $location->hydrate($data);
                     $location->setConcatenate();
-                    $res = $this->repository->createLocation($location);
+                    $res[] = $this->repository->createLocation($location);
                 }
             }
         }
-        return $res;
+
+        if (!in_array(false, $res)) {
+            return "fullInterval";
+        }
+
+        if (!in_array(true, $res)) {
+            return "noneInterval";
+        }
+
+        return "partialInterval";
     }
 }

@@ -4,14 +4,16 @@
 {% block body %}
     <section>
         <h1>Gestion des <span class="white">Emplacements</span></h1>
-        {% if log is defined and log == 0 %}
-        <p class="error">L'emplacement n'a pas pu être créé.</p>
-        {% elseif log == 1 %}
-        <p class="valid">L'emplacement a bien été créé.</p>
-        {% elseif log == 2 %}
-        <p class="error">Les emplacements n'ont pas pu été créés.</p>
-        {% elseif log == 3 %}
-        <p class="valid">Les emplacements ont bien pu été créés.</p>
+        {% if log == "errorSingle" %}
+            <p class="error">L'emplacement n'a pas pu être créé.</p>
+        {% elseif log == "okSingle" %}
+            <p class="valid">L'emplacement a bien été créé.</p>
+        {% elseif log == "noneInterval" %}
+            <p class="error">Les emplacements n'ont pas pu été créés.</p>
+        {% elseif log == "fullInterval" %}
+            <p class="valid">Les emplacements ont bien pu été créés.</p>
+        {% elseif log == "partialInterval" %}
+            <p class="warning">Certains emplacements n'ont pas pu été créés.</p>
         {% endif %}
         <h2>Créer un emplacement unique</h2>
         <p id="locationSingleFeedback" class="error"></p>
