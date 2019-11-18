@@ -49,28 +49,33 @@
                 </label>
             </fieldset>
             <fieldset>
-                    <legend>Colonnes</legend>
-                    <label>Début
-                        <input type="text" name="fromCol" id="fromCol" required>
-                    </label>
-                    <label>Fin
-                        <input type="text" name="toCol" id="toCol" required>
-                    </label>
-                </fieldset>
-                <fieldset>
-                        <legend>Niveaux</legend>
-                        <label>Début
-                            <input type="text" name="fromLevel" id="fromLevel" required>
-                        </label>
-                        <label>Fin
-                            <input type="text" name="toLevel" id="toLevel" required>
-                        </label>
-                    </fieldset>
+                <legend>Colonnes</legend>
+                <label>Début
+                    <input type="text" name="fromCol" id="fromCol" required>
+                </label>
+                <label>Fin
+                    <input type="text" name="toCol" id="toCol" required>
+                </label>
+            </fieldset>
+            <fieldset>
+                <legend>Niveaux</legend>
+                <label>Début
+                    <input type="text" name="fromLevel" id="fromLevel" required>
+                </label>
+                <label>Fin
+                    <input type="text" name="toLevel" id="toLevel" required>
+                </label>
+            </fieldset>
             <input type="submit" value="Créer les emplacements" id="locationIntervalSubmit">
             <input type="hidden" name="token" id="token" value="{{ token }}">
         </form>
         <h2>Importer un fichier</h2>
-
+        <p>Télécharger un <a href="/csv/importLocations.csv">fichier Emplacements</a>.</p>
+        <form method="POST" enctype="multipart/form-data" action="/location/import">
+            <input type="file" name="locationFile" id="locationFile" class="button icon file-icon" accept=".csv" required>
+            <input type="submit" name="Importer">
+            <input type="hidden" name="token" id="token" value="{{ token }}">
+        </form>
         <h2>Liste</h2>
     </section>
 {% endblock %}

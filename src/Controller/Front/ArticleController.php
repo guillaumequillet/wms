@@ -105,7 +105,7 @@ class ArticleController extends \App\Controller\Controller
         // pagination
         $articlesCount = $this->manager->getArticlesCount();
 
-        if (is_null($queryString) && $articlesCount > 0) {
+        if ($articlesCount > 0) {
             $data['currentPage'] = $page;
             $data['pageSize'] = $pageSize;
         }

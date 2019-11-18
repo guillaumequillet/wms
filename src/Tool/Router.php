@@ -122,6 +122,10 @@ class Router
         $this->router->map('POST', '/location/createinterval', function() {
             (new LocationController)->createInterval();
         });
+
+        $this->router->map('POST', '/location/import', function() {
+            (new LocationController)->import();
+        });
     }
 
     public function getRoute(): void
