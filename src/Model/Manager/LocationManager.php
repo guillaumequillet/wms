@@ -116,4 +116,62 @@ class LocationManager extends Manager
 
         return "partialInterval";
     }
+
+    public function createLocations(): string
+    {
+        if ($this->superglobalManager->findFile('locationFile')) {
+            $filename = $this->superglobalManager->findFile('locationFile')["tmp_name"];
+        }
+
+        if (!isset($filename) || $filename === "") {
+            return false;
+        }
+
+        $locations = [];
+        $csv = Reader::CreateFromPath($filename, 'r');
+
+        foreach ($csv->getRecords() as $k => $line) {
+            if ($k !== 0) {
+                # exit if header is incorrect
+                if (sizeof($line) < 4) {
+                    return "noneInterval";
+                } 
+                $location = new Location();
+
+                $data = [
+                    'area' => (string)$line[0],
+                    'aisle' => (string)$line[1],
+                    'col' => (string)$line[2],
+                    'level' => (string)$line[3]
+                ];
+
+                foreach($data as $k=>$v) {
+                    if (preg_match('/^[a-z]$/', $v)) {
+                        $data[$k] = strtoupper($v);
+                    }
+                    if (preg_match('/^[0-9]{1,3}$/', $v)) {
+                        $data[$k] = $location->intToString((int)$v);
+                    }
+                }  
+
+                $location->hydrate($data);
+                $location->setConcatenate();
+
+                $locations[] = $location;
+            }
+        }
+
+        $res = [];
+        foreach ($locations as $location) {
+            $res[] = $this->repository->createLocation($location);
+        }
+
+        if (!in_array(false, $res)) {
+            return "fullInterval";
+        }     
+        if (!in_array(true, $res)) {
+            return "noneInterval";
+        }            
+        return "partialInterval";     
+    }
 }

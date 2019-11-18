@@ -46,4 +46,17 @@ class LocationController extends \App\Controller\Controller
         $this->setLog($res);
         header('location: /location/index');
     }
+
+    public function import(): void
+    {
+        if ($this->token->check() === false) {
+            $this->setLog('0');
+            header('location: /location/index');
+            exit();
+        }
+
+        $res = $this->manager->createLocations();
+        $this->setLog($res);
+        header('location: /location/index');       
+    }
 }
