@@ -30,9 +30,20 @@ class LocationController extends \App\Controller\Controller
         }
 
         $res = $this->manager->createSingleLocation();
-
         $this->setLog($res ? "1" : "0");
+        header('location: /location/index');
+    }
 
+    public function createInterval(): void
+    {
+        if (!$this->token->check()) {
+            $this->setLog("0");
+            header('location: /location/index');
+            exit();
+        }
+
+        $res = $this->manager->createIntervalLocations();
+        $this->setLog($res ? "3" : "2");
         header('location: /location/index');
     }
 }

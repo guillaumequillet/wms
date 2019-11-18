@@ -118,6 +118,10 @@ class Router
         $this->router->map('POST', '/location/createsingle', function() {
             (new LocationController)->createSingle();
         });
+
+        $this->router->map('POST', '/location/createinterval', function() {
+            (new LocationController)->createInterval();
+        });
     }
 
     public function getRoute(): void

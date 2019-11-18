@@ -12,6 +12,7 @@ class Location extends Entity
     private $col;    
     private $level;
     private $concatenate;
+    private $separator = "-";
 
     public function checkTypes(): void
     {
@@ -35,7 +36,7 @@ class Location extends Entity
     
     public function setConcatenate(): void
     {
-        $this->concatenate = $this->area . $this->aisle . $this->col . $this->level;
+        $this->concatenate = $this->area . $this->separator . $this->aisle .  $this->separator . $this->col . $this->separator . $this->level;
     }
 
     /* public getters */

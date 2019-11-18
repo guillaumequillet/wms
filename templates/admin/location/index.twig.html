@@ -4,13 +4,16 @@
 {% block body %}
     <section>
         <h1>Gestion des <span class="white">Emplacements</span></h1>
-
-        <h2>Créer un emplacement unique</h2>
         {% if log is defined and log == 0 %}
-        <p class="error">L'emplacement n'a pu être créé.</p>
+        <p class="error">L'emplacement n'a pas pu être créé.</p>
         {% elseif log == 1 %}
         <p class="valid">L'emplacement a bien été créé.</p>
+        {% elseif log == 2 %}
+        <p class="error">Les emplacements n'ont pas pu été créés.</p>
+        {% elseif log == 3 %}
+        <p class="valid">Les emplacements ont bien pu été créés.</p>
         {% endif %}
+        <h2>Créer un emplacement unique</h2>
         <p id="locationSingleFeedback" class="error"></p>
         <form method="POST" id="locationSingleForm" action="/location/createsingle">
             <label>Zone
@@ -29,6 +32,7 @@
             <input type="hidden" name="token" id="token" value="{{ token }}">
         </form>
         <h2>Créer un intervalle d'emplacements</h2>
+        <p id="locationIntervalFeedback" class="error"></p>
         <form method="POST" id="locationIntervalForm" action="/location/createinterval">
             <label>Zone
                 <input type="text" name="area" id="area" required>

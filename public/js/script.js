@@ -28,25 +28,52 @@ $(document).ready(function() {
 		}
     });
 
-    // Location FORM
+    // Location Single FORM
     $('#locationSingleFeedback').hide();
-    let globalRegex = /(^[a-zA-Z]$)|(^[0-9]{1,3}$)/;
 
     $('#locationSingleForm').submit(function(event) {
         let error = false;
         $('#locationSingleForm input[type="text"]').each(function() {
-            if (!globalRegex.test($(this).val())) {
+            $(this).val($.trim($(this).val()));
+            if ($(this).attr("name") === "area" && !areaRegex.test($(this).val())) {
+                error = true;
+            }
+            if ($(this).attr("name") !== "area" && !globalRegex.test($(this).val())) {
                 error = true;
             }
         });
         if (error) {
             event.preventDefault();           
             $('#locationSingleFeedback').show();
-            $('#locationSingleFeedback').text("Les champs n'acceptent qu'une lettre non accentuée et des nombres de 0 à 999."); 
-            $('#loginForm #locationSingleSubmit').prop("disabled", true);
+            $('#locationSingleFeedback').text("Les champs n'acceptent qu'une lettre non accentuée ou des nombres de 0 à 999."); 
         } else {
             $('#locationSingleFeedback').hide();
-            $('#loginForm #locationSingleSubmit').prop("disabled", false);            
+        }
+    });
+
+    // Location Interval FORM
+    $('#locationIntervalFeedback').hide();
+    let areaRegex = /^[\w]+$/;
+    let globalRegex = /(^[a-zA-Z]$)|(^[0-9]{1,3}$)/;
+
+    $('#locationIntervalForm').submit(function(event) {
+        let error = false;
+        $('#locationIntervalForm input[type="text"]').each(function() {
+            $(this).val($.trim($(this).val()));
+
+            if ($(this).attr("name") === "area" && !areaRegex.test($(this).val())) {
+                error = true;
+            }
+            if ($(this).attr("name") !== "area" && !globalRegex.test($(this).val())) {
+                error = true;
+            }
+        });
+        if (error) {
+            event.preventDefault();           
+            $('#locationIntervalFeedback').show();
+            $('#locationIntervalFeedback').text("Les champs n'acceptent qu'une lettre non accentuée ou des nombres de 0 à 999"); 
+        } else {
+            $('#locationIntervalFeedback').hide();
         }
     });
 });
