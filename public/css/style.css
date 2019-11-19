@@ -55,7 +55,7 @@ h2 {
 /* END common */
 
 /* forms */
-input {
+input, select {
     width: 70%;
     box-sizing: border-box;
     margin: 10px;

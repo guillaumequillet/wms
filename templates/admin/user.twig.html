@@ -3,34 +3,69 @@
 
 {% block body %}
     <section>
-        <h1>Gestion des <span class="white">Utilisateurs</span></h1>
-        <p id="userFeedback"></p>
-        <table>
-            <thead>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Nouveau mot de passe</th>
-                <th>Mise à jour</th>
-            </thead>
+        <h1>Gestion des <span class="white">Utilisateurs</span></h1>      
+        {% if log is defined and log == "0" %}
+            <p class="error">L'utilisateur n'a pas pu être créé.</p>
+        {% elseif log == "1" %}
+            <p class="valid">L'utilisateur a bien été créé.</p>
+        {% endif %}
+        <section>
+            <p id="userFeedback" class="error"></p>
+            <h2>Liste des Utilisateurs</h2>
+            <table>
+                <thead>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Nouveau mot de passe</th>
+                    <th>Mise à jour</th>
+                </thead>
 
-            <tbody>
-                {% for user in users %}
-                <tr>
-                    <td contenteditable="true">{{ user.id }}</td>
-                    <td contenteditable="true">{{ user.username }}</td>
-                    <td contenteditable="true">{{ user.email }}</td>
-                    <td contenteditable="true">
-                        <select name="role" id="{{ user.id }}">
-                            <option {% if user.role == "admin" %}{{ "selected" }}{% endif %}>Admin</option>
-                            <option {% if user.role == "simple" %}{{ "selected" }}{% endif %}>Simple</option>
-                        </select>
-                    <td contenteditable="true"></td>
-                    <td contenteditable="true"><a href="#" class="button icon save-icon">Valider</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td contenteditable="true">{{ user.id }}</td>
+                        <td contenteditable="true">{{ user.username }}</td>
+                        <td contenteditable="true">{{ user.email }}</td>
+                        <td contenteditable="true">
+                            <select name="role" id="{{ user.id }}">
+                                <option value="admin" {% if user.role == "admin" %}{{ "selected" }}{% endif %}>Admin</option>
+                                <option value="simple" {% if user.role == "simple" %}{{ "selected" }}{% endif %}>Simple</option>
+                            </select>
+                        <td contenteditable="true"></td>
+                        <td contenteditable="true"><a href="#" class="button icon save-icon">Valider</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <p id="newUserFeedback" class="error"></p>
+            <h2>Créer un nouvel Utilisateur</h2>
+            <form method="POST" id="userForm" action="/user/createsingle">
+                <label>Nom d'Utilisateur
+                    <input type="text" id="username" name="username" required>
+                </label>        
+                <label>Email
+                    <input type="text" id="email" name="email" required>
+                </label> 
+                <label>Role
+                    <select name="role" id="role">
+                        <option value="admin">Admin</option>
+                        <option value="simple" selected>Simple</option>
+                    </select>
+                </label>
+                <label>Mot de passe
+                    <input type="password" id="password" name="password" required>
+                </label>
+                <label>Confirmer le mot de passe
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </label>
+                <input type="submit" id="userSubmit">
+                <input type="hidden" name="token" id="token" value="{{ token }}">
+            </form>
+        </section>
     </section>
 {% endblock %}

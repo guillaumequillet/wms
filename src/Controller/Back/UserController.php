@@ -17,7 +17,7 @@ class UserController extends \App\Controller\Controller
     public function index(): void
     {
         $template = 'admin/user.twig.html';
-        $data = [];
+        $data = ['token' => $this->token->generateString()];
 
         $users = $this->manager->getUsersList();
 
@@ -26,5 +26,19 @@ class UserController extends \App\Controller\Controller
         }
 
         $this->render($template, $data);        
+    }
+
+    public function createSingle(): void
+    {
+        if (!$this->token->check()) {
+            $this->setLog("0");
+            header('location: /user/index');
+            exit();
+        }
+
+        $res = $this->manager->createSingleUser();
+        $this->setLog($res ? "1" : "0");
+
+        header('location: /user/index');
     }
 }

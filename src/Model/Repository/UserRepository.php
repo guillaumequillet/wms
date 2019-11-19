@@ -24,4 +24,17 @@ class UserRepository extends Repository
         $res = $stmt->fetchAll();
         return ($res ? $res : null);        
     }
+
+    public function createUser(User $user): bool
+    {
+        $req = $this->database->getPDO()->prepare('INSERT INTO users(username, password, email, role) 
+            VALUES(:username, :password, :email, :role)');
+        $res = $req->execute([
+            'username' => $user->getUsername(),
+            'password' => $user->getPassword(),
+            'email' => $user->getEmail(),
+            'role' => $user->getRole()
+        ]);
+        return $res;           
+    }
 }
