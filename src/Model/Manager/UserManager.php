@@ -44,4 +44,9 @@ class UserManager extends Manager
         $user->hydrate($data);
         return $this->repository->createUser($user);
     }
+
+    public function updateSingleUser(): bool 
+    {
+        die('wtf');
+    }
 }

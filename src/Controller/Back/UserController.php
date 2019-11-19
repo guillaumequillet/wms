@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace App\Controller\Back;
 
 use App\Model\Manager\UserManager;
+use App\Controller\Controller;
 
-class UserController extends \App\Controller\Controller
+class UserController extends Controller
 {
 
     public function __construct()
@@ -37,6 +38,14 @@ class UserController extends \App\Controller\Controller
         }
 
         $res = $this->manager->createSingleUser();
+        $this->setLog($res ? "1" : "0");
+
+        header('location: /user/index');
+    }
+
+    public function updateSingle(): void
+    {
+        $res = $this->manager->updateSingleUser();
         $this->setLog($res ? "1" : "0");
 
         header('location: /user/index');

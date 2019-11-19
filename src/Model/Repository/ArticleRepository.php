@@ -55,17 +55,31 @@ class ArticleRepository extends Repository
         return $res;
     }
 
-    public function findArticlesCount(): int
+    public function findArticlesCount(?string $queryString = null): int
     {
-        $req = 'SELECT COUNT(*) as total FROM articles';
-        $res = $this->database->getPDO()->query($req);
-        return $res->fetch()['total'];
+        $reqString = 'SELECT COUNT(*) as total FROM articles';
+        $params = [];
+
+        if (!is_null($queryString)) {
+            $reqString .= ' WHERE code LIKE :queryString';
+            $params['queryString'] = '%' . $queryString . '%';
+        }
+
+        $req = $this->database->getPDO()->prepare($reqString);
+        $res = $req->execute($params);
+
+        return ($res === false) ? 0 : $req->fetch()['total'];
     }
 
-    public function findAllArticles(?int $page = null, ?int $perPage = null): ?array
+    public function findAllArticles(?string $queryString = null, ?int $page = null, ?int $perPage = null): ?array
     {
         $req = 'SELECT * FROM articles';
         $fields = [];
+
+        if (!is_null($queryString)) {
+            $req .= ' WHERE code LIKE :pattern';
+            $fields['pattern'] = $queryString;
+        }
 
         if (!is_null($page) && !is_null($perPage)) {
             $req .= ' LIMIT :limit OFFSET :offset';
@@ -74,24 +88,7 @@ class ArticleRepository extends Repository
         }
 
         $stmt = $this->database->getPDO()->prepare($req);
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\Article'); 
-        $stmt->execute($fields);
-        $res = $stmt->fetchAll();
-        return ($res === false) ? null : $res;
-    }
-
-    public function findArticlesWithCodeLike(string $queryString, ?int $limit = null): ?array
-    {
-        $req = 'SELECT * FROM articles WHERE code LIKE :pattern';
-        $fields = ['pattern' => '%' . $queryString . '%'];
-
-        if (isset($limit)) {
-            $req .= ' LIMIT :limit';
-            $fields['limit'] = $limit;
-        }
-
-        $stmt = $this->database->getPDO()->prepare($req);
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\Article'); 
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, Article::class); 
         $stmt->execute($fields);
         $res = $stmt->fetchAll();
         return ($res === false) ? null : $res;
@@ -100,7 +97,7 @@ class ArticleRepository extends Repository
     public function findArticleWithId(int $id): ?Article 
     {
         $stmt = $this->database->getPDO()->prepare('SELECT * FROM articles WHERE id=:id');
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\Article'); 
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, Article::class); 
         $stmt->execute(['id' => $id]);
         $res = $stmt->fetch();
         return ($res === false) ? null : $res;

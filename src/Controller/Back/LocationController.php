@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace App\Controller\Back;
 
 use App\Model\Manager\LocationManager;
+use App\Controller\Controller;
 
-class LocationController extends \App\Controller\Controller
+class LocationController extends Controller
 {
 
     public function __construct()
@@ -14,10 +15,19 @@ class LocationController extends \App\Controller\Controller
         $this->manager = new LocationManager();
     }
 
-    public function index(): void
+    public function index(?int $page = null): void
     {
         $template = 'admin/location/index.twig.html';
         $data = ['token' => $this->token->generateString()];
+
+        $locations = $this->manager->findLocations($page);
+
+        foreach (['entities', 'currentPage', 'previousPage', 'nextPage'] as $key) {
+            if (isset($locations[$key]) && !is_null($locations[$key])) {
+                $data[$key] = $locations[$key];
+            }
+        }
+
         $this->render($template, $data);        
     }
 

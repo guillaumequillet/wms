@@ -10,7 +10,7 @@ class UserRepository extends Repository
     public function getUserFromUsername(string $username): ?User 
     {
         $stmt = $this->database->getPDO()->prepare('SELECT * FROM users WHERE binary username=:username');
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\User'); 
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, User::class); 
         $stmt->execute(['username' => $username]);
         $res = $stmt->fetch();
         return ($res ? $res : null);
@@ -19,7 +19,7 @@ class UserRepository extends Repository
     public function getCompleteList(): ?array
     {
         $stmt = $this->database->getPDO()->prepare('SELECT * FROM users');
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\User'); 
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, User::class); 
         $stmt->execute();
         $res = $stmt->fetchAll();
         return ($res ? $res : null);        
@@ -36,5 +36,10 @@ class UserRepository extends Repository
             'role' => $user->getRole()
         ]);
         return $res;           
+    }
+
+    public function updateUser(User $user): bool
+    {
+        
     }
 }

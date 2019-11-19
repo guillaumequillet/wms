@@ -77,5 +77,40 @@
             <input type="hidden" name="token" id="token" value="{{ token }}">
         </form>
         <h2>Liste</h2>
+        <table>
+            <thead>
+                <th>ID</th>
+                <th>Zone</th>
+                <th>Allée</th>
+                <th>Colonne</th>
+                <th>Niveau</th>
+            </thead>
+
+            <tbody>
+                {% for location in entities %}
+                    <tr>
+                        <td>{{location.id}}</td>
+                        <td>{{location.area}}</td>
+                        <td>{{location.aisle}}</td>
+                        <td>{{location.col}}</td>
+                        <td>{{location.level}}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="5">
+                        {% if previousPage is defined %}
+                            <a href="/location/index/{{previousPage}}">{{previousPage}}</a>
+                        {% endif %}
+                        {% if currentPage is defined %}
+                            {{ currentPage }}
+                        {% endif %}
+                        {% if nextPage is defined %}
+                            <a href="/location/index/{{nextPage}}"> {{nextPage}}</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
     </section>
 {% endblock %}

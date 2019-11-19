@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace App\Controller\Front;
 
 use App\Model\Manager\LoginManager;
+use App\Controller\Controller;
 
-class LoginController extends \App\Controller\Controller
+class LoginController extends Controller
 {
     public function __construct()
     {

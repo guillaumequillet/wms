@@ -111,12 +111,16 @@ class Router
         $this->router->map('POST', '/user/createsingle', function() {
             (new UserController)->createSingle();
         });
+
+        $this->router->map('POST', '/user/update', function() {
+            (new UserController)->updateSingle();
+        });
     }
 
     private function createLocationRoutes(): void
     {
-        $this->router->map('GET', '/location/index', function() {
-            (new LocationController)->index();
+        $this->router->map('GET', '/location/index/[i:page]?', function(int $page = 1) {
+            (new LocationController)->index($page);
         });        
 
         $this->router->map('POST', '/location/createsingle', function() {

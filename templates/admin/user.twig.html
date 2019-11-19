@@ -12,7 +12,7 @@
         <section>
             <p id="userFeedback" class="error"></p>
             <h2>Liste des Utilisateurs</h2>
-            <table>
+            <table id="userTable">
                 <thead>
                     <th>ID</th>
                     <th>Username</th>
@@ -25,7 +25,7 @@
                 <tbody>
                     {% for user in users %}
                     <tr>
-                        <td contenteditable="true">{{ user.id }}</td>
+                        <td>{{ user.id }}</td>
                         <td contenteditable="true">{{ user.username }}</td>
                         <td contenteditable="true">{{ user.email }}</td>
                         <td contenteditable="true">
@@ -34,7 +34,7 @@
                                 <option value="simple" {% if user.role == "simple" %}{{ "selected" }}{% endif %}>Simple</option>
                             </select>
                         <td contenteditable="true"></td>
-                        <td contenteditable="true"><a href="#" class="button icon save-icon">Valider</a></td>
+                        <td><a href="#" class="button icon save-icon">Valider</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>

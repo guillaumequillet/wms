@@ -174,4 +174,9 @@ class LocationManager extends Manager
         }            
         return "partialInterval";     
     }
+
+    public function findLocations(int $page = 1): ?array
+    {
+        return $this->repository->findPaginatedLocations($page);
+    }
 }

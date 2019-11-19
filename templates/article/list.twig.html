@@ -47,11 +47,6 @@
                     </thead>
                     <tbody>
                         {% for article in articles %}
-                            {% if loop.last and loop.length > pageSize %}
-                                <tr>
-                                    <td colspan=3>Trop de résultats. Affinez votre recherche.</td>
-                                </tr>
-                            {% else %}
                             <tr>
                                 <td>{{ article.id }}</td>
                                 <td>{{ article.code }}</td>
@@ -62,7 +57,6 @@
                                     </ul>
                                 </td>
                             </tr>
-                            {% endif %}
                         {% endfor %}
                         {% if currentPage is defined %}
                             <tr>

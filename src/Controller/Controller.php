@@ -8,7 +8,7 @@ use App\Tool\SuperglobalManager;
 use App\Tool\Token;
 
 
-class Controller 
+abstract class Controller 
 {
     protected $manager;
     protected $view;

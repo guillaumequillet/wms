@@ -5,7 +5,7 @@ namespace App\Model\Manager;
 
 use App\Tool\SuperglobalManager;
 
-class Manager
+abstract class Manager
 {
     protected $repository;
     protected $superglobalManager;

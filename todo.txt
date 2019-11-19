@@ -1,5 +1,9 @@
 TODO LIST
 
+ARTICLES
+corriger résultats recherche
+gérer pagination (problème dû au passage de QueryString via POST, alors que la pagination fonctionne via GET)
+
 chargement CSV
 corriger header incorrect
 
@@ -11,8 +15,7 @@ ce ne sont que des affichages. Ils sont générés par les mouvements. Prévoir 
 recherche multi critères et éventuellement un EXPORT CSV.
 
 USERS
-permet de créer / modifier / supprimer un compte utilisateur 
-ajouter controles js sur les champs (validité format + pwd/checkPwd ok)
+gérer l'update USER : voir formulaire pour "table" ?
 
 MOUVEMENTS
 - entrée

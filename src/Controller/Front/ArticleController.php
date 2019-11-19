@@ -4,8 +4,9 @@ declare(strict_types=1);
 namespace App\Controller\Front;
 
 use App\Model\Manager\ArticleManager;
+use App\Controller\Controller;
 
-class ArticleController extends \App\Controller\Controller
+class ArticleController extends Controller
 {
     public function __construct()
     {
@@ -87,13 +88,15 @@ class ArticleController extends \App\Controller\Controller
         header('location: /article/showlist');
     }
 
-    public function showlist(int $page = 1): void 
+    public function showlist(int $page = 1, ?string $queryString = null): void 
     {
         $template = 'article/list.twig.html';
         $data = ['token' => $this->token->generateString()];
 
-        // we check if some search was submitted
-        $queryString = $this->superglobalManager->findVariable('post', 'queryString');
+        // if the queryString was not found in GET, we check in POST
+        if (is_null($queryString)) {
+            $queryString = $this->superglobalManager->findVariable('post', 'queryString');
+        }
 
         if ($queryString === '') {
             $queryString = null;
@@ -103,16 +106,18 @@ class ArticleController extends \App\Controller\Controller
         $articles = $this->manager->findAllArticles($queryString, $page, $pageSize);
 
         // pagination
-        $articlesCount = $this->manager->getArticlesCount();
+        $articlesCount = $this->manager->getArticlesCount($queryString);
 
         if ($articlesCount > 0) {
             $data['currentPage'] = $page;
             $data['pageSize'] = $pageSize;
         }
-        if (is_null($queryString) && isset($data['currentPage']) && $page > 1) {
+
+        if (isset($data['currentPage']) && $page > 1) {
             $data['previousPage'] = $page - 1;
         }
-        if (is_null($queryString) && isset($data['currentPage']) && $page * $pageSize < $articlesCount) {
+
+        if (isset($data['currentPage']) && $page * $pageSize < $articlesCount) {
             $data['nextPage'] = $page + 1;
         }
 
