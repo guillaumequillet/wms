@@ -1,9 +1,5 @@
 TODO LIST
 
-ARTICLES
-corriger résultats recherche
-gérer pagination (problème dû au passage de QueryString via POST, alors que la pagination fonctionne via GET)
-
 chargement CSV
 corriger header incorrect
 

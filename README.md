@@ -11,9 +11,9 @@ J’ai choisi de réaliser un logiciel de type WMS (Warehouse Management System)
 Il s’agit de réaliser un logiciel de gestion de stocks disposant des fonctionnalités élémentaires afin de pouvoir gérer effectivement un stock. Ce projet sera développé en maximum 1.5 mois et doit donc aller à l’essentiel tout en proposant au minimum les fonctionnalités suivantes :
 
 * Accès par IDENTIFICATION à l’ensemble du logiciel.
-* Il y aura un compte administrateur. On prévoit une gestion des  UTILISATEURS afin de créer des comptes supplémentaires, aux droits restreints.
+* Il y aura un compte "superadmin" et des comptes "admin" / "simple". On prévoit une gestion des  UTILISATEURS afin de créer des comptes supplémentaires, aux droits restreints.
 * Un menu ARTICLES permettant de créer un article par saisie formulaire ou import fichier type (format CSV), ou bien les rechercher / éditer.
-Informations : Code, Description, [Code EAN13, poids, longueur, largeur, hauteur].
+Informations : Code, [Description, Code EAN13, poids, longueur, largeur, hauteur].
 * un menu STOCKS permettant de consulter l'état des stocks aux emplacements, résultants des mouvements.
 * Un menu EMPLACEMENTS permettant de créer des zones de stockage, ou bien les rechercher / éditer : Zone, Allée, Colonne, Niveau. 
 * Un menu MOUVEMENTS permettant de créer des mouvements de stock de type : réception / livraison / ajustement inventaire. 

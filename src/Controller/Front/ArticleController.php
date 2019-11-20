@@ -97,23 +97,21 @@ class ArticleController extends Controller
         }
 
         $postQueryString = $this->superglobalManager->findVariable('post', 'queryString');
-
+        
         if (!is_null($postQueryString)) {
             $this->superglobalManager->setVariable('session', 'queryString', $postQueryString);
         }
 
         $queryString = $this->superglobalManager->findVariable('session', 'queryString');
 
-        $template = 'article/list.twig.html';
-        $data = ['token' => $this->token->generateString()];
-
-
         if (!is_null($queryString) && $queryString === '') {
             $queryString = null;
         }
 
-        $pageSize = 10;
-        $res = $this->manager->findAllArticles($queryString, $page, $pageSize);
+        $template = 'article/list.twig.html';
+        $data = ['token' => $this->token->generateString()];
+
+        $res = $this->manager->findAllArticles($queryString, $page);
 
         if (!is_null($res['entities'])) {
             $data['articles'] = $res['entities'];
