@@ -34,39 +34,57 @@ abstract class Repository
         return "App\\Model\\Entity\\$entityName";
     }
 
+    protected function createConditionString(array $conditions): string
+    {
+        if (!is_array($conditions[0])) {
+            $conditions = [$conditions];	
+        }
+        
+        $conditionStrings = [];
+        $output = " WHERE ";
+        
+        foreach($conditions as $condition) {
+            $conditionStrings[]= "$condition[0] $condition[1] :$condition[0]";	
+        }
+        
+        $output .= join(" AND ", $conditionStrings);
+        return $output;
+    }
+
+    protected function createConditionParams(array $conditions): array
+    {
+        if (!is_array($conditions[0])) {
+            $conditions = [$conditions];	
+        }
+        
+        $conditionParams = [];
+
+        foreach($conditions as $condition) {
+            $conditionParams[$condition[0]] = $condition[2];	
+        }        
+
+        return $conditionParams;
+    }
+
     public function findWhere(array $conditions): ?Entity
     {
-        $reqString = 'SELECT * FROM ' . $this->getTableName() . ' WHERE ';
-
-        $conditionStrings = [];
-
-        foreach ($conditions as $k => $v) {
-            $conditionStrings[] = "$k = :$k";
-        }
-
-        $reqString .= join("AND", $conditionStrings);
+        $reqString = 'SELECT * FROM ' . $this->getTableName();
+        $reqString .= $this->createConditionString($conditions);
         $reqString .= ' LIMIT 1';
 
         $stmt = $this->database->getPDO()->prepare($reqString);
         $stmt->setFetchMode(\PDO::FETCH_CLASS, $this->getEntityClassName()); 
-        $stmt->execute($conditions);
+        $stmt->execute($this->createConditionParams($conditions));
         $res = $stmt->fetch();
+
         return ($res === false) ? null : $res;        
     }
 
     public function findWhereAll(array $conditions = [], ?int $limit = null, ?int $offset = null): ?array
     {
         $reqString = 'SELECT * FROM ' . $this->getTableName();
-
         if (!empty($conditions)) {
-            $reqString .= ' WHERE ';
-            $conditionStrings = [];
-
-            foreach ($conditions as $k => $v) {
-                $conditionStrings[] = "$k = :$k";
-            }
-    
-            $reqString .= join("AND", $conditionStrings);
+            $reqString .= $this->createConditionString($conditions);
         }
 
         if (!is_null($limit)) {
@@ -79,25 +97,18 @@ abstract class Repository
 
         $stmt = $this->database->getPDO()->prepare($reqString);
         $stmt->setFetchMode(\PDO::FETCH_CLASS, $this->getEntityClassName()); 
-        $stmt->execute($conditions);
+        $stmt->execute($this->createConditionParams($conditions));
         $res = $stmt->fetchAll();
         return ($res === false) ? null : $res;        
     }
 
     public function deleteWhere(array $conditions): bool
     {
-        $reqString = 'DELETE FROM ' . $this->getTableName() . ' WHERE ';
-
-        $conditionStrings = [];
-
-        foreach ($conditions as $k => $v) {
-            $conditionStrings[] = "$k = :$k";
-        }
-
-        $reqString .= join("AND", $conditionStrings);
+        $reqString = 'DELETE FROM ' . $this->getTableName();
+        $reqString .= $this->createConditionString($conditions);
 
         $stmt = $this->database->getPDO()->prepare($reqString);
-        $res = $stmt->execute($conditions);
+        $res = $stmt->execute($this->createConditionParams($conditions));
         return $res;
     }
 
@@ -106,18 +117,11 @@ abstract class Repository
         $reqString = 'SELECT COUNT(*) as total FROM ' . $this->getTableName();
 
         if (!empty($conditions)) {
-            $reqString .= ' WHERE ';
-            $conditionStrings = [];
-
-            foreach ($conditions as $k => $v) {
-                $conditionStrings[] = "$k = :$k";
-            }
-    
-            $reqString .= join("AND", $conditionStrings);
+            $reqString .= $this->createConditionString($conditions);
         }
 
         $req = $this->database->getPDO()->prepare($reqString);
-        $res = $req->execute($conditions);
+        $res = $req->execute($this->createConditionParams($conditions));
         return ($res === false) ? 0 : $req->fetch()['total'];  
     }
 

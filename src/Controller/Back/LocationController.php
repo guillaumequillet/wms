@@ -8,7 +8,6 @@ use App\Controller\Controller;
 
 class LocationController extends Controller
 {
-
     public function __construct()
     {
         parent::__construct();

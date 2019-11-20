@@ -16,15 +16,6 @@ class UserRepository extends Repository
         return ($res ? $res : null);
     }
 
-    public function getCompleteList(): ?array
-    {
-        $stmt = $this->database->getPDO()->prepare('SELECT * FROM users');
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, User::class); 
-        $stmt->execute();
-        $res = $stmt->fetchAll();
-        return ($res ? $res : null);        
-    }
-
     public function createUser(User $user): bool
     {
         $req = $this->database->getPDO()->prepare('INSERT INTO users(username, password, email, role) 

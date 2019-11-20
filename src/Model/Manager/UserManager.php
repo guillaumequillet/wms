@@ -17,7 +17,7 @@ class UserManager extends Manager
 
     public function getUsersList(): ?array 
     {
-        return $this->repository->getCompleteList();
+        return $this->repository->findWhereAll();
     }
 
     public function createSingleUser(): bool

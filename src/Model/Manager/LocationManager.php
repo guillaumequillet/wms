@@ -182,6 +182,6 @@ class LocationManager extends Manager
 
     public function delete(int $id): bool
     {
-        return $this->repository->deleteWhere(['id' => $id]);
+        return $this->repository->deleteWhere(['id', '=', $id]);
     }
 }
