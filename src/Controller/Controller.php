@@ -40,6 +40,7 @@ abstract class Controller
         
         $log = $this->superglobalManager->findVariable('session', 'log');
         $role = $this->superglobalManager->findVariable('session', 'role');
+        $loggedId = $this->superglobalManager->findVariable('session', 'loggedId');
 
         if (!is_null($log)) {
             $data['log'] = $log;
@@ -48,6 +49,10 @@ abstract class Controller
 
         if (!is_null($role)) {
             $data['role'] = $role;
+        }
+
+        if (!is_null($loggedId)) {
+            $data['loggedId'] = (int)$loggedId;
         }
 
         $this->getView()->render($template, $data);

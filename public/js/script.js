@@ -91,24 +91,7 @@ $(document).ready(function() {
         }
     });
 
-    // use TABLE
-    $('#userTable td a').each(function() {
-        let trNode = $(this)[0].parentNode.parentNode;
-        let elmts = Array.from(trNode.getElementsByTagName("td"));
-
-        elmts[5].addEventListener("click", e => {
-            let infos = {
-                id: elmts[0].innerText,
-                username: elmts[1].innerText,
-                email: elmts[2].innerText,
-                role: elmts[3].querySelector("select").value,
-                password: elmts[4].innerText
-            };
-        });
-    })
-
     // new User FORM
-    $('#userFeedback').hide();
     $('#newUserFeedback').hide();
 
     $('#userForm').submit(function(event) {

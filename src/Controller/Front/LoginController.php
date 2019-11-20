@@ -23,7 +23,7 @@ class LoginController extends Controller
     public function isAdmin(): bool
     {
         $res = $this->superglobalManager->findVariable('session', 'role');
-        return ($res === 'admin');        
+        return ($res === 'admin' || $res === "superadmin");        
     }
 
     public function login(): void
@@ -53,6 +53,7 @@ class LoginController extends Controller
     {
         $this->superglobalManager->unsetVariable('session', 'username');
         $this->superglobalManager->unsetVariable('session', 'role');        
+        $this->superglobalManager->unsetVariable('session', 'loggedIn');        
         $this->setLog("2");
         header('location: /');
     }

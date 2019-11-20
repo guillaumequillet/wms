@@ -20,7 +20,7 @@ class UserManager extends Manager
         return $this->repository->findWhereAll();
     }
 
-    public function createSingleUser(): bool
+    public function createUser(): bool
     {
         $data = [
             'username' => $this->superglobalManager->findVariable('post', 'username'),
@@ -45,8 +45,38 @@ class UserManager extends Manager
         return $this->repository->createUser($user);
     }
 
-    public function updateSingleUser(): bool 
+    public function deleteUser(int $id): bool
     {
-        
+        // we can't delete ourselves
+        if ($id === $this->superglobalManager->findVariable('session', 'loggedId')) {
+            return false;
+        }
+
+        // role permissions check
+        $role = $this->superglobalManager->findVariable('session', 'role');
+
+        // you can't delete as "simple" user
+        if ($role !== 'admin' && $role !== 'superadmin') {
+            return false;
+        }
+
+        $targetUser = $this->repository->findWhere(['id', '=', $id]);
+
+        // target user must exist
+        if (is_null($targetUser)) {
+            return false;
+        }
+
+        // target user cannot be superadmin
+        if ($targetUser->getRole() === 'superadmin') {
+            return false;
+        }
+
+        // an admin can't delete another admin
+        if ($targetUser->getRole() === 'admin' && $role === 'admin') {
+            return false;
+        }
+
+        return $this->repository->deleteWhere(['id', '=', $id]);
     }
 }

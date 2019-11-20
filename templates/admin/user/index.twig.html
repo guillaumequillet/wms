@@ -4,37 +4,41 @@
 {% block body %}
     <section>
         <h1>Gestion des <span class="white">Utilisateurs</span></h1>      
-        {% if log is defined and log == "0" %}
+        {% if log == "creationFail" %}
             <p class="error">L'utilisateur n'a pas pu être créé.</p>
-        {% elseif log == "1" %}
+        {% elseif log == "creationOk" %}
             <p class="valid">L'utilisateur a bien été créé.</p>
+        {% elseif log == "deleteFail" %}
+            <p class="error">L'utilisateur n'a pas pu être supprimé.</p>
+        {% elseif log == "deleteOk" %}
+            <p class="valid">L'utilisateur a bien été supprimé.</p>
         {% endif %}
         <section>
-            <p id="userFeedback" class="error"></p>
             <h2>Liste des Utilisateurs</h2>
             <table id="userTable">
                 <thead>
                     <th>ID</th>
                     <th>Username</th>
-                    <th>Email</th>
                     <th>Role</th>
-                    <th>Nouveau mot de passe</th>
-                    <th>Mise à jour</th>
+                    <th>Actions</th>
                 </thead>
 
                 <tbody>
                     {% for user in users %}
                     <tr>
                         <td>{{ user.id }}</td>
-                        <td contenteditable="true">{{ user.username }}</td>
-                        <td contenteditable="true">{{ user.email }}</td>
-                        <td contenteditable="true">
-                            <select name="role" id="{{ user.id }}">
-                                <option value="admin" {% if user.role == "admin" %}{{ "selected" }}{% endif %}>Admin</option>
-                                <option value="simple" {% if user.role == "simple" %}{{ "selected" }}{% endif %}>Simple</option>
-                            </select>
-                        <td contenteditable="true"></td>
-                        <td><a href="#" class="button icon save-icon">Valider</a></td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>
+                            {% if loggedId == user.id %}
+                                <a href="/user/show/{{ user.id }}" class="button icon edit-icon">Modifier</a>
+                            {% elseif (user.role != "superadmin" and role == "superadmin") or (role == "admin" and user.role == "simple") %}
+                                <a href="/user/show/{{ user.id }}" class="button icon edit-icon">Modifier</a>
+                                <a href="/user/delete/{{ user.id }}" class="button icon delete-icon" onclick="return confirm('Etes-vous sûr(e) de vouloir supprimer cet utilisateur ?');">Supprimer</a>                            
+                            {% else %}
+                                Pas d'action disponible
+                            {% endif  %}
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>

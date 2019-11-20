@@ -41,6 +41,7 @@ class LoginManager extends Manager
         // user was successfully logged in
         $this->superglobalManager->setVariable('session', 'username', $user->getUsername());
         $this->superglobalManager->setVariable('session', 'role', $user->getRole());
+        $this->superglobalManager->setVariable('session', 'loggedId', (string)$user->getId());
 
         return 'ok';
     }

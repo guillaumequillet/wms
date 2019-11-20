@@ -17,7 +17,7 @@ class UserController extends Controller
 
     public function index(): void
     {
-        $template = 'admin/user.twig.html';
+        $template = 'admin/user/index.twig.html';
         $data = ['token' => $this->token->generateString()];
 
         $users = $this->manager->getUsersList();
@@ -29,7 +29,7 @@ class UserController extends Controller
         $this->render($template, $data);        
     }
 
-    public function createSingle(): void
+    public function create(): void
     {
         if (!$this->token->check()) {
             $this->setLog("0");
@@ -37,17 +37,20 @@ class UserController extends Controller
             exit();
         }
 
-        $res = $this->manager->createSingleUser();
-        $this->setLog($res ? "1" : "0");
-
+        $res = $this->manager->createUser();
+        $this->setLog($res ? "creationOk" : "creationFail");
         header('location: /user/index');
     }
 
-    public function updateSingle(): void
+    public function delete(int $id): void
     {
-        $res = $this->manager->updateSingleUser();
-        $this->setLog($res ? "1" : "0");
-
+        $res = $this->manager->deleteUser($id);
+        $this->setLog($res ? "deleteOk" : "deleteFail");
         header('location: /user/index');
+    }
+
+    public function show(int $id): void
+    {
+
     }
 }

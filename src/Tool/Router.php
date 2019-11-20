@@ -109,11 +109,15 @@ class Router
         });        
 
         $this->router->map('POST', '/user/createsingle', function() {
-            (new UserController)->createSingle();
+            (new UserController)->create();
         });
 
-        $this->router->map('POST', '/user/update', function() {
-            (new UserController)->updateSingle();
+        $this->router->map('GET', '/user/delete/[i:id]', function(int $id) {
+            (new UserController)->delete($id);
+        });
+
+        $this->router->map('GET', '/user/show/[i:id]', function(int $id) {
+            (new UserController)->show($id);
         });
     }
 
