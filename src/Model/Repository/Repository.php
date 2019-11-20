@@ -10,6 +10,7 @@ use App\Model\Entity\Entity;
 abstract class Repository
 {
     protected $database;
+    protected $recordsPerPage = 5;
 
     public function __construct() 
     {
@@ -129,9 +130,9 @@ abstract class Repository
         return ($res === false) ? 0 : $req->fetch()['total'];  
     }
 
-    protected function paginate(array $entities, int $totalResults, int $currentPage, int $resultsPerPage): ?array
+    protected function paginate(array $entities, int $totalResults, int $currentPage): ?array
     {
-        $totalPages = (int)ceil($totalResults / $resultsPerPage);
+        $totalPages = (int)ceil($totalResults / $this->recordsPerPage);
         $previousPage = ($currentPage > 1) ? $currentPage - 1 : null;
         $nextPage = ($currentPage < $totalPages) ? $currentPage + 1 : null;
 
@@ -145,12 +146,12 @@ abstract class Repository
         ];
     }
 
-    public function findWhereAllPaginated(array $conditions = [], int $page, int $resultsPerPage): ?array
+    public function findWhereAllPaginated(array $conditions = [], int $page): ?array
     {
-        $entities = $this->findWhereAll($conditions, $resultsPerPage, $resultsPerPage * ($page - 1));
+        $entities = $this->findWhereAll($conditions, $this->recordsPerPage, $this->recordsPerPage * ($page - 1));
         $totalResults = $this->count($conditions);
         $currentPage = $page;
 
-        return $this->paginate($entities, $totalResults, $currentPage, $resultsPerPage);        
+        return $this->paginate($entities, $totalResults, $currentPage);        
     }
 }
