@@ -8,8 +8,7 @@ chargement CSV
 corriger header incorrect
 
 EMPLACEMENTS
-afficher liste
-IL FAUT CREER DES METHODES UNIVERSELLES pour les repos en passant le nom de la table à l'objet enfant
+Ajouter recherche quand pagination ok
 
 STOCKS
 ce ne sont que des affichages. Ils sont générés par les mouvements. Prévoir un formulaire de 

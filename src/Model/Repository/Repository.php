@@ -10,7 +10,7 @@ use App\Model\Entity\Entity;
 abstract class Repository
 {
     protected $database;
-    protected $recordsPerPage = 5;
+    protected $recordsPerPage = 10;
 
     public function __construct() 
     {

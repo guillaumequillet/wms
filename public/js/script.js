@@ -33,7 +33,7 @@ $(document).ready(function() {
 
     $('#searchArticleForm').submit(function(event)  {
         let queryString = $.trim($('#searchArticleForm #queryString').val());
-        if (!codeRegExp.test(queryString)) {
+        if (queryString !== '' && !codeRegExp.test(queryString)) {
             event.preventDefault();
             $('#articleSearchFeedback').show();
             $('#articleSearchFeedback').text("Les champs n'acceptent qu'une lettre non accentuée ou des nombres de 0 à 999."); 

@@ -64,12 +64,12 @@ class Router
 
     private function createArticleRoutes(): void 
     {
-        $this->router->map('GET', '/article/showlist/[i:page]?', function(int $page = 1) {
+        $this->router->map('GET', '/article/showlist/[i:page]?', function(int $page = 0) {
             (new ArticleController)->showlist($page);
         });
 
         // we also need some route from POST, for the search input form
-        $this->router->map('POST', '/article/showlist/[i:page]?', function(int $page = 1) {
+        $this->router->map('POST', '/article/showlist/[i:page]?', function(int $page = 0) {
             (new ArticleController)->showlist($page);
         });
     

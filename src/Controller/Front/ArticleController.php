@@ -88,12 +88,25 @@ class ArticleController extends Controller
         header('location: /article/showlist');
     }
 
-    public function showlist(int $page = 1): void 
+    public function showlist(int $page = 0): void 
     {
+        // we reset the queryString if new access from menu
+        if ($page === 0) {
+            $page = 1;
+            $this->superglobalManager->unsetVariable('session', 'queryString');
+        }
+
+        $postQueryString = $this->superglobalManager->findVariable('post', 'queryString');
+
+        if (!is_null($postQueryString)) {
+            $this->superglobalManager->setVariable('session', 'queryString', $postQueryString);
+        }
+
+        $queryString = $this->superglobalManager->findVariable('session', 'queryString');
+
         $template = 'article/list.twig.html';
         $data = ['token' => $this->token->generateString()];
 
-        $queryString = $this->superglobalManager->findVariable('post', 'queryString');
 
         if (!is_null($queryString) && $queryString === '') {
             $queryString = null;
