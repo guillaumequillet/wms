@@ -135,12 +135,12 @@ class ArticleManager extends Manager
 
     public function findAllArticles(?string $queryString = null, ?int $page = null, ?int $pageSize = null): ?array
     {
-        return $this->repository->findAllArticles($queryString, $page, $pageSize);
+        return $this->repository->findWhereAllPaginated(['code', 'like', "%$queryString%"], $page, $pageSize);
     }
 
     public function getArticlesCount(?string $queryString = null): int
     {
-        return $this->repository->findArticlesCount($queryString);
+        return $this->repository->count(['code', 'like', "%$queryString%"]);
     }
 
     public function findArticleWithId(int $id): ?Article

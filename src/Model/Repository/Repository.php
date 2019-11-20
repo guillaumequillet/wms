@@ -53,6 +53,10 @@ abstract class Repository
 
     protected function createConditionParams(array $conditions): array
     {
+        if (empty($conditions)) {
+            return [];
+        }
+
         if (!is_array($conditions[0])) {
             $conditions = [$conditions];	
         }
@@ -139,5 +143,14 @@ abstract class Repository
             'previousPage' => $previousPage,
             'totalPages' => $totalPages
         ];
+    }
+
+    public function findWhereAllPaginated(array $conditions = [], int $page, int $resultsPerPage): ?array
+    {
+        $entities = $this->findWhereAll($conditions, $resultsPerPage, $resultsPerPage * ($page - 1));
+        $totalResults = $this->count();
+        $currentPage = $page;
+
+        return $this->paginate($entities, $totalResults, $currentPage, $resultsPerPage);        
     }
 }

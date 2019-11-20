@@ -177,7 +177,7 @@ class LocationManager extends Manager
 
     public function findLocations(int $page = 1): ?array
     {
-        return $this->repository->findPaginatedLocations($page);
+        return $this->repository->findWhereAllPaginated([], $page, 8);
     }
 
     public function delete(int $id): bool

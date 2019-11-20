@@ -102,27 +102,17 @@ class ArticleController extends Controller
             $queryString = null;
         }
 
-        $pageSize = 5;
-        $articles = $this->manager->findAllArticles($queryString, $page, $pageSize);
+        $pageSize = 10;
+        $res = $this->manager->findAllArticles($queryString, $page, $pageSize);
 
-        // pagination
-        $articlesCount = $this->manager->getArticlesCount($queryString);
-
-        if ($articlesCount > 0) {
-            $data['currentPage'] = $page;
-            $data['pageSize'] = $pageSize;
+        if (!is_null($res['entities'])) {
+            $data['articles'] = $res['entities'];
         }
 
-        if (isset($data['currentPage']) && $page > 1) {
-            $data['previousPage'] = $page - 1;
-        }
-
-        if (isset($data['currentPage']) && $page * $pageSize < $articlesCount) {
-            $data['nextPage'] = $page + 1;
-        }
-
-        if (!is_null($articles)) {
-            $data['articles'] = $articles;
+        foreach(['currentPage', 'nextPage', 'previousPage'] as $key) {
+            if (!is_null($res[$key])) {
+                $data[$key] = $res[$key];
+            }
         }
 
         if (!is_null($queryString)) {

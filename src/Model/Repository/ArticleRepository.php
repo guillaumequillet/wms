@@ -47,43 +47,4 @@ class ArticleRepository extends Repository
         ]);
         return $res;
     }
-
-    public function findArticlesCount(?string $queryString = null): int
-    {
-        $reqString = 'SELECT COUNT(*) as total FROM articles';
-        $params = [];
-
-        if (!is_null($queryString)) {
-            $reqString .= ' WHERE code LIKE :queryString';
-            $params['queryString'] = '%' . $queryString . '%';
-        }
-
-        $req = $this->database->getPDO()->prepare($reqString);
-        $res = $req->execute($params);
-
-        return ($res === false) ? 0 : $req->fetch()['total'];
-    }
-
-    public function findAllArticles(?string $queryString = null, ?int $page = null, ?int $perPage = null): ?array
-    {
-        $req = 'SELECT * FROM articles';
-        $fields = [];
-
-        if (!is_null($queryString)) {
-            $req .= ' WHERE code LIKE :pattern';
-            $fields['pattern'] = $queryString;
-        }
-
-        if (!is_null($page) && !is_null($perPage)) {
-            $req .= ' LIMIT :limit OFFSET :offset';
-            $fields['limit'] = $perPage;
-            $fields['offset'] = $perPage * ($page - 1);
-        }
-
-        $stmt = $this->database->getPDO()->prepare($req);
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, Article::class); 
-        $stmt->execute($fields);
-        $res = $stmt->fetchAll();
-        return ($res === false) ? null : $res;
-    }
 }

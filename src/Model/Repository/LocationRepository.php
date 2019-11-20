@@ -20,14 +20,4 @@ class LocationRepository extends Repository
         ]);
         return $res;   
     }
-
-    public function findPaginatedLocations(int $page): ?array
-    {
-        $resultsPerPage = 10;
-        $entities = $this->findWhereAll([], $resultsPerPage, $resultsPerPage * ($page - 1));
-        $totalResults = $this->count();
-        $currentPage = $page;
-
-        return $this->paginate($entities, $totalResults, $currentPage, $resultsPerPage);
-    }
 }
