@@ -61,6 +61,16 @@ input, select {
     margin: 10px;
 }
 
+input[type=submit] {
+    width: auto;
+    padding: 5px;
+}
+
+select {
+    padding: 5px;
+    width: auto;
+}
+
 form {
     text-align: center;
     display: block;
@@ -93,11 +103,6 @@ label:nth-of-type(odd) {
 
 label:nth-of-type(even) {
     background-color: #c7ced3;
-}
-
-input[type=submit] {
-    width: auto;
-    padding: 5px;
 }
 /* END forms */
 
