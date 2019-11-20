@@ -134,6 +134,10 @@ class Router
         $this->router->map('POST', '/location/import', function() {
             (new LocationController)->import();
         });
+
+        $this->router->map('GET', '/location/delete/[i:id]', function(int $id) {
+            (new LocationController)->delete($id);
+        });
     }
 
     public function getRoute(): void

@@ -69,4 +69,11 @@ class LocationController extends Controller
         $this->setLog($res);
         header('location: /location/index');       
     }
+
+    public function delete(int $id): void
+    {
+        $res = $this->manager->delete($id);
+        $this->setLog($res ? "deleteOk" : "deleteFail");
+        header('location: /location/index');
+    }
 }

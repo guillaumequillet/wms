@@ -179,4 +179,9 @@ class LocationManager extends Manager
     {
         return $this->repository->findPaginatedLocations($page);
     }
+
+    public function delete(int $id): bool
+    {
+        return $this->repository->deleteWhere(['id' => $id]);
+    }
 }

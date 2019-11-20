@@ -4,7 +4,11 @@
 {% block body %}
     <section>
         <h1>Gestion des <span class="white">Emplacements</span></h1>
-        {% if log == "errorSingle" %}
+        {% if log == "deleteOk" %}
+           <p class="valid">L'emplacement a bien été supprimé.</p>
+        {% elseif log == "deleteFail" %}
+           <p class="error">La suppression de l'emplacement a échoué.</p>
+        {% elseif log == "errorSingle" %}
             <p class="error">L'emplacement n'a pas pu être créé.</p>
         {% elseif log == "okSingle" %}
             <p class="valid">L'emplacement a bien été créé.</p>
@@ -84,6 +88,7 @@
                 <th>Allée</th>
                 <th>Colonne</th>
                 <th>Niveau</th>
+                <th>Action</th>
             </thead>
 
             <tbody>
@@ -94,10 +99,11 @@
                         <td>{{location.aisle}}</td>
                         <td>{{location.col}}</td>
                         <td>{{location.level}}</td>
+                        <td><a href="/location/delete/{{ location.id }}" class="button icon delete-icon" onclick="return confirm('Etes-vous sûr(e) de vouloir supprimer cet article ?');">Supprimer</a></td>
                     </tr>
                 {% endfor %}
                 <tr>
-                    <td colspan="5">
+                    <td colspan="6">
                         {% if previousPage is defined %}
                             <a href="/location/index/{{previousPage}}">{{previousPage}}</a>
                         {% endif %}

@@ -47,6 +47,6 @@ class UserManager extends Manager
 
     public function updateSingleUser(): bool 
     {
-        die('wtf');
+        
     }
 }

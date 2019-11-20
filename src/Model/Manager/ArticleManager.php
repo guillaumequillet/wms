@@ -17,7 +17,7 @@ class ArticleManager extends Manager
 
     public function deleteArticle(int $id): bool
     {
-        return $this->repository->deleteArticle($id);
+        return $this->repository->deleteWhere(['id' => $id]);
     }
 
     public function createArticle(): ?int
@@ -40,13 +40,13 @@ class ArticleManager extends Manager
             return null;
         }
 
-        $id = $this->repository->findArticleWithCode($article->getCode())->getId();
+        $id = $this->repository->findWhere(['code' => $article->getCode()])->getId();
         return (is_null($id) ? null : $id);
     }
 
     public function articleExists(string $code): bool
     {
-        return !(is_null($this->repository->findArticleWithCode($code)));
+        return !(is_null($this->repository->findWhere(['code' => $code])));
     }
 
     public function createArticles(): bool
@@ -85,7 +85,7 @@ class ArticleManager extends Manager
         }
 
         foreach ($articles as $article) {
-            $articleExists = !(is_null($this->repository->findArticleWithCode($article->getCode())));
+            $articleExists = !(is_null($this->repository->findWhere(['code' => $article->getCode()])));
             
             if (!$articleExists) {
                 $this->repository->createArticle($article);
@@ -145,6 +145,6 @@ class ArticleManager extends Manager
 
     public function findArticleWithId(int $id): ?Article
     {
-        return $this->repository->findArticleWithId($id);
+        return $this->repository->findWhere(['id' => $id]);
     }
 }

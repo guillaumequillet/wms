@@ -7,13 +7,6 @@ use App\Model\Entity\Article;
 
 class ArticleRepository extends Repository
 {
-    public function deleteArticle(int $id): bool
-    {
-        $req = $this->database->getPDO()->prepare('DELETE FROM articles WHERE id=:id');
-        $res = $req->execute(['id' => $id]);
-        return $res;
-    }
-
     public function createArticles(array $articles): void
     {
         foreach($articles as $article) {
@@ -91,24 +84,6 @@ class ArticleRepository extends Repository
         $stmt->setFetchMode(\PDO::FETCH_CLASS, Article::class); 
         $stmt->execute($fields);
         $res = $stmt->fetchAll();
-        return ($res === false) ? null : $res;
-    }
-
-    public function findArticleWithId(int $id): ?Article 
-    {
-        $stmt = $this->database->getPDO()->prepare('SELECT * FROM articles WHERE id=:id');
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, Article::class); 
-        $stmt->execute(['id' => $id]);
-        $res = $stmt->fetch();
-        return ($res === false) ? null : $res;
-    }
-
-    public function findArticleWithCode(string $code): ?Article 
-    {
-        $stmt = $this->database->getPDO()->prepare('SELECT * FROM articles WHERE code=:code');
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\\Model\\Entity\\Article'); 
-        $stmt->execute(['code' => $code]);
-        $res = $stmt->fetch();
         return ($res === false) ? null : $res;
     }
 }
