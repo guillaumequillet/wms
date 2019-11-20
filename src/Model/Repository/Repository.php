@@ -148,7 +148,7 @@ abstract class Repository
     public function findWhereAllPaginated(array $conditions = [], int $page, int $resultsPerPage): ?array
     {
         $entities = $this->findWhereAll($conditions, $resultsPerPage, $resultsPerPage * ($page - 1));
-        $totalResults = $this->count();
+        $totalResults = $this->count($conditions);
         $currentPage = $page;
 
         return $this->paginate($entities, $totalResults, $currentPage, $resultsPerPage);        

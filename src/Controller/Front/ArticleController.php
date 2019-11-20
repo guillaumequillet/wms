@@ -88,17 +88,14 @@ class ArticleController extends Controller
         header('location: /article/showlist');
     }
 
-    public function showlist(int $page = 1, ?string $queryString = null): void 
+    public function showlist(int $page = 1): void 
     {
         $template = 'article/list.twig.html';
         $data = ['token' => $this->token->generateString()];
 
-        // if the queryString was not found in GET, we check in POST
-        if (is_null($queryString)) {
-            $queryString = $this->superglobalManager->findVariable('post', 'queryString');
-        }
+        $queryString = $this->superglobalManager->findVariable('post', 'queryString');
 
-        if ($queryString === '') {
+        if (!is_null($queryString) && $queryString === '') {
             $queryString = null;
         }
 
