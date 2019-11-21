@@ -29,8 +29,26 @@ class UserRepository extends Repository
         return $res;           
     }
 
-    public function updateUser(User $user): bool
+    public function updateUser(User $user, bool $newPassword): bool
     {
-        
+        $queryString = 'UPDATE users 
+        SET username=:username, ' . ($newPassword ? 'password=:password, ' : '') . 'email=:email, role=:role 
+        WHERE id=:id';
+
+        $params = [
+            'username' => $user->getUsername(),
+            'email' => $user->getEmail(),
+            'role' => $user->getRole(),
+            'id' => $user->getId()
+        ];
+
+        if ($newPassword) {
+            $params['password'] = $user->getPassword();
+        }
+
+        $req = $this->database->getPDO()->prepare($queryString);
+
+        $res = $req->execute($params);
+        return $res;
     }
 }

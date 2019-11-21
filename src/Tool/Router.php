@@ -108,7 +108,7 @@ class Router
             (new UserController)->index();
         });        
 
-        $this->router->map('POST', '/user/createsingle', function() {
+        $this->router->map('POST', '/user/create', function() {
             (new UserController)->create();
         });
 
@@ -118,6 +118,10 @@ class Router
 
         $this->router->map('GET', '/user/show/[i:id]', function(int $id) {
             (new UserController)->show($id);
+        });
+
+        $this->router->map('POST', '/user/update/[i:id]', function(int $id) {
+            (new UserController)->update($id);
         });
     }
 

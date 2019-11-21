@@ -69,6 +69,12 @@ class Article extends Entity
     }
 
     /* public setters */
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function setCode(string $code): self
     {
         $this->code = $code;
@@ -110,11 +116,4 @@ class Article extends Entity
         $this->barcode = $barcode;
         return $this;
     }    
-
-    // private setter
-    private function setId(int $id): self
-    {
-        $this->id = $id;
-        return $this;
-    }
 }

@@ -20,6 +20,11 @@ class UserManager extends Manager
         return $this->repository->findWhereAll();
     }
 
+    public function getUser(int $id): ?User
+    {
+        return $this->repository->findWhere(['id', '=', $id]);
+    }
+
     public function createUser(): bool
     {
         $data = [
@@ -30,7 +35,7 @@ class UserManager extends Manager
             'confirmPassword' => $this->superglobalManager->findVariable('post', 'confirmPassword')
         ];
 
-        if (in_array(null, $data)) {
+        if (in_array(null, $data, true)) {
             return false;
         }
 
@@ -45,17 +50,12 @@ class UserManager extends Manager
         return $this->repository->createUser($user);
     }
 
-    public function deleteUser(int $id): bool
+    public function checkPermission(int $id): bool
     {
-        // we can't delete ourselves
-        if ($id === $this->superglobalManager->findVariable('session', 'loggedId')) {
-            return false;
-        }
-
         // role permissions check
         $role = $this->superglobalManager->findVariable('session', 'role');
 
-        // you can't delete as "simple" user
+        // you can't admin as "simple" user
         if ($role !== 'admin' && $role !== 'superadmin') {
             return false;
         }
@@ -77,6 +77,60 @@ class UserManager extends Manager
             return false;
         }
 
+        return true;
+    }
+
+    public function deleteUser(int $id): bool
+    {
+        // we can't delete ourselves
+        if ($id === $this->superglobalManager->findVariable('session', 'loggedId')) {
+            return false;
+        }
+
+        if (!$this->checkPermission($id)) {
+            return false;
+        }
+
         return $this->repository->deleteWhere(['id', '=', $id]);
+    }
+
+    public function updateUser(int $id): bool
+    {
+        if (!$this->checkPermission($id)) {
+            return false;
+        }
+
+        $user = new User();
+        
+        $data = [
+            'username' => $this->superglobalManager->findVariable('post', 'username'),
+            'email' => $this->superglobalManager->findVariable('post', 'email'),
+            'role' => $this->superglobalManager->findVariable('post', 'role'),
+            'password' => $this->superglobalManager->findVariable('post', 'newPassword'),
+            'confirmPassword' => $this->superglobalManager->findVariable('post', 'newPasswordConfirm')
+        ];
+
+        if (in_array(null, $data, true)) {
+            return false;
+        }
+
+        if ($data['password'] != $data['confirmPassword']) {
+            return false;
+        }
+
+        if (!empty($data['password'])) {
+            $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+            $newPassword = true;
+        }
+
+        if (empty($data['password'])) {
+            $data['password'] = '';
+            $newPassword = false;
+        }
+
+        $data['id'] = $id;
+        $user->hydrate($data);
+
+        return $this->repository->updateUser($user, $newPassword);
     }
 }

@@ -42,14 +42,15 @@ h1, h2 {
     border-radius: 20px 5px 20px 5px;
     border-bottom: 4px solid rgb(112, 112, 112);
     box-shadow: -1px 2px 5px 1px rgba(0, 51, 102, 0.4);
-    color: #3399cc;
 }
 
 h1 {
+    color: #3399cc;
     font-size: 2em;
 }
 
 h2 {
+    color: white;
     font-size: 1.5em;
 }
 /* END common */

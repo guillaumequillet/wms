@@ -48,6 +48,12 @@ class User extends Entity
     }
 
     /* public setters */
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function setUsername(string $username): self
     {
         $this->username = $username;
@@ -69,13 +75,6 @@ class User extends Entity
     public function setRole(string $role): self
     {
         $this->role = $role;
-        return $this;
-    }
-
-    /* private setter  */
-    private function setId(int $id): self
-    {
-        $this->id = $id;
         return $this;
     }
 }

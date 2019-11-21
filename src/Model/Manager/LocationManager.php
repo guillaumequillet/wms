@@ -26,7 +26,7 @@ class LocationManager extends Manager
             'level' => $this->superglobalManager->findVariable('post', 'level')
         ];
 
-        if (in_array(null, $data)) {
+        if (in_array(null, $data, true)) {
             return false;
         }
 
@@ -56,7 +56,7 @@ class LocationManager extends Manager
             'toLevel' => $this->superglobalManager->findVariable("post", "toLevel")
         ];
 
-        if (in_array(null, $fields)) {
+        if (in_array(null, $fields, true)) {
             return "none";
         }
 
@@ -106,11 +106,11 @@ class LocationManager extends Manager
             }
         }
 
-        if (!in_array(false, $res)) {
+        if (!in_array(false, $res, true)) {
             return "fullInterval";
         }
 
-        if (!in_array(true, $res)) {
+        if (!in_array(true, $res, true)) {
             return "noneInterval";
         }
 
@@ -166,10 +166,10 @@ class LocationManager extends Manager
             $res[] = $this->repository->createLocation($location);
         }
 
-        if (!in_array(false, $res)) {
+        if (!in_array(false, $res, true)) {
             return "fullInterval";
         }     
-        if (!in_array(true, $res)) {
+        if (!in_array(true, $res, true)) {
             return "noneInterval";
         }            
         return "partialInterval";     

@@ -1,0 +1,52 @@
+{% extends "admin.twig.html" %}
+{% block title %}Visualisation d'un Utilisateur{% endblock %}
+
+{% block body %}
+    <section>
+        {% if log == "updateFail" %}
+            <p class="error">
+                La mise à jour a échoué.
+            </p>
+        {% elseif log == "updateOk" %}
+            <p class="valid">
+                La mise à jour a été effectuée.
+            </p>
+        {% endif %}
+
+        {% if user == null %}
+            <h1>Fiche Utilisateur : <span class="white">Inexistant</span></h1>
+            <p class="error">
+                L'utilisateur spécifié n'existe pas.
+            </p>
+        {% else %}
+            <h1>Fiche Utilisateur : <span class="white">{{ user.username }}</span> [id: {{ user.id }}]</h1>
+            <form method="POST" action="/user/update/{{ user.id }}">
+                <label>Nom d'Utilisateur
+                    <input type="text" id="username" name="username" value="{{ user.username }}" required>
+                </label>
+                <label>Email
+                    <input type="text" id="email" name="email" value="{{ user.email }}" required>
+                </label>
+                <label>Role
+                    {% if user.role == "superadmin"%}
+                        <p>Super Admin</p>
+                        <input type="hidden" name="role" id="role" value="superadmin">
+                    {% else %}
+                        <select name="role" id="role">
+                            <option value="admin"{% if user.role == "admin"%}{{ " selected" }}{% endif %}>Admin</option>
+                            <option value="simple"{% if user.role == "simple"%}{{ " selected" }}{% endif %}>Simple</option>
+                        </select>
+                    {% endif %}
+                </label>
+                <label>Nouveau mot de passe
+                    <input type="password" id="newPassword" name="newPassword">
+                </label>
+                <label>Confirmer nouveau mot de passe
+                    <input type="password" id="newPasswordConfirm" name="newPasswordConfirm">
+                </label>
+                <input type="submit" value="Mettre à jour">
+                <input type="hidden" id="token" name="token" value = {{ token }}>
+            </form>
+        {% endif %}
+    </section>
+{% endblock %}

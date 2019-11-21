@@ -71,6 +71,13 @@ class Location extends Entity
     }
 
     /* public setters */
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+        return $this;
+    }
+    
     public function setArea(string $area): self
     {
         $this->area = $area;
@@ -92,13 +99,6 @@ class Location extends Entity
     public function setLevel(string $level): self
     {
         $this->level = $level;
-        return $this;
-    }
-
-    /* private setter  */
-    private function setId(int $id): self
-    {
-        $this->id = $id;
         return $this;
     }
 }

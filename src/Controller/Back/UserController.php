@@ -42,6 +42,19 @@ class UserController extends Controller
         header('location: /user/index');
     }
 
+    public function update(int $id): void
+    {
+        if (!$this->token->check()) {
+            $this->setLog("updateFail");
+            header('location: /user/show/' . $id);
+            exit();
+        }
+
+        $res = $this->manager->updateUser($id);
+        $this->setLog($res ? "updateOk" : "updateFail");
+        header('location: /user/show/' . $id);        
+    }
+
     public function delete(int $id): void
     {
         $res = $this->manager->deleteUser($id);
@@ -51,6 +64,15 @@ class UserController extends Controller
 
     public function show(int $id): void
     {
+        $template = 'admin/user/show.twig.html';
+        $data = ['token' => $this->token->generateString()];
 
+        $user = $this->manager->getUser($id);
+
+        if (!is_null($user)) {
+            $data['user'] = $user;
+        }
+
+        $this->render($template, $data);        
     }
 }
