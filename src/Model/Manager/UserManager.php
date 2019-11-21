@@ -50,9 +50,18 @@ class UserManager extends Manager
         return $this->repository->createUser($user);
     }
 
-    public function checkPermission(int $id): bool
+    public function checkPermission(int $id, bool $allowSelf): bool
     {
-        // role permissions check
+        // if target is the user
+        if (!$allowSelf && ($id === (int)$this->superglobalManager->findVariable('session', 'loggedId'))) {
+            return false;
+        }
+
+        if ($allowSelf && ($id === (int)$this->superglobalManager->findVariable('session', 'loggedId'))) {
+            return true;
+        }
+
+        // it target is not the user : role permissions check
         $role = $this->superglobalManager->findVariable('session', 'role');
 
         // you can't admin as "simple" user
@@ -67,12 +76,12 @@ class UserManager extends Manager
             return false;
         }
 
-        // target user cannot be superadmin
-        if ($targetUser->getRole() === 'superadmin') {
+        // only superadmin can target a superadmin
+        if ($role !== 'superadmin' && $targetUser->getRole() === 'superadmin') {
             return false;
         }
 
-        // an admin can't delete another admin
+        // an admin can't affect another admin
         if ($targetUser->getRole() === 'admin' && $role === 'admin') {
             return false;
         }
@@ -82,12 +91,7 @@ class UserManager extends Manager
 
     public function deleteUser(int $id): bool
     {
-        // we can't delete ourselves
-        if ($id === $this->superglobalManager->findVariable('session', 'loggedId')) {
-            return false;
-        }
-
-        if (!$this->checkPermission($id)) {
+        if (!$this->checkPermission($id, false)) {
             return false;
         }
 
@@ -96,7 +100,7 @@ class UserManager extends Manager
 
     public function updateUser(int $id): bool
     {
-        if (!$this->checkPermission($id)) {
+        if (!$this->checkPermission($id, true)) {
             return false;
         }
 

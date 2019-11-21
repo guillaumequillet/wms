@@ -28,9 +28,9 @@
                     <input type="text" id="email" name="email" value="{{ user.email }}" required>
                 </label>
                 <label>Role
-                    {% if user.role == "superadmin"%}
-                        <p>Super Admin</p>
-                        <input type="hidden" name="role" id="role" value="superadmin">
+                    {% if user.id == loggedId %}
+                        <input type="text" value="{{ user.role }}" disabled="disabled">
+                        <input type="hidden" id="role" name="role" value = {{ user.role }}>
                     {% else %}
                         <select name="role" id="role">
                             <option value="admin"{% if user.role == "admin"%}{{ " selected" }}{% endif %}>Admin</option>
