@@ -114,6 +114,13 @@ class UserManager extends Manager
             'confirmPassword' => $this->superglobalManager->findVariable('post', 'newPasswordConfirm')
         ];
 
+        // to ensure that role was not modified for self
+        $loggedId = $this->superglobalManager->findVariable('session', 'loggedId');
+        $role = $this->superglobalManager->findVariable('session', 'role'); 
+        if ($id === $loggedId && $role !== $data['role']) {
+            return false;
+        }  
+
         if (in_array(null, $data, true)) {
             return false;
         }

@@ -108,31 +108,22 @@ class ArticleController extends Controller
             $queryString = null;
         }
 
-        $template = 'article/list.twig.html';
+        $template = 'article/index.twig.html';
         $data = ['token' => $this->token->generateString()];
 
-        $res = $this->manager->findAllArticles($queryString, $page);
+        $articles = $this->manager->findAllArticles($queryString, $page);
 
-        if (!is_null($res['entities'])) {
-            $data['articles'] = $res['entities'];
-        }
-
-        foreach(['currentPage', 'nextPage', 'previousPage'] as $key) {
-            if (!is_null($res[$key])) {
-                $data[$key] = $res[$key];
+        foreach (['entities', 'currentPage', 'previousPage', 'nextPage', 'queryString'] as $key) {
+            if (isset($articles[$key]) && !is_null($articles[$key])) {
+                $data[$key] = $articles[$key];
             }
         }
-
-        if (!is_null($queryString)) {
-            $data['queryString'] = $queryString;
-        }
-
         $this->render($template, $data);
     }
 
     public function show(int $id): void
     {
-        $template = 'article/single.twig.html';
+        $template = 'article/show.twig.html';
         $data = ['token' => $this->token->generateString()];
 
         // if some article id was specified, we only show this one

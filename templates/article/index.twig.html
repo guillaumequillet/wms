@@ -35,7 +35,7 @@
     </section>
     <section>
         <h2>Liste des Articles</h2>
-            {% if articles == null %}
+            {% if entities == null %}
                 <p class="error">Aucun article à afficher.</p>
             {% else %}
                 <table>
@@ -47,7 +47,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for article in articles %}
+                        {% for article in entities %}
                             <tr>
                                 <td>{{ article.id }}</td>
                                 <td>{{ article.code }}</td>
@@ -62,7 +62,7 @@
                         {% if currentPage is defined %}
                             <tr>
                                 <td colspan="3">
-                                    Pages :
+                                    Page(s) :
                                     {% if previousPage is defined %} 
                                         <a href="/article/showlist/{{ previousPage }}">{{ previousPage }}</a>
                                     {% endif %}

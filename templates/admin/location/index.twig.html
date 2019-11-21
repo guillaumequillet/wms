@@ -81,42 +81,46 @@
             <input type="hidden" name="token" id="token" value="{{ token }}">
         </form>
         <h2>Liste</h2>
-        <table>
-            <thead>
-                <th>ID</th>
-                <th>Zone</th>
-                <th>Allée</th>
-                <th>Colonne</th>
-                <th>Niveau</th>
-                <th>Action</th>
-            </thead>
+        {% if entities == null %}
+            <p class="error">Aucun emplacement à afficher.</p>
+        {% else %}
+            <table>
+                <thead>
+                    <th>ID</th>
+                    <th>Zone</th>
+                    <th>Allée</th>
+                    <th>Colonne</th>
+                    <th>Niveau</th>
+                    <th>Action</th>
+                </thead>
 
-            <tbody>
-                {% for location in entities %}
+                <tbody>
+                    {% for location in entities %}
+                        <tr>
+                            <td>{{location.id}}</td>
+                            <td>{{location.area}}</td>
+                            <td>{{location.aisle}}</td>
+                            <td>{{location.col}}</td>
+                            <td>{{location.level}}</td>
+                            <td><a href="/location/delete/{{ location.id }}" class="button icon delete-icon" onclick="return confirm('Etes-vous sûr(e) de vouloir supprimer cet article ?');">Supprimer</a></td>
+                        </tr>
+                    {% endfor %}
                     <tr>
-                        <td>{{location.id}}</td>
-                        <td>{{location.area}}</td>
-                        <td>{{location.aisle}}</td>
-                        <td>{{location.col}}</td>
-                        <td>{{location.level}}</td>
-                        <td><a href="/location/delete/{{ location.id }}" class="button icon delete-icon" onclick="return confirm('Etes-vous sûr(e) de vouloir supprimer cet article ?');">Supprimer</a></td>
+                        <td colspan="6">
+                            Page(s) 
+                            {% if previousPage is defined %}
+                                <a href="/location/index/{{previousPage}}">{{previousPage}}</a>
+                            {% endif %}
+                            {% if currentPage is defined %}
+                                {{ currentPage }}
+                            {% endif %}
+                            {% if nextPage is defined %}
+                                <a href="/location/index/{{nextPage}}"> {{nextPage}}</a>
+                            {% endif %}
+                        </td>
                     </tr>
-                {% endfor %}
-                <tr>
-                    <td colspan="6">
-                        {% if previousPage is defined %}
-                            <a href="/location/index/{{previousPage}}">{{previousPage}}</a>
-                        {% endif %}
-                        {% if currentPage is defined %}
-                            {{ currentPage }}
-                        {% endif %}
-                        {% if nextPage is defined %}
-                            <a href="/location/index/{{nextPage}}"> {{nextPage}}</a>
-                        {% endif %}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
+                </tbody>
+            </table>
+        {% endif %}
     </section>
 {% endblock %}
