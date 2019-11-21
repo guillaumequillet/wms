@@ -72,7 +72,7 @@ class ArticleController extends Controller
         if (!$res) {
             $this->setLog('2');
         }
-        header('location: /article/showlist');
+        header('location: /article/index');
     }
 
     public function import(): void
@@ -88,7 +88,7 @@ class ArticleController extends Controller
         header('location: /article/showlist');
     }
 
-    public function showlist(int $page = 0): void 
+    public function index(int $page = 0): void 
     {
         // we reset the queryString if new access from menu
         if ($page === 0) {

@@ -26,7 +26,7 @@ class Router
             header('location: /login');
             exit();
         }
-        header('location: /article/showlist');
+        header('location: /article/index');
     }
 
     public function createRoutes(): void 
@@ -64,13 +64,13 @@ class Router
 
     private function createArticleRoutes(): void 
     {
-        $this->router->map('GET', '/article/showlist/[i:page]?', function(int $page = 0) {
-            (new ArticleController)->showlist($page);
+        $this->router->map('GET', '/article/index/[i:page]?', function(int $page = 0) {
+            (new ArticleController)->index($page);
         });
 
         // we also need some route from POST, for the search input form
-        $this->router->map('POST', '/article/showlist/[i:page]?', function(int $page = 0) {
-            (new ArticleController)->showlist($page);
+        $this->router->map('POST', '/article/index/[i:page]?', function(int $page = 0) {
+            (new ArticleController)->index($page);
         });
     
         $this->router->map('GET', '/article/new', function() {
