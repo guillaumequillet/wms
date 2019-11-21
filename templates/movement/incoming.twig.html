@@ -1,0 +1,38 @@
+{% extends "base.twig.html" %}
+{% block title %}Réception Fournisseur{% endblock %}
+
+{% block body %}
+    <section>
+        <h1>Saisie d'une <span class="white">Réception Fournisseur</span></h1>
+        <form method="post" action="/movement/incoming" id="incomingForm">
+            <fieldset>
+                <legend>Entête Réception</legend>
+                <label>Fournisseur
+                    <input type="text" name="provider" id="provider" value="{{ order.provider }}" required>
+                </label>
+                <label>Référence
+                    <input type="text" name="reference" id="reference" value="{{ order.reference }}" required>
+                </label>
+                <label>Statut
+                    <select name="status" id="status">
+                        <option value="pending"{% if order.status == "pending" %}" selected"{% endif %}>En attente</option>
+                        <option value="received"{% if order.status == "received" %}" selected"{% endif %}>Réceptionnée</option>
+                    </select>
+                </label>
+            </fieldset>
+            <fieldset>
+                <legend>Produits</legend>
+                <div class="orderRow">
+                    <label>Code Article<input type="text"></label>
+                    <label>Quantité<input type="text"></label>
+                    <label>Emplacement<input type="text"></label>
+                </div>
+            </fieldset>
+            <p><a href="#" class="button icon add-icon" id="addRowButton">Ajouter une ligne</a></p>
+            <input type="hidden" name="token" id="token" value="{{ token }}">
+            <input type="submit" value="Enregister">
+        </form>
+    </section>    
+
+    <script src="/js/incomingForm.js"></script>
+{% endblock %}

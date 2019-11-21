@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Tool;
 
 use App\Controller\Front\ArticleController;
+use App\Controller\Front\MovementController;
 use App\Controller\Front\LoginController;
 use App\Controller\Back\UserController;
 use App\Controller\Back\LocationController;
@@ -59,6 +60,7 @@ class Router
             });
     
             $this->createArticleRoutes();
+            $this->createMovementRoutes();
         }
     }
 
@@ -99,6 +101,17 @@ class Router
 
         $this->router->map('POST', '/article/exists', function() {
             (new ArticleController)->articleExists();
+        });
+    }
+
+    private function createMovementRoutes(): void 
+    {
+        $this->router->map('GET', '/movement/index', function() {
+            (new MovementController)->index();
+        });
+
+        $this->router->map('GET', '/movement/incoming', function() {
+            (new MovementController)->incoming();
         });
     }
 

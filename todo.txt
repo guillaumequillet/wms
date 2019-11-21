@@ -1,5 +1,7 @@
 TODO LIST
 
+
+
 chargement CSV
 corriger header incorrect
 
@@ -11,10 +13,13 @@ ce ne sont que des affichages. Ils sont générés par les mouvements. Prévoir 
 recherche multi critères et éventuellement un EXPORT CSV.
 
 MOUVEMENTS
+rendre uniques les champs "références" des mouvements (complexe à cause du type). Exporter le nouveau dump .sql
+
 - entrée
 - sortie
 - transfert
 - inventaire
+voir si on garde les "status"...
 
 GERER RESPONSIVE
 
