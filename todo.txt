@@ -11,7 +11,7 @@ ce ne sont que des affichages. Ils sont générés par les mouvements. Prévoir 
 recherche multi critères et éventuellement un EXPORT CSV.
 
 USERS
-gérer l'update USER : voir formulaire pour "table" ?
+controles Javascript pour format email, username et check passwords
 
 MOUVEMENTS
 - entrée

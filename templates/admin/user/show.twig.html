@@ -20,7 +20,8 @@
             </p>
         {% else %}
             <h1>Fiche Utilisateur : <span class="white">{{ user.username }}</span> [id: {{ user.id }}]</h1>
-            <form method="POST" action="/user/update/{{ user.id }}">
+            <p id="editUserFeedback" class="error"></p>
+            <form method="POST" action="/user/update/{{ user.id }}" id="editUserForm">
                 <label>Nom d'Utilisateur
                     <input type="text" id="username" name="username" value="{{ user.username }}" required>
                 </label>
