@@ -39,12 +39,17 @@ abstract class Controller
         }
         
         $log = $this->superglobalManager->findVariable('session', 'log');
+        $username = $this->superglobalManager->findVariable('session', 'username');
         $role = $this->superglobalManager->findVariable('session', 'role');
         $loggedId = $this->superglobalManager->findVariable('session', 'loggedId');
 
         if (!is_null($log)) {
             $data['log'] = $log;
             $this->superglobalManager->unsetVariable('session', 'log');
+        }
+
+        if (!is_null($username)) {
+            $data['username'] = $username;
         }
 
         if (!is_null($role)) {

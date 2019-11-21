@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  jeu. 21 nov. 2019 à 09:22
+-- Généré le :  jeu. 21 nov. 2019 à 14:23
 -- Version du serveur :  10.4.6-MariaDB
 -- Version de PHP :  7.3.9
 
@@ -71,19 +71,6 @@ CREATE TABLE `inventories` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `lines`
---
-
-CREATE TABLE `lines` (
-  `id` int(11) NOT NULL,
-  `article` int(11) NOT NULL,
-  `location` int(11) NOT NULL,
-  `qty` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `locations`
 --
 
@@ -113,6 +100,20 @@ CREATE TABLE `outgoings` (
   `zipcode` varchar(255) NOT NULL,
   `city` varchar(255) NOT NULL,
   `country` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `rows`
+--
+
+CREATE TABLE `rows` (
+  `id` int(11) NOT NULL,
+  `movement` int(11) NOT NULL,
+  `article` int(11) NOT NULL,
+  `location` int(11) NOT NULL,
+  `qty` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -191,14 +192,6 @@ ALTER TABLE `inventories`
   ADD KEY `user` (`user`);
 
 --
--- Index pour la table `lines`
---
-ALTER TABLE `lines`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `article` (`article`),
-  ADD KEY `location` (`location`);
-
---
 -- Index pour la table `locations`
 --
 ALTER TABLE `locations`
@@ -211,6 +204,14 @@ ALTER TABLE `locations`
 ALTER TABLE `outgoings`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user` (`user`);
+
+--
+-- Index pour la table `rows`
+--
+ALTER TABLE `rows`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `article` (`article`),
+  ADD KEY `location` (`location`);
 
 --
 -- Index pour la table `stocks`
@@ -258,12 +259,6 @@ ALTER TABLE `inventories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `lines`
---
-ALTER TABLE `lines`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT pour la table `locations`
 --
 ALTER TABLE `locations`
@@ -273,6 +268,12 @@ ALTER TABLE `locations`
 -- AUTO_INCREMENT pour la table `outgoings`
 --
 ALTER TABLE `outgoings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `rows`
+--
+ALTER TABLE `rows`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -291,7 +292,7 @@ ALTER TABLE `transfers`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Contraintes pour les tables déchargées
@@ -310,17 +311,17 @@ ALTER TABLE `inventories`
   ADD CONSTRAINT `inventories_ibfk_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`);
 
 --
--- Contraintes pour la table `lines`
---
-ALTER TABLE `lines`
-  ADD CONSTRAINT `lines_ibfk_1` FOREIGN KEY (`article`) REFERENCES `articles` (`id`),
-  ADD CONSTRAINT `lines_ibfk_2` FOREIGN KEY (`location`) REFERENCES `locations` (`id`);
-
---
 -- Contraintes pour la table `outgoings`
 --
 ALTER TABLE `outgoings`
   ADD CONSTRAINT `outgoings_ibfk_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`);
+
+--
+-- Contraintes pour la table `rows`
+--
+ALTER TABLE `rows`
+  ADD CONSTRAINT `rows_ibfk_1` FOREIGN KEY (`article`) REFERENCES `articles` (`id`),
+  ADD CONSTRAINT `rows_ibfk_2` FOREIGN KEY (`location`) REFERENCES `locations` (`id`);
 
 --
 -- Contraintes pour la table `stocks`

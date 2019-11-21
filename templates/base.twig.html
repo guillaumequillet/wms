@@ -21,7 +21,7 @@
                         {% if role == 'admin' or role == 'superadmin' %}
                             <li><a href="/user/index" class="icon admin-icon">Admin</a></li>
                         {% endif %}
-                        <li><a href="/logout" class="icon logout-icon">Déconnexion</a></li>
+                        <li><a href="/logout" class="icon logout-icon">Déconnexion</a><span id="loggedUsername">{{ username }}</span></li>
                     </ul>
                 {% else %}
                     <p class="error">Veuillez vous connecter pour accéder au site</p>

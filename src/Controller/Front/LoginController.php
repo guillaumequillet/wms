@@ -44,7 +44,7 @@ class LoginController extends Controller
             $this->setLog("1");
         }
 
-        $template = 'login.twig.html';
+        $template = 'admin/user/login.twig.html';
         $data = ['token' => $this->token->generateString()];       
         $this->render($template, $data);        
     }
