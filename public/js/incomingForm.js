@@ -23,8 +23,9 @@ $(document).ready(function() {
 
         rowNumber++;
 
+        // to remove the line with the delete button
         let button = newChild.querySelector(".button");
-
+        
         button.addEventListener("click", e => {
             e.preventDefault();
             orderRowsParent.removeChild(newChild);
@@ -67,8 +68,47 @@ $(document).ready(function() {
                 deleteListItems(articleSuggestions);
             }
         });
+
+        // location field
+        let locationField = Array.from(newChild.querySelectorAll("div.orderRow input"))[2];
+        let locationSuggestions = Array.from(newChild.querySelectorAll("ul"))[1];
+        
+        locationField.addEventListener('input', function() {
+            if (locationField.value !== '') {
+                $.post('/location/suggestions', {concatenate:locationField.value}, function(data) {
+                    if (data !== 'no-result') {
+                        deleteListItems(locationSuggestions);
+
+                        // creating the list using results from AJAX
+                        data.split(';').forEach(function(element) {
+                            let resultElmt = document.createElement("li");
+                            resultElmt.classList.add("dynamicListItem");
+                            resultElmt.innerText = element;
+                            locationSuggestions.appendChild(resultElmt);
+                            
+                            // we set value to clicked choice
+                            resultElmt.addEventListener("click", e => {
+                                locationField.value = resultElmt.innerText;
+                                deleteListItems(locationSuggestions);                              
+                            });
+                        });
+                        
+                    } else {
+                        // if no result from query string
+                        deleteListItems(locationSuggestions);
+                        let noResultElmt = document.createElement("li");
+                        noResultElmt.innerText = "Pas de résultat.";
+                        locationSuggestions.appendChild(noResultElmt);
+                    }
+                });
+            } else {
+                // if the query string is empty
+                deleteListItems(locationSuggestions);
+            }
+        });
     }
 
+    // to add some line
     addButton.addEventListener("click", e => {
         e.preventDefault();
         addRow();

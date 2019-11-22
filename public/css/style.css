@@ -388,6 +388,7 @@ div .orderRow:nth-of-type(even) {
 }
 
 span .button {
+    margin-top: 10px;
     margin-left: 10px;
 }
 

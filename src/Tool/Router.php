@@ -8,6 +8,7 @@ use App\Controller\Front\MovementController;
 use App\Controller\Front\LoginController;
 use App\Controller\Back\UserController;
 use App\Controller\Back\LocationController;
+use App\Controller\Front\LocationController as FrontLocationController;
 
 class Router
 {
@@ -61,6 +62,7 @@ class Router
     
             $this->createArticleRoutes();
             $this->createMovementRoutes();
+            $this->createFrontLocationRoutes();
         }
     }
 
@@ -163,6 +165,13 @@ class Router
         $this->router->map('GET', '/location/delete/[i:id]', function(int $id) {
             (new LocationController)->delete($id);
         });
+    }
+
+    private function createFrontLocationRoutes(): void
+    {
+        $this->router->map('POST', '/location/suggestions', function() {
+            (new FrontLocationController)->suggestions();
+        });        
     }
 
     public function getRoute(): void

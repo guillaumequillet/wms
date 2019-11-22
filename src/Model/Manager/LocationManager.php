@@ -184,4 +184,23 @@ class LocationManager extends Manager
     {
         return $this->repository->deleteWhere(['id', '=', $id]);
     }
+
+
+    public function suggestLocations($concatenate): string
+    {
+        $limit = 5;
+        $entities = $this->repository->findWhereAll(['concatenate', 'like', "%$concatenate%"], $limit);
+
+        if (is_null($entities)) {
+            return 'no-result';
+        }
+
+        $results = [];
+
+        foreach($entities as $entity) {
+            $results[] = $entity->getConcatenate();
+        }
+
+        return join(';', $results);
+    }
 }
