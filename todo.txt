@@ -23,3 +23,5 @@ voir si on garde les "status"...
 
 GERER RESPONSIVE
 
+JS
+sortir les fonctions dans des fichiers séparés

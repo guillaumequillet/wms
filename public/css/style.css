@@ -354,7 +354,8 @@ header nav {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    margin: 2px 0;
+    align-items: center;
+    border-bottom: 1px solid rgb(64, 64, 64);
 }
 
 .orderRow label {
@@ -383,5 +384,9 @@ div .orderRow:nth-of-type(odd) {
 
 div .orderRow:nth-of-type(even) {
     background-color: #c7ced3;
+}
+
+span .button {
+    margin-left: 10px;
 }
 /* end ORDER */
