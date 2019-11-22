@@ -23,9 +23,15 @@
             <fieldset>
                 <legend>Produits</legend>
                 <div class="orderRow">
-                    <label>Code Article<input type="text" name="article"></label>
+                    <label>Code Article
+                        <input type="text" name="article">
+                        <ul class="dynamicList"></ul> <!-- UL pour suggestions -->
+                    </label>
                     <label>Quantité<input type="text" name="quantity"></label>
-                    <label>Emplacement<input type="text" name="location"></label>
+                    <label>Emplacement
+                        <input type="text" name="location">
+                        <ul class="dynamicList"></ul> <!-- UL pour suggestions -->
+                    </label>
                     <span><a href="#" class="button icon delete-icon">Effacer</a></span>
                 </div>
             </fieldset>
@@ -34,6 +40,8 @@
             <input type="submit" value="Enregister">
         </form>
     </section>    
+{% endblock %}
 
+{% block js %}
     <script src="/js/incomingForm.js"></script>
 {% endblock %}

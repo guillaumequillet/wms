@@ -1,6 +1,7 @@
 TODO LIST
 
-
+articles
+attention aux mots clés réservés pour éviter les problèmes avec AJAX (pas de "FALSE" ou "NULL", ou whatever). Utiliser des caractères interdits sauverait la mise
 
 chargement CSV
 corriger header incorrect

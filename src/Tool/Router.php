@@ -102,6 +102,10 @@ class Router
         $this->router->map('POST', '/article/exists', function() {
             (new ArticleController)->articleExists();
         });
+
+        $this->router->map('POST', '/article/suggestions', function() {
+            (new ArticleController)->suggestions();
+        });
     }
 
     private function createMovementRoutes(): void 

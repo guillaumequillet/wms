@@ -46,10 +46,23 @@ class ArticleController extends Controller
         $code = $this->superglobalManager->findVariable('post', 'code');
 
         if (is_null($code)) {
-            echo "false";
+            echo 'false';
+            exit();
         }
 
-        echo ($this->manager->articleExists($code)) ? "true" : "false";
+        echo ($this->manager->articleExists($code)) ? 'true' : 'false';
+    }
+
+    public function suggestions(): void
+    {
+        $code = $this->superglobalManager->findVariable('post', 'code');
+
+        if (is_null($code)) {
+            echo 'no-result';
+            exit();
+        }
+
+        echo $this->manager->suggestArticles($code);        
     }
 
     public function update(int $id): void

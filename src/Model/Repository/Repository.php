@@ -82,7 +82,7 @@ abstract class Repository
         $stmt->execute($this->createConditionParams($conditions));
         $res = $stmt->fetch();
 
-        return ($res === false) ? null : $res;        
+        return empty($res) ? null : $res;        
     }
 
     public function findWhereAll(array $conditions = [], ?int $limit = null, ?int $offset = null): ?array
@@ -104,7 +104,7 @@ abstract class Repository
         $stmt->setFetchMode(\PDO::FETCH_CLASS, $this->getEntityClassName()); 
         $stmt->execute($this->createConditionParams($conditions));
         $res = $stmt->fetchAll();
-        return ($res === false) ? null : $res;        
+        return empty($res) ? null : $res;        
     }
 
     public function deleteWhere(array $conditions): bool
@@ -149,6 +149,11 @@ abstract class Repository
     public function findWhereAllPaginated(array $conditions = [], int $page): ?array
     {
         $entities = $this->findWhereAll($conditions, $this->recordsPerPage, $this->recordsPerPage * ($page - 1));
+        
+        if (is_null($entities)) {
+            return null;
+        }
+        
         $totalResults = $this->count($conditions);
         $currentPage = $page;
 

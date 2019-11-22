@@ -9,7 +9,6 @@ $(document).ready(function() {
 		if(code != "")
 		{
             $.post('/article/exists', {code:code}, function(data){
-                console.log(data);
                 if (data === "true") {
                     $('#articleFeedback').show();
                     $('#articleFeedback').text("L'article existe déjà.");

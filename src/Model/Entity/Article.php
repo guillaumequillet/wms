@@ -77,13 +77,13 @@ class Article extends Entity
 
     public function setCode(string $code): self
     {
-        $this->code = $code;
+        $this->code = strtoupper($code);
         return $this;
     }
 
     public function setDescription(string $description): self
     {
-        $this->description = $description;
+        $this->description = strtoupper($description);
         return $this;
     }
 

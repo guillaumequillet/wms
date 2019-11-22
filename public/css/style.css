@@ -354,14 +354,15 @@ header nav {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: center;
+    justify-content: center;
+    align-items: stretch;
     border-bottom: 1px solid rgb(64, 64, 64);
 }
 
 .orderRow label {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -388,5 +389,20 @@ div .orderRow:nth-of-type(even) {
 
 span .button {
     margin-left: 10px;
+}
+
+.dynamicList {
+    margin: auto;
+    padding: 0;
+}
+
+.dynamicList li {
+    list-style-type: none;
+    padding: 5px;
+}
+
+.dynamicListItem:hover {
+    background-color: rgb(64, 64, 64);
+    color: white;
 }
 /* end ORDER */
