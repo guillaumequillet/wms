@@ -25,4 +25,16 @@ class LocationController extends Controller
 
         echo $this->manager->suggestLocations($concatenate);        
     }
+
+    public function locationExists(): void
+    {
+        $location = $this->superglobalManager->findVariable('post', 'location');
+
+        if (is_null($location)) {
+            echo 'false';
+            exit();
+        }
+
+        echo ($this->manager->locationExists($location)) ? 'true' : 'false';
+    }
 }

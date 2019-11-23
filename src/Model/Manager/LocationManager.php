@@ -203,4 +203,9 @@ class LocationManager extends Manager
 
         return join(';', $results);
     }
+
+    public function locationExists(string $location): bool
+    {
+        return !(is_null($this->repository->findWhere(['concatenate', '=', $location])));
+    }
 }
