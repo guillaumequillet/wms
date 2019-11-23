@@ -1,66 +1,118 @@
-$(document).ready(function() {
-    // incomingForm
-    let feedbackElmt = document.querySelector("#feedbackIncomingForm");
-    $((feedbackElmt)).hide();
-
-    let formElmt = document.querySelector("#incomingForm");
-    let rowNumber = 0;
-    let orderRow = document.querySelector('#incomingForm div.orderRow');
-    let orderRowsParent = orderRow.parentNode;
-    orderRowsParent.removeChild(orderRow);
-    let addButton = document.querySelector("#addRowButton");
-    let currentRow = null;
-
-    formElmt.addEventListener('submit', e => {
-        feedbackElmt.innerText = '';
-        $((feedbackElmt)).hide();
-
-        Array.from(document.querySelectorAll('input')).forEach(i => {
-            if (i.type !== 'submit' && i.value === '') {
-                feedbackElmt.innerText = 'Tous les champs doivent être remplis.'
-                $((feedbackElmt)).show();
-                e.preventDefault();
+class IncomingForm
+{
+    constructor() 
+    {
+        this.feedbackElmt = document.querySelector("#feedbackIncomingForm");
+        $((this.feedbackElmt)).hide();
+    
+        this.rowNumber = 0;
+    
+        // we take orderRow original element to clone it and remove it
+        this.orderRow = document.querySelector('#incomingForm div.orderRow');
+        this.orderRowsParent = this.orderRow.parentNode;
+        this.orderRowsParent.removeChild(this.orderRow);
+    
+        // to add some line
+        this.addButton = document.querySelector("#addRowButton");
+        this.addButton.addEventListener("click", e => {
+            e.preventDefault();
+            this.addRow();
+        });
+    
+        this.formElmt = document.querySelector("#incomingForm");
+        this.formElmt.addEventListener('submit', e => {
+            let error = false;
+    
+            this.feedbackElmt.innerText = '';
+            $((this.feedbackElmt)).hide();
+    
+            let inputs = Array.from(document.querySelectorAll('input'));
+    
+            // if no article was set
+            if (inputs.length === 4) {
+                error = true;
+                this.feedbackElmt.innerText = "Vous devez ajouter au moins une ligne.";
             }
+    
+            // the form can only be validated if all filled and all the articles/locations exist
+            if (!error) {
+                for (let i = 0; i < inputs.length; i++) {
+                    if (inputs[i].type !== 'submit' && inputs[i].value === '') {
+                        this.feedbackElmt.innerText = 'Tous les champs doivent être remplis.';
+                        error = true;
+                    } else if (inputs[i].type !== 'submit') {
+                        let action = '';
+                        if (inputs[i].name.includes('article')) {
+                            action = 'article';
+                        } else if (inputs[i].name.includes('location')) {
+                            action = 'location';
+                        }
+        
+                        if (action !== '') {
+                            let url = `/${action}/exists`;
+        
+                            postObject = {};
+                            
+                            if (action === 'article') {
+                                postObject = {code:inputs[i].value};
+                            } else if (action === 'location') {
+                                postObject = {location:inputs[i].value};
+                            }
+        
+                            if (action === 'article' || action === 'location')
+                            {
+                                $.post(url, postObject, (data) => {
+                                    if (data === 'false') {
+                                        error = true;
+                                        this.feedbackElmt.innerText = `L'élément "${action}" ${inputs[i].value} n'existe pas.`;
+                                    }
+                                });   
+                            }
+                        }
+                    }
+        
+                    // if some error was reported
+                    if (error) {
+                        e.preventDefault();
+                        $(this.feedbackElmt).show();
+                        break;
+                    }
+                };
+            }
+    
         });
-    });
-
-    function deleteListItems(listElmt) {
-        Array.from(listElmt.querySelectorAll("li")).forEach(function(element) {
-            listElmt.removeChild(element);
-        });            
     }
-
-    function addRow() {
-        let newChild = orderRow.cloneNode(true);
-        orderRowsParent.appendChild(newChild);
-        let totalRows = orderRowsParent.querySelectorAll("div.orderRow").length;
-
-        Array.from(newChild.querySelectorAll("div.orderRow input")).forEach(function(element, i) {
-            element.name = element.name + rowNumber;
+        
+    addRow() {
+        let newChild = this.orderRow.cloneNode(true);
+        this.orderRowsParent.appendChild(newChild);
+    
+        Array.from(newChild.querySelectorAll("div.orderRow input")).forEach( element => {
+            element.name = element.name + this.rowNumber;
         });
-
-        rowNumber++;
-
+    
+        this.rowNumber++;
+    
         // to remove the line with the delete button
         let button = newChild.querySelector(".button");
         
         button.addEventListener("click", e => {
             e.preventDefault();
-            orderRowsParent.removeChild(newChild);
+            this.orderRowsParent.removeChild(newChild);
         })    
-
+    
         // article field
         let articleField = Array.from(newChild.querySelectorAll("div.orderRow input"))[0];
         let articleSuggestions = Array.from(newChild.querySelectorAll("ul"))[0];
         
-        articleField.addEventListener('input', function() {
+        articleField.addEventListener('input', () => {
             if (articleField.value !== '') {
-                $.post('/article/suggestions', {code:articleField.value}, function(data) {
+                $.post('/article/suggestions', {code:articleField.value}, (data) => {
                     if (data !== 'no-result') {
-                        deleteListItems(articleSuggestions);
-
+                        this.deleteListItems(articleSuggestions);
+    
                         // creating the list using results from AJAX
-                        data.split(';').forEach(function(element) {
+                        data.split(';').forEach((element) => {
                             let resultElmt = document.createElement("li");
                             resultElmt.classList.add("dynamicListItem");
                             resultElmt.innerText = element;
@@ -69,13 +121,13 @@ $(document).ready(function() {
                             // we set value to clicked choice
                             resultElmt.addEventListener("click", e => {
                                 articleField.value = resultElmt.innerText;
-                                deleteListItems(articleSuggestions);                              
+                                this.deleteListItems(articleSuggestions);                              
                             });
                         });
                         
                     } else {
                         // if no result from query string
-                        deleteListItems(articleSuggestions);
+                        this.deleteListItems(articleSuggestions);
                         let noResultElmt = document.createElement("li");
                         noResultElmt.innerText = "Pas de résultat.";
                         articleSuggestions.appendChild(noResultElmt);
@@ -83,22 +135,22 @@ $(document).ready(function() {
                 });
             } else {
                 // if the query string is empty
-                deleteListItems(articleSuggestions);
+                this.deleteListItems(articleSuggestions);
             }
         });
-
+    
         // location field
         let locationField = Array.from(newChild.querySelectorAll("div.orderRow input"))[2];
         let locationSuggestions = Array.from(newChild.querySelectorAll("ul"))[1];
         
-        locationField.addEventListener('input', function() {
+        locationField.addEventListener('input', () => {
             if (locationField.value !== '') {
-                $.post('/location/suggestions', {concatenate:locationField.value}, function(data) {
+                $.post('/location/suggestions', {concatenate:locationField.value}, (data) => {
                     if (data !== 'no-result') {
-                        deleteListItems(locationSuggestions);
-
+                        this.deleteListItems(locationSuggestions);
+    
                         // creating the list using results from AJAX
-                        data.split(';').forEach(function(element) {
+                        data.split(';').forEach((element) => {
                             let resultElmt = document.createElement("li");
                             resultElmt.classList.add("dynamicListItem");
                             resultElmt.innerText = element;
@@ -107,13 +159,13 @@ $(document).ready(function() {
                             // we set value to clicked choice
                             resultElmt.addEventListener("click", e => {
                                 locationField.value = resultElmt.innerText;
-                                deleteListItems(locationSuggestions);                              
+                                this.deleteListItems(locationSuggestions);                              
                             });
                         });
                         
                     } else {
                         // if no result from query string
-                        deleteListItems(locationSuggestions);
+                        this.deleteListItems(locationSuggestions);
                         let noResultElmt = document.createElement("li");
                         noResultElmt.innerText = "Pas de résultat.";
                         locationSuggestions.appendChild(noResultElmt);
@@ -121,14 +173,16 @@ $(document).ready(function() {
                 });
             } else {
                 // if the query string is empty
-                deleteListItems(locationSuggestions);
+                this.deleteListItems(locationSuggestions);
             }
         });
     }
 
-    // to add some line
-    addButton.addEventListener("click", e => {
-        e.preventDefault();
-        addRow();
-    });
-});
+    deleteListItems(listElmt) {
+        Array.from(listElmt.querySelectorAll("li")).forEach((element) => {
+            listElmt.removeChild(element);
+        });            
+    }
+}
+
+new IncomingForm();

@@ -119,6 +119,10 @@ class Router
         $this->router->map('GET', '/movement/incoming', function() {
             (new MovementController)->incoming();
         });
+
+        $this->router->map('POST', '/movement/incoming', function() {
+            (new MovementController)->incoming();
+        });
     }
 
     private function createUserRoutes(): void
@@ -172,6 +176,10 @@ class Router
         $this->router->map('POST', '/location/suggestions', function() {
             (new FrontLocationController)->suggestions();
         });        
+
+        $this->router->map('POST', '/location/exists', function() {
+            (new FrontLocationController)->locationExists();
+        });  
     }
 
     public function getRoute(): void
