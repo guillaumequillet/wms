@@ -1,10 +1,28 @@
 $(document).ready(function() {
     // incomingForm
+    let feedbackElmt = document.querySelector("#feedbackIncomingForm");
+    $((feedbackElmt)).hide();
+
+    let formElmt = document.querySelector("#incomingForm");
     let rowNumber = 0;
     let orderRow = document.querySelector('#incomingForm div.orderRow');
     let orderRowsParent = orderRow.parentNode;
     orderRowsParent.removeChild(orderRow);
     let addButton = document.querySelector("#addRowButton");
+    let currentRow = null;
+
+    formElmt.addEventListener('submit', e => {
+        feedbackElmt.innerText = '';
+        $((feedbackElmt)).hide();
+
+        Array.from(document.querySelectorAll('input')).forEach(i => {
+            if (i.type !== 'submit' && i.value === '') {
+                feedbackElmt.innerText = 'Tous les champs doivent être remplis.'
+                $((feedbackElmt)).show();
+                e.preventDefault();
+            }
+        });
+    });
 
     function deleteListItems(listElmt) {
         Array.from(listElmt.querySelectorAll("li")).forEach(function(element) {

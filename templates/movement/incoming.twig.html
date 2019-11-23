@@ -4,6 +4,7 @@
 {% block body %}
     <section>
         <h1>Saisie d'une <span class="white">Réception Fournisseur</span></h1>
+        <p class="error" id="feedbackIncomingForm"></p>
         <form method="post" action="/movement/incoming" id="incomingForm">
             <fieldset>
                 <legend>Entête Réception</legend>
@@ -24,12 +25,12 @@
                 <legend>Produits</legend>
                 <div class="orderRow">
                     <label>Code Article
-                        <input type="text" name="article">
+                        <input type="text" name="article" required>
                         <ul class="dynamicList"></ul> <!-- UL pour suggestions -->
                     </label>
-                    <label>Quantité<input type="text" name="quantity"></label>
+                    <label>Quantité<input type="number" name="quantity" required></label>
                     <label>Emplacement
-                        <input type="text" name="location">
+                        <input type="text" name="location" required>
                         <ul class="dynamicList"></ul> <!-- UL pour suggestions -->
                     </label>
                     <span><a href="#" class="button icon delete-icon">Effacer</a></span>
