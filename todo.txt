@@ -22,6 +22,3 @@ rendre uniques les champs "références" des mouvements (complexe à cause du ty
 voir si on garde les "status"...
 
 GERER RESPONSIVE
-
-JS
-sortir les fonctions dans des fichiers séparés
