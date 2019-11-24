@@ -2,6 +2,7 @@ TODO LIST
 
 articles
 attention aux mots clés réservés pour éviter les problèmes avec AJAX (pas de "FALSE" ou "NULL", ou whatever). Utiliser des caractères interdits sauverait la mise
+en bombardant entrée / espace on arrive à créer un code article débile (espaces, caractères spéciaux...)
 
 chargement CSV
 corriger header incorrect
@@ -17,6 +18,7 @@ MOUVEMENTS
 rendre uniques les champs "références" des mouvements (complexe à cause du type). Exporter le nouveau dump .sql
 
 - entrée
+
 - sortie
 - transfert
 - inventaire

@@ -32,6 +32,13 @@ class ArticleManager extends Manager
             'length' => (int)$this->superglobalManager->findVariable("post", "length"),
             'barcode' => $this->superglobalManager->findVariable("post", "barcode"),
         ];
+
+        // if code is not correct
+        if (preg_match('/^[\w_]+$/', $data['code']))
+        {
+            return null;
+        }
+
         $article->hydrate($data);
         $res = $this->repository->createArticle($article);
 
