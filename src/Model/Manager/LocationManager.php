@@ -77,7 +77,7 @@ class LocationManager extends Manager
             return "none";
         }
 
-        $res = [];
+        $locations = [];
 
         foreach (range($fields['fromAisle'], $fields['toAisle']) as $aisle) {
             foreach (range($fields['fromCol'], $fields['toCol']) as $col) {
@@ -101,16 +101,19 @@ class LocationManager extends Manager
 
                     $location->hydrate($data);
                     $location->setConcatenate();
-                    $res[] = $this->repository->createLocation($location);
+                    $locations[] = $location;
                 }
             }
         }
 
-        if (!in_array(false, $res, true)) {
+        $res = $this->repository->createLocations($locations);
+
+
+        if ($res === count($locations)) {
             return "fullInterval";
         }
 
-        if (!in_array(true, $res, true)) {
+        if ($res === 0) {
             return "noneInterval";
         }
 

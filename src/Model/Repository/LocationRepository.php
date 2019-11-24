@@ -20,4 +20,18 @@ class LocationRepository extends Repository
         ]);
         return $res;   
     }
+    
+    public function createLocations(array $locations): int
+    {
+        $reqString = 'INSERT INTO locations(area, aisle, col, level, concatenate) VALUES ';
+        $reqValues = [];
+        foreach ($locations as $location) {
+            $reqValues[] = '("' . join('","', [$location->getArea(), $location->getAisle(), $location->getCol(), $location->getLevel(), $location->getConcatenate()]) . '")';
+        }
+        $reqString .= join(',', $reqValues);
+
+        $reqString .=  'ON DUPLICATE KEY UPDATE area=area';
+
+        return $query = $this->database->getPDO()->exec($reqString);
+    }
 }
