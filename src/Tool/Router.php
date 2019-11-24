@@ -150,9 +150,14 @@ class Router
 
     private function createLocationRoutes(): void
     {
-        $this->router->map('GET', '/location/index/[i:page]?', function(int $page = 1) {
+        $this->router->map('GET', '/location/index/[i:page]?', function(int $page = 0) {
             (new LocationController)->index($page);
         });        
+
+        // we also need some route from POST, for the search input form
+        $this->router->map('POST', '/location/index/[i:page]?', function(int $page = 0) {
+            (new LocationController)->index($page);
+        });
 
         $this->router->map('POST', '/location/createsingle', function() {
             (new LocationController)->createSingle();

@@ -80,7 +80,17 @@
             <input type="submit" name="Importer">
             <input type="hidden" name="token" id="token" value="{{ token }}">
         </form>
+        
         <h2>Liste</h2>
+        <p class="error" id="locationSearchFeedback"></p>
+        <form method="POST" id="searchLocationForm" action="/location/index">
+            <label>Rechercher un emplacement
+                <input type="text" name="queryString" id="queryString" value="{{ queryString }}">
+            </label>
+            <input type="submit" value="Rechercher">
+            <input type="hidden" name="token" id="token" value="{{ token }}">
+        </form>
+
         {% if entities == null %}
             <p class="error">Aucun emplacement à afficher.</p>
         {% else %}

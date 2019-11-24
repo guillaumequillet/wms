@@ -124,9 +124,13 @@ class ArticleController extends Controller
         $template = 'article/index.twig.html';
         $data = ['token' => $this->token->generateString()];
 
+        if (!is_null($queryString)) {
+            $data['queryString'] = $queryString;
+        }
+
         $articles = $this->manager->findAllArticles($queryString, $page);
 
-        foreach (['entities', 'currentPage', 'previousPage', 'nextPage', 'queryString'] as $key) {
+        foreach (['entities', 'currentPage', 'previousPage', 'nextPage'] as $key) {
             if (isset($articles[$key]) && !is_null($articles[$key])) {
                 $data[$key] = $articles[$key];
             }

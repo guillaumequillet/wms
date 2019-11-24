@@ -7,9 +7,6 @@ en bombardant entrée / espace on arrive à créer un code article débile (espa
 chargement CSV
 corriger header incorrect
 
-EMPLACEMENTS
-Ajouter recherche quand pagination ok
-
 STOCKS
 ce ne sont que des affichages. Ils sont générés par les mouvements. Prévoir un formulaire de 
 recherche multi critères et éventuellement un EXPORT CSV.

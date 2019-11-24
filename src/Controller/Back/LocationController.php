@@ -14,12 +14,34 @@ class LocationController extends Controller
         $this->manager = new LocationManager();
     }
 
-    public function index(?int $page = null): void
+    public function index(int $page = 0): void 
     {
+        // we reset the queryString if new access from menu
+        if ($page === 0) {
+            $page = 1;
+            $this->superglobalManager->unsetVariable('session', 'queryString');
+        }
+
+        $postQueryString = $this->superglobalManager->findVariable('post', 'queryString');
+        
+        if (!is_null($postQueryString)) {
+            $this->superglobalManager->setVariable('session', 'queryString', $postQueryString);
+        }
+
+        $queryString = $this->superglobalManager->findVariable('session', 'queryString');
+
+        if (!is_null($queryString) && $queryString === '') {
+            $queryString = null;
+        }
+
         $template = 'admin/location/index.twig.html';
         $data = ['token' => $this->token->generateString()];
 
-        $locations = $this->manager->findLocations($page);
+        if (!is_null($queryString)) {
+            $data['queryString'] = $queryString;
+        }
+
+        $locations = $this->manager->findAllLocations($queryString, $page);
 
         foreach (['entities', 'currentPage', 'previousPage', 'nextPage'] as $key) {
             if (isset($locations[$key]) && !is_null($locations[$key])) {

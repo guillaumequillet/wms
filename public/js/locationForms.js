@@ -46,4 +46,20 @@ $(document).ready(function() {
             $('#locationIntervalFeedback').hide();
         }
     });
+
+    // Location Search FORM
+    let codeRegExp = /^[\w_-]+$/;
+
+    $('#locationSearchFeedback').hide();
+
+    $('#searchArticleForm').submit(function(event)  {
+        let queryString = $.trim($('#searchLocationForm #queryString').val());
+        if (queryString !== '' && !codeRegExp.test(queryString)) {
+            event.preventDefault();
+            $('#locationSearchFeedback').show();
+            $('#locationSearchFeedback').text("Les champs n'acceptent qu'une lettre non accentuée ou des nombres de 0 à 999."); 
+        } else {
+            $('#locationSearchFeedback').hide();
+        }
+    });
 });

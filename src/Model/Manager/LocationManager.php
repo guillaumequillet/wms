@@ -175,9 +175,9 @@ class LocationManager extends Manager
         return "partialInterval";     
     }
 
-    public function findLocations(int $page = 1): ?array
+    public function findAllLocations(?string $queryString = null, ?int $page = null): ?array
     {
-        return $this->repository->findWhereAllPaginated([], $page, 8);
+        return $this->repository->findWhereAllPaginated(['concatenate', 'like', "%$queryString%"], $page);
     }
 
     public function delete(int $id): bool
