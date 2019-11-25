@@ -120,8 +120,8 @@ class Router
             (new MovementController)->incoming();
         });
 
-        $this->router->map('POST', '/movement/incoming', function() {
-            (new MovementController)->incoming();
+        $this->router->map('POST', '/movement/incomingConfirm', function() {
+            (new MovementController)->incomingConfirm();
         });
     }
 

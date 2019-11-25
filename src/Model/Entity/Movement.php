@@ -7,7 +7,7 @@ class Movement extends Entity
 {
     /* private attributes */
     private $id;
-    private $lines;
+    private $rows;
     private $createdAt;
     private $reference;
     private $status;
@@ -15,7 +15,24 @@ class Movement extends Entity
 
     public function checkTypes(): void
     {
-
+        if (!is_null($this->id)) {
+            $this->setId((int) $this->id);
+        }
+        if (!is_null($this->rows)) {
+            $this->setRows($this->rows);    
+        }        
+        if (!is_null($this->createdAt)) {
+            $this->setCreatedAt($this->createdAt);
+        }    
+        if (!is_null($this->reference)) {
+            $this->setReference((string)$this->reference);     
+        }
+        if (!is_null($this->status)) {
+            $this->setStatus((string)$this->status);    
+        }   
+        if (!is_null($this->user)) {
+            $this->setUser($this->user);    
+        }
     }
 
     /* public getters */
@@ -24,9 +41,9 @@ class Movement extends Entity
         return $this->id;
     }
 
-    public function getLines(): array
+    public function getRows(): array
     {
-        return $this->lines;
+        return $this->rows;
     }
 
     public function getCreatedAt(): Datetime
@@ -55,14 +72,17 @@ class Movement extends Entity
         return $this;
     }
 
-    public function setLines(array $lines): self
+    public function setRows(array $rows): self
     {
-        $this->lines = $lines;
+        $this->rows = $rows;
         return $this;
     }
 
-    public function setCreatedAt(\DateTime $date): self
+    public function setCreatedAt(string $date): self
     {
+        if (is_null($date)) {
+            $date = (new \DateTime())->format('Y-m-d H:i:s');
+        }
         $this->createdAt = $date;
         return $this;
     }

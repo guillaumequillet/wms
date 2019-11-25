@@ -24,16 +24,14 @@ $(document).ready(function() {
             this.formElmt = document.querySelector("#incomingForm");
 
             this.formElmt.addEventListener('submit', e => {
-                let result = !this.checkRows(); 
-                alert(result);
+                // let result = !this.checkRows(); 
 
-                if (result) {
-                    e.preventDefault();
-                    $((this.feedbackElmt)).show();
-                }
-
-                $((this.feedbackElmt)).show();
-                e.preventDefault();
+                // if (!result) {
+                //     e.preventDefault();
+                //     $((this.feedbackElmt)).show();
+                // } else {
+                //     $((this.feedbackElmt)).hide();
+                // }
             });
         }
 

@@ -27,4 +27,15 @@ class MovementController extends Controller
         $data = ['token' => $this->token->generateString()];
         $this->render($template, $data);
     }
+
+    public function incomingConfirm(): void
+    {
+        if ($this->token->check() === false) {
+            $this->setLog('tokenError');
+            header('location: /movement/index');
+            exit();
+        }
+
+        $res = $this->manager->createIncoming();
+    }
 }

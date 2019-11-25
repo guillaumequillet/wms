@@ -12,9 +12,9 @@ abstract class Repository
     protected $database;
     protected $recordsPerPage = 5;
 
-    public function __construct() 
+    public function __construct(?Database $database = null) 
     {
-        $this->database = new Database();
+        $this->database = is_null($database) ? new Database() : $database;
     }
 
     protected function getTableName(): string

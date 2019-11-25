@@ -4,6 +4,9 @@
 {% block body %}
     <section>
         <h1>Gestion des <span class="white">Mouvements</span></h1>
+        {% if log == "tokenError" %}
+            <p class="error">Un problème technique est survenu.</p>
+        {% endif %}
         <h2>Saisir un mouvement</h2>
         <ul>
             <li>Saisir une <a href="/movement/incoming">Réception Fournisseur</a></li>
