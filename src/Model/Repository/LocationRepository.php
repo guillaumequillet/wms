@@ -29,9 +29,7 @@ class LocationRepository extends Repository
             $reqValues[] = '("' . join('","', [$location->getArea(), $location->getAisle(), $location->getCol(), $location->getLevel(), $location->getConcatenate()]) . '")';
         }
         $reqString .= join(',', $reqValues);
-
         $reqString .=  'ON DUPLICATE KEY UPDATE area=area';
-
         return $query = $this->database->getPDO()->exec($reqString);
     }
 }

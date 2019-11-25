@@ -5,7 +5,7 @@ attention aux mots clés réservés pour éviter les problèmes avec AJAX (pas d
 en bombardant entrée / espace on arrive à créer un code article débile (espaces, caractères spéciaux...)
 
 chargement CSV
-corriger header incorrect
+continuer le format "propriétaire" parserCSV
 
 STOCKS
 ce ne sont que des affichages. Ils sont générés par les mouvements. Prévoir un formulaire de 

@@ -5,7 +5,7 @@ namespace App\Model\Manager;
 
 use App\Model\Entity\Location;
 use App\Model\Repository\LocationRepository;
-use League\Csv\Reader;
+use App\Tool\ParserCSV;
 
 class LocationManager extends Manager
 {
@@ -108,7 +108,6 @@ class LocationManager extends Manager
 
         $res = $this->repository->createLocations($locations);
 
-
         if ($res === count($locations)) {
             return "fullInterval";
         }
@@ -130,52 +129,53 @@ class LocationManager extends Manager
             return false;
         }
 
+        $csvFile = new ParserCSV($filename);
+        $lines = $csvFile->parse(4);
+
+        if (is_null($lines)) {
+            return 'noneInterval';
+        }
+
         $locations = [];
-        $csv = Reader::CreateFromPath($filename, 'r');
 
-        foreach ($csv->getRecords() as $k => $line) {
-            if ($k !== 0) {
-                # exit if header is incorrect
-                if (sizeof($line) < 4) {
-                    return "noneInterval";
-                } 
-                $location = new Location();
+        foreach($lines as $line) {
+            $data = [
+                'area' => (string)$line[0],
+                'aisle' => (string)$line[1],
+                'col' => (string)$line[2],
+                'level' => (string)$line[3]                        
+            ];            
 
-                $data = [
-                    'area' => (string)$line[0],
-                    'aisle' => (string)$line[1],
-                    'col' => (string)$line[2],
-                    'level' => (string)$line[3]
-                ];
+            $location = new Location();
 
-                foreach($data as $k=>$v) {
-                    if (preg_match('/^[a-z]$/', $v)) {
-                        $data[$k] = strtoupper($v);
-                    }
-                    if (preg_match('/^[0-9]{1,3}$/', $v)) {
-                        $data[$k] = $location->intToString((int)$v);
-                    }
-                }  
+            foreach($data as $k=>$v) {
+                if (preg_match('/^[a-z]$/', $v)) {
+                    $data[$k] = strtoupper($v);
+                }
+                if (preg_match('/^[0-9]{1,3}$/', $v)) {
+                    $data[$k] = $location->intToString((int)$v);
+                }
+                if ($v === '') {
+                    return 'noneInterval';
+                }
+            }      
 
-                $location->hydrate($data);
-                $location->setConcatenate();
-
-                $locations[] = $location;
-            }
+            $location->hydrate($data);
+            $location->setConcatenate();
+            $locations[] = $location;
         }
 
-        $res = [];
-        foreach ($locations as $location) {
-            $res[] = $this->repository->createLocation($location);
-        }
+        $res = $this->repository->createLocations($locations);
 
-        if (!in_array(false, $res, true)) {
+        if ($res === count($locations)) {
             return "fullInterval";
-        }     
-        if (!in_array(true, $res, true)) {
+        }
+
+        if ($res === 0) {
             return "noneInterval";
-        }            
-        return "partialInterval";     
+        }
+
+        return "partialInterval";
     }
 
     public function findAllLocations(?string $queryString = null, ?int $page = null): ?array
@@ -187,7 +187,6 @@ class LocationManager extends Manager
     {
         return $this->repository->deleteWhere(['id', '=', $id]);
     }
-
 
     public function suggestLocations($concatenate): string
     {
