@@ -5,7 +5,7 @@ namespace App\Model\Manager;
 
 use App\Model\Entity\Article;
 use App\Model\Repository\ArticleRepository;
-use League\Csv\Reader;
+use App\Tool\ParserCSV;
 
 class ArticleManager extends Manager
 {
@@ -56,7 +56,7 @@ class ArticleManager extends Manager
         return !(is_null($this->repository->findWhere(['code', '=', $code])));
     }
 
-    public function createArticles(): bool
+    public function createArticles(): string
     {
         if ($this->superglobalManager->findFile('articleFile')) {
             $filename = $this->superglobalManager->findFile('articleFile')["tmp_name"];
@@ -66,43 +66,49 @@ class ArticleManager extends Manager
             return false;
         }
 
-        $articles = [];
-        $csv = Reader::CreateFromPath($filename, 'r');
+        $csvFile = new ParserCSV($filename);
+        $lines = $csvFile->parse(7);
 
-        foreach ($csv->getRecords() as $k => $line) {
-            if ($k !== 0) {
-                # exit if header is incorrect
-                if (sizeof($line) < 7) {
-                    return false;
-                }
-                $article = new Article();
-                $data = [
-                    'code' => $line[0],
-                    'description' => $line[1],
-                    'weight' => (int) $line[2],
-                    'width' => (int) $line[3],
-                    'length' => (int) $line[4],
-                    'height' => (int) $line[5],
-                    'barcode' => $line[6]
-                ];
-
-                $article->hydrate($data);
-                $articles[] = $article;
-            }
+        if (is_null($lines)) {
+            return 'noneInterval';
         }
 
-        foreach ($articles as $article) {
-            $articleExists = !(is_null($this->repository->findWhere(['code', '=', $article->getCode()])));
-            
-            if (!$articleExists) {
-                $this->repository->createArticle($article);
+        $locations = [];
+
+        foreach($lines as $line) {
+            $data = [
+                'code' => (string)$line[0],
+                'description' => (string)$line[1],
+                'weight' => (int)$line[2],
+                'width' => (int)$line[3],                        
+                'length' => (int)$line[4],                        
+                'height' => (int)$line[5],                        
+                'barcode' => (string)$line[6]                        
+            ];            
+
+            $article = new Article();
+
+            // if code is not correct
+            if (!preg_match('/^[\w_]+$/', $data['code']))
+            {
+                return 'noneInterval';
             }
 
-            if ($articleExists) {
-                $this->repository->updateArticle($article);
-            }            
+            $article->hydrate($data);
+            $articles[] = $article;
         }
-        return true;
+
+        $res = $this->repository->createArticles($articles);
+
+        if ($res === count($articles)) {
+            return "fullInterval";
+        }
+
+        if ($res === 0) {
+            return "noneInterval";
+        }
+
+        return "partialInterval";
     }
 
     public function updateArticle(): bool 

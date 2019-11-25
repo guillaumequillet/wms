@@ -2,10 +2,12 @@
 {% block title %}Liste des articles{% endblock %}
 
 {% block body %}
-    {% if log is defined and log == 0 %}
-        <p class="error">Le fichier n'a pas été importé. il contient des erreurs.</p>
-    {% elseif log == 1 %}
+    {% if log == 'noneInterval' %}
+        <p class="error">Le fichier n'a pas été importé.</p>
+    {% elseif log == 'fullInterval' %}
         <p class="valid">Le fichier a bien été importé.</p>
+    {% elseif log == 'partialInterval' %}
+        <p class="warning">Le fichier n'a été que partiellement importé.</p>
     {% elseif log == 2 %}
         <p class="error">L'article ne peut être supprimé.</p>
     {% endif %}
@@ -64,11 +66,11 @@
                                 <td colspan="3">
                                     Page(s) :
                                     {% if previousPage is defined %} 
-                                        <a href="/article/showlist/{{ previousPage }}">{{ previousPage }}</a>
+                                        <a href="/article/index/{{ previousPage }}">{{ previousPage }}</a>
                                     {% endif %}
                                     {{ currentPage }} 
                                     {% if nextPage is defined %} 
-                                        <a href="/article/showlist/{{ nextPage }}">{{ nextPage }}</a>
+                                        <a href="/article/index/{{ nextPage }}">{{ nextPage }}</a>
                                     {% endif %}
                                 </td>
                             </tr>

@@ -97,7 +97,7 @@ class ArticleController extends Controller
         }
 
         $res = $this->manager->createArticles();
-        $this->setLog($res ? '1' : '0');
+        $this->setLog($res);
         header('location: /article/showlist');
     }
 

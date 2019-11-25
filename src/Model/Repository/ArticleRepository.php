@@ -7,13 +7,6 @@ use App\Model\Entity\Article;
 
 class ArticleRepository extends Repository
 {
-    public function createArticles(array $articles): void
-    {
-        foreach($articles as $article) {
-            $this->createArticle($article);
-        }
-    }
-
     public function createArticle(Article $article): bool
     {
         $req = $this->database->getPDO()->prepare('INSERT INTO articles(code, description, weight, width, length, height, barcode) 
@@ -28,6 +21,18 @@ class ArticleRepository extends Repository
             'barcode' => $article->getBarcode()
         ]);
         return $res;
+    }
+
+    public function createArticles(array $articles): int
+    {
+        $reqString = 'INSERT INTO articles(code, description, weight, width, height, length, barcode) VALUES ';
+        $reqValues = [];
+        foreach ($articles as $article) {
+            $reqValues[] = '("' . join('","', [$article->getCode(), $article->getDescription(), $article->getWeight(), $article->getWidth(), $article->getHeight(), $article->getLength(), $article->getBarcode()]) . '")';
+        }
+        $reqString .= join(',', $reqValues);
+        $reqString .=  'ON DUPLICATE KEY UPDATE code=code';
+        return $query = $this->database->getPDO()->exec($reqString);
     }
 
     public function updateArticle(Article $article): bool
