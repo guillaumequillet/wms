@@ -37,5 +37,8 @@ class MovementController extends Controller
         }
 
         $res = $this->manager->createIncoming();
+
+        $this->setLog($res ? "moveOK" : "moveNOK");
+        header('location: /movement/index');
     }
 }

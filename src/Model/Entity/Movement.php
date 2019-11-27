@@ -46,7 +46,7 @@ class Movement extends Entity
         return $this->rows;
     }
 
-    public function getCreatedAt(): Datetime
+    public function getCreatedAt(): string
     {
         return $this->createdAt;
     }

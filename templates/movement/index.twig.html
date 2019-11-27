@@ -6,6 +6,10 @@
         <h1>Gestion des <span class="white">Mouvements</span></h1>
         {% if log == "tokenError" %}
             <p class="error">Un problème technique est survenu.</p>
+        {% elseif log == "moveOK" %}
+            <p class="valid">La réception a bien été créée.</p>
+        {% elseif log == "moveNOK" %}
+            <p class="error">La réception n'a pas pu été créée.</p>        
         {% endif %}
         <h2>Saisir un mouvement</h2>
         <ul>

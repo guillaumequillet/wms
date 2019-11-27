@@ -4,13 +4,12 @@ declare(strict_types=1);
 namespace App\Model\Manager;
 
 use App\Model\Entity\Incoming;
-use App\Model\Entity\Article;
-use App\Model\Entity\Location;
 use App\Model\Entity\Row;
 use App\Model\Repository\ArticleRepository;
 use App\Model\Repository\LocationRepository;
 use App\Model\Repository\MovementRepository;
 use App\Model\Repository\UserRepository;
+use App\Model\Repository\RowRepository;
 use App\Tool\Database;
 use App\Tool\Token;
 
@@ -101,6 +100,30 @@ class MovementManager extends Manager
         ];
         
         $movement->hydrate($movementData);
-        die(dump($movement));
+
+        // we create the incoming DB record
+        $this->repository = new MovementRepository($this->database);
+        $mvtID = $this->repository->createIncoming($movement);
+
+        if (is_null($mvtID)) {
+            return false;
+        }
+
+        $movement->setId($mvtID);
+
+        // and the rows themselves
+        $this->repository = new RowRepository($this->database);
+        $rwsRes = $this->repository->createIncomingRows($movement->getRows());
+
+        if (!$rwsRes) {
+            return false;
+        }
+
+        // if status === received, we create the stock
+        if ($movement->getStatus() === 'received') {
+            
+        }
+
+        return true;
     }
 }
