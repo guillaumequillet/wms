@@ -9,10 +9,10 @@
             <fieldset>
                 <legend>Entête Réception</legend>
                 <label>Fournisseur
-                    <input type="text" name="provider" id="provider" value="{{ order.provider }}" required>
+                    <input type="text" name="provider" id="provider" value="{{ order.provider }}" autocomplete="off" required>
                 </label>
                 <label>Référence
-                    <input type="text" name="reference" id="reference" value="{{ order.reference }}" required>
+                    <input type="text" name="reference" id="reference" value="{{ order.reference }}" autocomplete="off" required>
                 </label>
                 <label>Statut
                     <select name="status" id="status">
@@ -25,12 +25,12 @@
                 <legend>Produits</legend>
                 <div class="orderRow">
                     <label>Code Article
-                        <input type="text" name="article" required>
+                        <input type="text" name="article" autocomplete="off" required>
                         <ul class="dynamicList"></ul> <!-- UL pour suggestions -->
                     </label>
                     <label>Quantité<input type="number" name="quantity" required></label>
                     <label>Emplacement
-                        <input type="text" name="location" required>
+                        <input type="text" name="location" autocomplete="off" required>
                         <ul class="dynamicList"></ul> <!-- UL pour suggestions -->
                     </label>
                     <span><a href="#" class="button icon delete-icon">Effacer</a></span>

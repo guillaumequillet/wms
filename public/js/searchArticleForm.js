@@ -1,5 +1,11 @@
 $(document).ready(function() {
-    let codeRegExp = /^[\w_]+$/;
+    // will force anchor #list is some page is specified
+    let page = window.location.href.split('/').pop();
+    if (!isNaN(page)) {
+        window.location.href = '#list'; 
+    }
+
+    let codeRegExp = /^[\w_%]+$/;
 
     $('#articleSearchFeedback').hide();
 
