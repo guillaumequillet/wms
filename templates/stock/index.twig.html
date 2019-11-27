@@ -1,0 +1,58 @@
+{% extends "base.twig.html" %}
+{% block title %}Liste des Stocks{% endblock %}
+
+{% block body %}
+    <section>
+        <h1 id="list">Liste des Stocks</h1>
+        <p class="error" id="stockSearchFeedback"></p>
+        <form method="POST" id="searchStockForm" action="/stock/index">
+            <label>Rechercher un emplacement
+                <input type="text" name="queryString" id="queryString" value="{{ queryString }}">
+            </label>
+            <input type="submit" value="Rechercher">
+            <input type="hidden" name="token" id="token" value="{{ token }}">
+        </form>
+        {% if entities == null %}
+            <p class="error">Aucun stock à afficher.</p>
+        {% else %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Code</th>
+                        <th>Quantité</th>
+                        <th>Emplacement</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in entities %}
+                        <tr>
+                            <td>{{ stock.id }}</td>
+                            <td>{{ stock.article.code }}</td>
+                            <td>{{ stock.qty }}</td>
+                            <td>{{ stock.location.concatenate }}</td>
+                        </tr>
+                    {% endfor %}
+                    {% if currentPage is defined %}
+                        <tr>
+                            <td colspan="4">
+                                Page(s) :
+                                {% if previousPage is defined %} 
+                                    <a href="/stock/index/{{ previousPage }}">{{ previousPage }}</a>
+                                {% endif %}
+                                {{ currentPage }} 
+                                {% if nextPage is defined %} 
+                                    <a href="/stock/index/{{ nextPage }}">{{ nextPage }}</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+    {% endif %}
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script src="/js/searchStockForm.js"></script>
+{% endblock %}

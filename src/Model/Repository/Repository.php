@@ -130,7 +130,7 @@ abstract class Repository
         return ($res === false) ? 0 : $req->fetch()['total'];  
     }
 
-    protected function paginate(array $entities, int $totalResults, int $currentPage): ?array
+    public function paginate(array $entities, int $totalResults, int $currentPage): ?array
     {
         $totalPages = (int)ceil($totalResults / $this->recordsPerPage);
         $previousPage = ($currentPage > 1) ? $currentPage - 1 : null;

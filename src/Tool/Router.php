@@ -9,6 +9,7 @@ use App\Controller\Front\LoginController;
 use App\Controller\Back\UserController;
 use App\Controller\Back\LocationController;
 use App\Controller\Front\LocationController as FrontLocationController;
+use App\Controller\Front\StockController;
 
 class Router
 {
@@ -63,6 +64,7 @@ class Router
             $this->createArticleRoutes();
             $this->createMovementRoutes();
             $this->createFrontLocationRoutes();
+            $this->createStockRoutes();
         }
     }
 
@@ -185,6 +187,16 @@ class Router
         $this->router->map('POST', '/location/exists', function() {
             (new FrontLocationController)->locationExists();
         });  
+    }
+
+    private function createStockRoutes(): void
+    {
+        $this->router->map('GET', '/stock/index/[i:page]?', function(int $page = 0) {
+            (new StockController)->index($page);
+        }); 
+        $this->router->map('POST', '/stock/index/[i:page]?', function(int $page = 0) {
+            (new StockController)->index($page);
+        });           
     }
 
     public function getRoute(): void

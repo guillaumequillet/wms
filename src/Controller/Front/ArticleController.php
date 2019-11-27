@@ -111,7 +111,7 @@ class ArticleController extends Controller
 
         $postQueryString = $this->superglobalManager->findVariable('post', 'queryString');
         
-        if (!is_null($postQueryString)) {
+        if (!is_null($postQueryString) && $this->token->check()) {
             $this->superglobalManager->setVariable('session', 'queryString', $postQueryString);
         }
 

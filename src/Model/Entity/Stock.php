@@ -16,15 +16,25 @@ class Stock extends Entity
         if (!is_null($this->id)) {
             $this->setId((int)$this->id);        
         }
-        if (!is_null($this->location)) {
-            $this->setLocation($this->location);        
-        }
-        if (!is_null($this->article)) {
-            $this->setArticle($this->article);
-        }
         if (!is_null($this->qty)) {
             $this->setQty((int)$this->qty);        
         }
+    }
+
+    /* getters of initial SQL values */
+    public function getArticleId(): ?int
+    {
+        if (is_int($this->article)) {
+            return $this->article;
+        }
+        return null;
+    }
+    public function getLocationId(): ?int
+    {
+        if (is_int($this->location)) {
+            return $this->location;
+        }
+        return null;
     }
 
     /* public getters */
