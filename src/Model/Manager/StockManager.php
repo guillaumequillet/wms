@@ -27,7 +27,7 @@ class StockManager extends Manager
         }
 
         if (!is_null($queryString)) {
-            $entities = $this->repository->findAllStocksWithArticleLike($queryString);
+            $entities = $this->repository->findAllStocksWithArticleLike($queryString, $page);
             $totalResults = $this->repository->countAllStocksWithArticleLike($queryString);
         }
 
