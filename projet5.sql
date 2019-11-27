@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  jeu. 21 nov. 2019 à 14:23
+-- Généré le :  mer. 27 nov. 2019 à 12:45
 -- Version du serveur :  10.4.6-MariaDB
 -- Version de PHP :  7.3.9
 
@@ -111,6 +111,7 @@ CREATE TABLE `outgoings` (
 CREATE TABLE `rows` (
   `id` int(11) NOT NULL,
   `movement` int(11) NOT NULL,
+  `type` varchar(255) NOT NULL,
   `article` int(11) NOT NULL,
   `location` int(11) NOT NULL,
   `qty` int(11) NOT NULL
@@ -218,6 +219,7 @@ ALTER TABLE `rows`
 --
 ALTER TABLE `stocks`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UC_Stock` (`location`,`article`),
   ADD KEY `location` (`location`),
   ADD KEY `article` (`article`);
 
@@ -292,7 +294,7 @@ ALTER TABLE `transfers`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- Contraintes pour les tables déchargées
