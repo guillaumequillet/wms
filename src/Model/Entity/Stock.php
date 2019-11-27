@@ -13,10 +13,18 @@ class Stock extends Entity
 
     public function checkTypes(): void
     {
-        $this->setId((int)$this->id);        
-        $this->setLocation($this->location);        
-        $this->setArticle($this->article);
-        $this->setQty((int)$this->qty);        
+        if (!is_null($this->id)) {
+            $this->setId((int)$this->id);        
+        }
+        if (!is_null($this->location)) {
+            $this->setLocation($this->location);        
+        }
+        if (!is_null($this->article)) {
+            $this->setArticle($this->article);
+        }
+        if (!is_null($this->qty)) {
+            $this->setQty((int)$this->qty);        
+        }
     }
 
     /* public getters */

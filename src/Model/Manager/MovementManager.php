@@ -5,11 +5,13 @@ namespace App\Model\Manager;
 
 use App\Model\Entity\Incoming;
 use App\Model\Entity\Row;
+use App\Model\Entity\Stock;
 use App\Model\Repository\ArticleRepository;
 use App\Model\Repository\LocationRepository;
 use App\Model\Repository\MovementRepository;
 use App\Model\Repository\UserRepository;
 use App\Model\Repository\RowRepository;
+use App\Model\Repository\StockRepository;
 use App\Tool\Database;
 use App\Tool\Token;
 
@@ -121,7 +123,25 @@ class MovementManager extends Manager
 
         // if status === received, we create the stock
         if ($movement->getStatus() === 'received') {
-            
+            $stocks = [];
+
+            foreach ($movement->getRows() as $row) {
+                $stock = new Stock();
+                $data = [
+                    'location' => $row->getLocation(),
+                    'article' => $row->getArticle(),
+                    'qty' => $row->getQty()
+                ];
+                $stock->hydrate($data);
+                $stocks[] = $stock;
+            }
+
+            $this->repository = new StockRepository($this->database);
+            $stockRes = $this->repository->createStocks($stocks);            
+        }
+
+        if (isset($stockRes) && !$stockRes) {
+            return false;
         }
 
         return true;
