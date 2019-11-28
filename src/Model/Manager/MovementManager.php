@@ -37,8 +37,7 @@ class MovementManager extends Manager
             return false;
         }
 
-        // doit être ajouté dans le superglobalManager
-        $articleKeys = array_values(preg_grep("/^article[0-9]+$/", array_keys($_POST)));    
+        $articleKeys = $this->superglobalManager->findVariablesLike("post", "/^article[0-9]+$/");
         
         if (empty($articleKeys)) {
             return false;

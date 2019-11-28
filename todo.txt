@@ -7,9 +7,6 @@ STOCKS
 ce ne sont que des affichages. Ils sont générés par les mouvements. Prévoir un formulaire de 
 recherche multi critères et éventuellement un EXPORT CSV.
 
-MOUVEMENTS
-rendre uniques les champs "références" des mouvements (complexe à cause du type). Exporter le nouveau dump .sql
-
 - entrée
 
 - sortie
@@ -19,4 +16,4 @@ voir si on garde les "status"...
 
 GERER RESPONSIVE
 
-mettre des ancres pour les recherches
+HTML validation : revoir les doublons d'ID et les UL dans les label (incoming)

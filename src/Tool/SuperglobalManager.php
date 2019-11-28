@@ -22,6 +22,16 @@ class SuperglobalManager
         return null;
     }
 
+    public function findVariablesLike(string $arrayName, string $valueLike): ?array
+    {
+        $array = &$this->getArray($arrayName);
+        if (is_null($array)) {
+            return null;
+        }                   
+        $keys = array_values(preg_grep($valueLike, array_keys($array)));    
+        return empty($keys) ? null : $keys;
+    }
+
     public function setVariable(string $arrayName, string $key, string $value): bool
     {
         $array = &$this->getArray($arrayName);
