@@ -17,20 +17,20 @@ class MovementController extends Controller
     public function index(): void 
     {
         $template = 'movement/index.twig.html';
-        $data = ['token' => $this->token->generateString()];
+        $data = ['token0' => $this->token->generateString(0)];
         $this->render($template, $data);
     }
 
     public function incoming(): void
     {
         $template = 'movement/incoming.twig.html';
-        $data = ['token' => $this->token->generateString()];
+        $data = ['token0' => $this->token->generateString(0)];
         $this->render($template, $data);
     }
 
     public function incomingConfirm(): void
     {
-        if ($this->token->check() === false) {
+        if ($this->token->check(0) === false) {
             $this->setLog('tokenError');
             header('location: /movement/index');
             exit();

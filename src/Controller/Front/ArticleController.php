@@ -91,7 +91,7 @@ class ArticleController extends Controller
     public function import(): void
     {
         if ($this->token->check(0) === false) {
-            $this->setLog('0');
+            $this->setLog('noneInterval');
             header('location: /article/index');
             exit();
         }

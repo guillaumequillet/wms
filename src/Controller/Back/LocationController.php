@@ -60,7 +60,7 @@ class LocationController extends Controller
     public function createSingle(): void
     {
         if (!$this->token->check(0)) {
-            $this->setLog("0");
+            $this->setLog("errorSingle");
             header('location: /location/index');
             exit();
         }
@@ -73,7 +73,7 @@ class LocationController extends Controller
     public function createInterval(): void
     {
         if (!$this->token->check(1)) {
-            $this->setLog("0");
+            $this->setLog("noneInterval");
             header('location: /location/index');
             exit();
         }
@@ -86,7 +86,7 @@ class LocationController extends Controller
     public function import(): void
     {
         if ($this->token->check(2) === false) {
-            $this->setLog('0');
+            $this->setLog('noneInterval');
             header('location: /location/index');
             exit();
         }

@@ -32,33 +32,33 @@ class UserController extends Controller
     public function create(): void
     {
         if (!$this->token->check(0)) {
-            $this->setLog("0");
+            $this->setLog('creationFail');
             header('location: /user/index');
             exit();
         }
 
         $res = $this->manager->createUser();
-        $this->setLog($res ? "creationOk" : "creationFail");
+        $this->setLog($res ? 'creationOk' : 'creationFail');
         header('location: /user/index');
     }
 
     public function update(int $id): void
     {
         if (!$this->token->check(0)) {
-            $this->setLog("updateFail");
+            $this->setLog('updateFail');
             header('location: /user/show/' . $id);
             exit();
         }
 
         $res = $this->manager->updateUser($id);
-        $this->setLog($res ? "updateOk" : "updateFail");
+        $this->setLog($res ? 'updateOk' : 'updateFail');
         header('location: /user/show/' . $id);        
     }
 
     public function delete(int $id): void
     {
         $res = $this->manager->deleteUser($id);
-        $this->setLog($res ? "deleteOk" : "deleteFail");
+        $this->setLog($res ? 'deleteOk' : 'deleteFail');
         header('location: /user/index');
     }
 
