@@ -36,10 +36,10 @@ $(document).ready(function() {
         $('#locationIntervalForm input[type="text"]').each(function() {
             $(this).val($.trim($(this).val()));
 
-            if ($(this).attr("name") === "area" && !areaRegex.test($(this).val())) {
+            if ($(this).attr("name") === "intervalArea" && !areaRegex.test($(this).val())) {
                 error = true;
             }
-            if ($(this).attr("name") !== "area" && !globalRegex.test($(this).val())) {
+            if ($(this).attr("name") !== "intervalArea" && !globalRegex.test($(this).val())) {
                 error = true;
             }
         });

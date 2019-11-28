@@ -47,7 +47,7 @@ class LocationManager extends Manager
     public function createIntervalLocations(): string
     {
         $fields = [
-            'area' => $this->superglobalManager->findVariable("post", "area"),
+            'area' => $this->superglobalManager->findVariable("post", "intervalArea"),
             'fromAisle' => $this->superglobalManager->findVariable("post", "fromAisle"),
             'toAisle' => $this->superglobalManager->findVariable("post", "toAisle"),
             'fromCol' => $this->superglobalManager->findVariable("post", "fromCol"),
