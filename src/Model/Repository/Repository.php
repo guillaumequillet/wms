@@ -21,7 +21,7 @@ abstract class Repository
     {
         $repositoryClassname = get_class($this);
         $cut = explode('\\', $repositoryClassname);
-        $repositoryName = $cut[array_key_last($cut)];
+        $repositoryName = array_pop($cut);
         $entityName = explode('Repository', $repositoryName)[0];
         return strtolower($entityName) . 's';        
     }
@@ -30,7 +30,7 @@ abstract class Repository
     {
         $repositoryClassname = get_class($this);
         $cut = explode('\\', $repositoryClassname);
-        $repositoryName = $cut[array_key_last($cut)];
+        $repositoryName = array_pop($cut);
         $entityName = explode('Repository', $repositoryName)[0];
         return "App\\Model\\Entity\\$entityName";
     }
