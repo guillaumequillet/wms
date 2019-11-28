@@ -90,15 +90,15 @@ class ArticleController extends Controller
 
     public function import(): void
     {
-        if ($this->token->check() === false) {
+        if ($this->token->check(0) === false) {
             $this->setLog('0');
-            header('location: /article/showlist');
+            header('location: /article/index');
             exit();
         }
 
         $res = $this->manager->createArticles();
         $this->setLog($res);
-        header('location: /article/showlist');
+        header('location: /article/index');
     }
 
     public function index(int $page = 0): void 
@@ -110,8 +110,8 @@ class ArticleController extends Controller
         }
 
         $postQueryString = $this->superglobalManager->findVariable('post', 'queryString');
-        
-        if (!is_null($postQueryString) && $this->token->check()) {
+
+        if (!is_null($postQueryString) && $this->token->check(1)) {
             $this->superglobalManager->setVariable('session', 'queryString', $postQueryString);
         }
 
@@ -122,7 +122,7 @@ class ArticleController extends Controller
         }
 
         $template = 'article/index.twig.html';
-        $data = ['token' => $this->token->generateString()];
+        $data = ['token0' => $this->token->generateString(0), 'token1' => $this->token->generateString(1)];
 
         if (!is_null($queryString)) {
             $data['queryString'] = $queryString;

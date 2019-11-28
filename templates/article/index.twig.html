@@ -5,11 +5,13 @@
     {% if log == 'noneInterval' %}
         <p class="error">Le fichier n'a pas été importé.</p>
     {% elseif log == 'fullInterval' %}
-        <p class="valid">Le fichier a bien été importé.</p>
+        <p class='valid'>Le fichier a bien été importé.</p>
     {% elseif log == 'partialInterval' %}
-        <p class="warning">Le fichier n'a été que partiellement importé.</p>
+        <p class='warning'>Le fichier n'a été que partiellement importé.</p>
     {% elseif log == 2 %}
-        <p class="error">L'article ne peut être supprimé.</p>
+        <p class='error'>L'article ne peut être supprimé.</p>
+    {% elseif log == 'tech' %}
+        <p class='error'>Une erreur technique est survenue.</p>
     {% endif %}
     <h1>Gestion des <span class="white">Articles</span></h1>
     <section id="articles-actions">
@@ -22,7 +24,7 @@
             <form method="POST" enctype="multipart/form-data" action="/article/import">
                 <input type="file" name="articleFile" id="articleFile" class="button icon file-icon" accept=".csv" required>
                 <input type="submit" name="Importer">
-                <input type="hidden" name="token" id="token" value="{{ token }}">
+                <input type="hidden" name="token0" id="token0" value="{{ token0 }}">
             </form>
         </div>
         <div class="articles-action">  
@@ -31,7 +33,7 @@
             <form method="POST" id="searchArticleForm" action="/article/index">
                 <input type="text" name="queryString" id="queryString" value="{{ queryString }}">
                 <input type="submit" value="Rechercher">
-                <input type="hidden" name="token" id="token" value="{{ token }}">
+                <input type="hidden" name="token1" id="token1" value="{{ token1 }}">
             </form>
         </div>       
     </section>
@@ -54,7 +56,7 @@
                                 <td>{{ article.id }}</td>
                                 <td>{{ article.code }}</td>
                                 <td>
-                                    <ul id="article-edit">
+                                    <ul class="article-edit">
                                         <li><a href="/article/show/{{ article.id }}" class="button icon edit-icon">Editer</a></li>
                                         <li><a href="/article/delete/{{ article.id }}" class="button icon delete-icon" onclick="return confirm('Etes-vous sûr(e) de vouloir supprimer cet article ?');">Supprimer</a></li>
                                     </ul>

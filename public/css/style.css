@@ -318,7 +318,7 @@ header nav {
 /* end Header*/
 
 /* article */
-#article-edit {
+.article-edit {
     margin: 0;
     padding: 0;
     display: flex;
@@ -326,7 +326,7 @@ header nav {
     justify-content: space-around;
 }
 
-#article-edit li {
+.article-edit li {
     display: inline-block;
     margin: 10px;
 }
