@@ -24,7 +24,7 @@ class LoginManager extends Manager
             return '';
         }
 
-        if (!$token->check()) {
+        if (!$token->check(0)) {
             return 'token';
         }
 

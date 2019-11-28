@@ -17,13 +17,13 @@ class ArticleController extends Controller
     public function create(): void 
     {
         $template = 'article/new.twig.html';
-        $data = ['token' => $this->token->generateString()];
+        $data = ['token0' => $this->token->generateString(0)];
         $this->render($template, $data);
     }
 
     public function record(): void
     {
-        if (!$this->token->check()) {
+        if (!$this->token->check(0)) {
             $this->setLog('0');
             header('location: /article/new');
             exit();
@@ -69,7 +69,7 @@ class ArticleController extends Controller
     {
         $result = $this->manager->updateArticle();
         
-        if (!$result || !$this->token->check()) {
+        if (!$result || !$this->token->check(0)) {
             $this->setLog('0');
             header('location: /article/show/' . $id);
             exit();
@@ -141,7 +141,7 @@ class ArticleController extends Controller
     public function show(int $id): void
     {
         $template = 'article/show.twig.html';
-        $data = ['token' => $this->token->generateString()];
+        $data = ['token0' => $this->token->generateString()];
 
         // if some article id was specified, we only show this one
         if (!is_null($id))

@@ -24,7 +24,7 @@ class StockController extends Controller
 
         $postQueryString = $this->superglobalManager->findVariable('post', 'queryString');
         
-        if (!is_null($postQueryString) && $this->token->check()) {
+        if (!is_null($postQueryString) && $this->token->check(0)) {
             $this->superglobalManager->setVariable('session', 'queryString', $postQueryString);
         }
 
@@ -35,7 +35,7 @@ class StockController extends Controller
         }
 
         $template = 'stock/index.twig.html';
-        $data = ['token' => $this->token->generateString()];
+        $data = ['token0' => $this->token->generateString(0)];
 
         if (!is_null($queryString)) {
             $data['queryString'] = $queryString;

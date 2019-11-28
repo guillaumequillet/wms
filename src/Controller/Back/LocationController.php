@@ -24,7 +24,7 @@ class LocationController extends Controller
 
         $postQueryString = $this->superglobalManager->findVariable('post', 'queryString');
         
-        if (!is_null($postQueryString) && $this->token->check()) {
+        if (!is_null($postQueryString) && $this->token->check(3)) {
             $this->superglobalManager->setVariable('session', 'queryString', $postQueryString);
         }
 
@@ -35,7 +35,12 @@ class LocationController extends Controller
         }
 
         $template = 'admin/location/index.twig.html';
-        $data = ['token' => $this->token->generateString()];
+        $data = [
+            'token0' => $this->token->generateString(0),
+            'token1' => $this->token->generateString(1),
+            'token2' => $this->token->generateString(2),
+            'token3' => $this->token->generateString(3)
+        ];
 
         if (!is_null($queryString)) {
             $data['queryString'] = $queryString;
@@ -54,7 +59,7 @@ class LocationController extends Controller
 
     public function createSingle(): void
     {
-        if (!$this->token->check()) {
+        if (!$this->token->check(0)) {
             $this->setLog("0");
             header('location: /location/index');
             exit();
@@ -67,7 +72,7 @@ class LocationController extends Controller
 
     public function createInterval(): void
     {
-        if (!$this->token->check()) {
+        if (!$this->token->check(1)) {
             $this->setLog("0");
             header('location: /location/index');
             exit();
@@ -80,7 +85,7 @@ class LocationController extends Controller
 
     public function import(): void
     {
-        if ($this->token->check() === false) {
+        if ($this->token->check(2) === false) {
             $this->setLog('0');
             header('location: /location/index');
             exit();

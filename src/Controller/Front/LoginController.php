@@ -45,7 +45,7 @@ class LoginController extends Controller
         }
 
         $template = 'admin/user/login.twig.html';
-        $data = ['token' => $this->token->generateString()];       
+        $data = ['token0' => $this->token->generateString(0)];       
         $this->render($template, $data);        
     }
 

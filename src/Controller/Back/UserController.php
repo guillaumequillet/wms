@@ -18,7 +18,7 @@ class UserController extends Controller
     public function index(): void
     {
         $template = 'admin/user/index.twig.html';
-        $data = ['token' => $this->token->generateString()];
+        $data = ['token0' => $this->token->generateString(0)];
 
         $users = $this->manager->getUsersList();
 
@@ -31,7 +31,7 @@ class UserController extends Controller
 
     public function create(): void
     {
-        if (!$this->token->check()) {
+        if (!$this->token->check(0)) {
             $this->setLog("0");
             header('location: /user/index');
             exit();
@@ -44,7 +44,7 @@ class UserController extends Controller
 
     public function update(int $id): void
     {
-        if (!$this->token->check()) {
+        if (!$this->token->check(0)) {
             $this->setLog("updateFail");
             header('location: /user/show/' . $id);
             exit();
@@ -65,7 +65,7 @@ class UserController extends Controller
     public function show(int $id): void
     {
         $template = 'admin/user/show.twig.html';
-        $data = ['token' => $this->token->generateString()];
+        $data = ['token0' => $this->token->generateString(0)];
 
         $user = $this->manager->getUser($id);
 
