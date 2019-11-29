@@ -16,8 +16,8 @@ Il s’agit de réaliser un logiciel de gestion de stocks disposant des fonction
 Informations : Code, [Description, Code EAN13, poids, longueur, largeur, hauteur].
 * un menu STOCKS permettant de consulter l'état des stocks aux emplacements, résultants des mouvements.
 * Un menu EMPLACEMENTS permettant de créer des zones de stockage, ou bien les rechercher / éditer : Zone, Allée, Colonne, Niveau. 
-* Un menu MOUVEMENTS permettant de créer des mouvements de stock de type : réception / livraison / ajustement inventaire. 
-Informations : code, quantité, emplacement, fournisseur, destinataire, référence mouvement. 
+* Un menu MOUVEMENTS permettant de créer des mouvements de stock de type : réception / livraison. 
+Informations : code, quantité, emplacement, fournisseur, destinataire (adresse), référence mouvement. 
 
 ### Évolutions possibles
 
@@ -25,9 +25,11 @@ On peut prévoir un menu CLIENTS afin d’avoir plusieurs clients dans notre ent
 
 On peut ajouter un menu HISTORIQUE afin de consulter les différents mouvements d’un ARTICLE.
 
+On peut ajouter de nouveaux types de mouvement (transfert emplacements, inventaires).
+
 ### Technologies
 
-HTML / CSS, PHP / MySQL, Javascript. Responsive tablette / mobile.
+HTML / CSS, PHP / MySQL, Javascript (JQUERY). Responsive tablette / mobile.
 AJAX pour la saisie du mouvement (pour les champs article, description, emplacement : recherche dynamique en BDD).
 
 ## Menu Identification
@@ -78,20 +80,16 @@ Technique :
 ## Menu Mouvements
 
 Métier :
-* on choisit par un bouton radio le type de mouvement souhaité : “entrée”, “sortie”, "transfert" et “inventaire”. L’entrée correspond à une réception (fournisseur, retour…), la sortie à une commande de vente, un transfert au déplacement d'une quantité de produit et l’inventaire à un mouvement autre (contrôle de stock ponctuel ou annuel par exemple).
+* on choisit par un menu d'accueil le type de mouvement souhaité : “Réception Fournisseur”, “Expédition Client”. L’entrée correspond à une réception (fournisseur, retour…), la sortie à une commande de vente.
 
-On a alors accès à un formulaire dont l’entête diffère selon le choix (informations fournisseur / informations destinataire / motif ajustement) et à une liste d’articles à saisir (code, quantité, emplacement)
+On a alors accès à un formulaire dont l’entête diffère selon le choix (informations fournisseur / informations destinataire) et à une liste d’articles à saisir (code, quantité, emplacement)
 
 * Dans le cadre d’une sortie, l’emplacement est automatiquement affecté par le système.
-
-* on peut importer des fichiers de type CSV à la place d’une saisie manuelle.
 
 Technique :
 * tous les types de mouvement ont un impact similaire sur le stock : faire varier des quantités à des emplacements (pouvant amener à la création ou la destruction de stocks) donc on souhaite factoriser le code en ce sens.
 
 * formulaire protégé par Token et javascript pour les champs.
-
-* traitement de fichiers CSV pour les imports en masse et retour utilisateur.
 
 ## Design
 
