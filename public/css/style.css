@@ -359,7 +359,7 @@ header nav {
     border-bottom: 1px solid rgb(64, 64, 64);
 }
 
-.orderRow label {
+.orderField {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -367,29 +367,28 @@ header nav {
 }
 
 .orderRow label {
-    width: 80%;
+    background-color: inherit;
     padding: 5px;
 }
 
-.orderRow label:nth-of-type(2) {
+.orderField:nth-of-type(2), .orderField:nth-of-type(4) {
     flex: 1;
 }
 
-.orderRow label:nth-of-type(1), .orderRow label:nth-of-type(3) {
+.orderField:nth-of-type(1), .orderField:nth-of-type(3) {
     flex: 2;
 }
 
-div .orderRow:nth-of-type(odd) {
+.orderRow:nth-of-type(odd) {
     background-color: #dbe2e7;
 }
 
-div .orderRow:nth-of-type(even) {
+.orderRow:nth-of-type(even) {
     background-color: #c7ced3;
 }
 
-span .button {
-    margin-top: 10px;
-    margin-left: 10px;
+.orderField:nth-of-type(4) .button {
+    margin: 10px;
 }
 
 .dynamicList {
@@ -405,5 +404,6 @@ span .button {
 .dynamicListItem:hover {
     background-color: rgb(64, 64, 64);
     color: white;
+    cursor: pointer;
 }
 /* end ORDER */

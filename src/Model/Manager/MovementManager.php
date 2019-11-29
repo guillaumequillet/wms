@@ -29,8 +29,7 @@ class MovementManager extends Manager
     {
         $data = [
             'provider' => $this->superglobalManager->findVariable('post', 'provider'),
-            'reference' => $this->superglobalManager->findVariable('post', 'reference'),
-            'status' => $this->superglobalManager->findVariable('post', 'status')
+            'reference' => $this->superglobalManager->findVariable('post', 'reference')
         ];
 
         if (in_array(null, $data, true)) {
@@ -96,7 +95,6 @@ class MovementManager extends Manager
             'rows' => $rows,
             'createdAt' => (new \DateTime())->format('Y-m-d H:i:s'),
             'reference' => $data['reference'],
-            'status' => $data['status'],
             'user' => $user
         ];
         

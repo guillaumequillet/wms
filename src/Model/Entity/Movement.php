@@ -10,7 +10,6 @@ class Movement extends Entity
     private $rows;
     private $createdAt;
     private $reference;
-    private $status;
     private $user;
 
     public function checkTypes(): void
@@ -27,9 +26,6 @@ class Movement extends Entity
         if (!is_null($this->reference)) {
             $this->setReference((string)$this->reference);     
         }
-        if (!is_null($this->status)) {
-            $this->setStatus((string)$this->status);    
-        }   
         if (!is_null($this->user)) {
             $this->setUser($this->user);    
         }
@@ -54,11 +50,6 @@ class Movement extends Entity
     public function getReference(): string
     {
         return $this->reference;
-    }
-
-    public function getStatus(): string
-    {
-        return $this->status;
     }
 
     public function getUser(): User
@@ -90,12 +81,6 @@ class Movement extends Entity
     public function setReference(string $reference): self
     {
         $this->reference = $reference;
-        return $this;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
         return $this;
     }
 

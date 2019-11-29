@@ -58,11 +58,13 @@ class ArticleController extends Controller
         $code = $this->superglobalManager->findVariable('post', 'code');
 
         if (is_null($code)) {
-            echo 'no-result';
+            echo json_encode([]);
             exit();
         }
 
-        echo $this->manager->suggestArticles($code);        
+        $array = $this->manager->suggestArticles($code);
+        header('Content-type: application/json');
+        echo json_encode($array);
     }
 
     public function update(int $id): void

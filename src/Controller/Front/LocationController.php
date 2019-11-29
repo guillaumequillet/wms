@@ -19,11 +19,13 @@ class LocationController extends Controller
         $concatenate = $this->superglobalManager->findVariable('post', 'concatenate');
 
         if (is_null($concatenate)) {
-            echo 'no-result';
+            echo json_encode([]);
             exit();
         }
 
-        echo $this->manager->suggestLocations($concatenate);        
+        $array = $this->manager->suggestLocations($concatenate);
+        header('Content-type: application/json');
+        echo json_encode($array);
     }
 
     public function locationExists(): void

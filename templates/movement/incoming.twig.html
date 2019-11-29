@@ -14,26 +14,10 @@
                 <label>Référence
                     <input type="text" name="reference" id="reference" value="{{ order.reference }}" autocomplete="off" required>
                 </label>
-                <label>Statut
-                    <select name="status" id="status">
-                        <option value="pending"{% if order.status == "pending" %}" selected"{% endif %}>En attente</option>
-                        <option value="received"{% if order.status == "received" %}" selected"{% endif %}>Réceptionnée</option>
-                    </select>
-                </label>
             </fieldset>
             <fieldset>
                 <legend>Produits</legend>
-                <div class="orderRow">
-                    <label>Code Article
-                        <input type="text" name="article" autocomplete="off" required>
-                        <ul class="dynamicList"></ul> <!-- UL pour suggestions -->
-                    </label>
-                    <label>Quantité<input type="number" name="quantity" required></label>
-                    <label>Emplacement
-                        <input type="text" name="location" autocomplete="off" required>
-                        <ul class="dynamicList"></ul> <!-- UL pour suggestions -->
-                    </label>
-                    <span><a href="#" class="button icon delete-icon">Effacer</a></span>
+                <div id="orderRows">
                 </div>
             </fieldset>
             <p><a href="#" class="button icon add-icon" id="addRowButton">Ajouter une ligne</a></p>

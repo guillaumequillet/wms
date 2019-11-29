@@ -15,5 +15,3 @@ recherche multi critères et éventuellement un EXPORT CSV.
 voir si on garde les "status"...
 
 GERER RESPONSIVE
-
-HTML validation : revoir les doublons d'ID et les UL dans les label (incoming)

@@ -10,12 +10,11 @@ class MovementRepository extends Repository
     public function createIncoming(Incoming $movement): ?int
     {
         // we create the incoming record
-        $req = $this->database->getPDO()->prepare('INSERT INTO incomings(created_at, reference, status, user, provider) 
-        VALUES(:createdAt, :reference, :status, :user, :provider)');
+        $req = $this->database->getPDO()->prepare('INSERT INTO incomings(created_at, reference, user, provider) 
+        VALUES(:createdAt, :reference, :user, :provider)');
         $res = $req->execute([
             'createdAt' => $movement->getCreatedAt(),
             'reference' => $movement->getReference(),
-            'status' => $movement->getStatus(),
             'user' => $movement->getUser()->getId(),
             'provider' => $movement->getProvider()
         ]);

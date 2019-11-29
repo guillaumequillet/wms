@@ -156,13 +156,13 @@ class ArticleManager extends Manager
         return $this->repository->findWhere(['id', '=', $id]);
     }
 
-    public function suggestArticles($code): string
+    public function suggestArticles($code): array
     {
         $limit = 5;
         $entities = $this->repository->findWhereAll(['code', 'like', "%$code%"], $limit);
 
         if (is_null($entities)) {
-            return 'no-result';
+            return [];
         }
 
         $results = [];
@@ -171,6 +171,6 @@ class ArticleManager extends Manager
             $results[] = $entity->getCode();
         }
 
-        return join(';', $results);
+        return $results;
     }
 }

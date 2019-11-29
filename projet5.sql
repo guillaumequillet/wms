@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mer. 27 nov. 2019 à 12:45
+-- Généré le :  ven. 29 nov. 2019 à 15:16
 -- Version du serveur :  10.4.6-MariaDB
 -- Version de PHP :  7.3.9
 
@@ -49,23 +49,8 @@ CREATE TABLE `incomings` (
   `id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `reference` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL,
   `user` int(11) NOT NULL,
   `provider` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `inventories`
---
-
-CREATE TABLE `inventories` (
-  `id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `reference` varchar(255) NOT NULL,
-  `user` int(11) NOT NULL,
-  `comment` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -93,7 +78,6 @@ CREATE TABLE `outgoings` (
   `id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `reference` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL,
   `user` int(11) NOT NULL,
   `recipient` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
@@ -133,22 +117,6 @@ CREATE TABLE `stocks` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `transfers`
---
-
-CREATE TABLE `transfers` (
-  `id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `comment` varchar(255) NOT NULL,
-  `user` int(11) NOT NULL,
-  `origin` int(11) NOT NULL,
-  `destination` int(11) NOT NULL,
-  `qty` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `users`
 --
 
@@ -165,7 +133,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `role`) VALUES
-(1, 'superadmin', '$2y$10$MPztmE1MbMP9jyNZqSYxQueEeNUMXOa09g0LxyB0u/m/2XCmfOTWC', 'email@test.com', 'superadmin');
+(1, 'superadmin', '$2y$10$MPztmE1MbMP9jyNZqSYxQueEeNUMXOa09g0LxyB0u/m/2XCmfOTWC', 'newemail@test.com', 'superadmin');
 
 --
 -- Index pour les tables déchargées
@@ -182,13 +150,6 @@ ALTER TABLE `articles`
 -- Index pour la table `incomings`
 --
 ALTER TABLE `incomings`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user` (`user`);
-
---
--- Index pour la table `inventories`
---
-ALTER TABLE `inventories`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user` (`user`);
 
@@ -224,15 +185,6 @@ ALTER TABLE `stocks`
   ADD KEY `article` (`article`);
 
 --
--- Index pour la table `transfers`
---
-ALTER TABLE `transfers`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user` (`user`),
-  ADD KEY `origin` (`origin`),
-  ADD KEY `destination` (`destination`);
-
---
 -- Index pour la table `users`
 --
 ALTER TABLE `users`
@@ -252,12 +204,6 @@ ALTER TABLE `articles`
 -- AUTO_INCREMENT pour la table `incomings`
 --
 ALTER TABLE `incomings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `inventories`
---
-ALTER TABLE `inventories`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -285,16 +231,10 @@ ALTER TABLE `stocks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `transfers`
---
-ALTER TABLE `transfers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Contraintes pour les tables déchargées
@@ -305,12 +245,6 @@ ALTER TABLE `users`
 --
 ALTER TABLE `incomings`
   ADD CONSTRAINT `incomings_ibfk_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`);
-
---
--- Contraintes pour la table `inventories`
---
-ALTER TABLE `inventories`
-  ADD CONSTRAINT `inventories_ibfk_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`);
 
 --
 -- Contraintes pour la table `outgoings`
@@ -331,14 +265,6 @@ ALTER TABLE `rows`
 ALTER TABLE `stocks`
   ADD CONSTRAINT `stocks_ibfk_1` FOREIGN KEY (`location`) REFERENCES `locations` (`id`),
   ADD CONSTRAINT `stocks_ibfk_2` FOREIGN KEY (`article`) REFERENCES `articles` (`id`);
-
---
--- Contraintes pour la table `transfers`
---
-ALTER TABLE `transfers`
-  ADD CONSTRAINT `transfers_ibfk_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `transfers_ibfk_2` FOREIGN KEY (`origin`) REFERENCES `locations` (`id`),
-  ADD CONSTRAINT `transfers_ibfk_3` FOREIGN KEY (`destination`) REFERENCES `locations` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
