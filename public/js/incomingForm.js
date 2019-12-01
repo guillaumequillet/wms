@@ -9,6 +9,15 @@ class IncomingForm
 
         $('#feedbackIncomingForm').hide();
 
+        // handling delete button for existing lines
+        $('.orderRow').each(function() {
+            let $that = $(this);
+            $(this).find('.button').click(function(e) {
+                e.preventDefault();
+                $that.remove();
+            });
+        });
+
         $('#addRowButton').click(function(e) {
             e.preventDefault();
             that.addRow();
