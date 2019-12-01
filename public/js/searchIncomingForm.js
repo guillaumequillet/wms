@@ -1,16 +1,16 @@
 $(document).ready(function() {
-    // let codeRegExp = /^[\w_%]+$/;
+    let codeRegExp = /^[\w-_ ]+$/;
 
-    // $('#stockSearchFeedback').hide();
+    $('#incomingSearchFeedback').hide();
 
-    // $('#searchStockForm').submit(function(event)  {
-    //     let queryString = $.trim($('#searchStockForm #queryString').val());
-    //     if (queryString !== '' && !codeRegExp.test(queryString)) {
-    //         event.preventDefault();
-    //         $('#stockSearchFeedback').show();
-    //         $('#stockSearchFeedback').text("Les champs n'acceptent qu'une lettre non accentuée ou des nombres de 0 à 999."); 
-    //     } else {
-    //         $('#stockSearchFeedback').hide();
-    //     }
-    // });
+    $('#searchIncomingForm').submit(function(event)  {
+        let queryString = $.trim($('#searchIncomingForm #queryString').val());
+        if (queryString !== '' && !codeRegExp.test(queryString)) {
+            event.preventDefault();
+            $('#incomingSearchFeedback').show();
+            $('#incomingSearchFeedback').text('Vous devez utiliser des chiffres, des lettres non accentuées ou bien des tirets ou underscores.'); 
+        } else {
+            $('#incomingSearchFeedback').hide();
+        }
+    });
 });
