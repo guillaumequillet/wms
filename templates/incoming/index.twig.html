@@ -8,7 +8,9 @@
     {% elseif log == "moveOK" %}
         <p class="valid">La réception a bien été créée.</p>
     {% elseif log == "moveNOK" %}
-        <p class="error">La réception n'a pas pu été créée.</p>        
+        <p class="error">La réception n'a pas pu été créée.</p>      
+    {% elseif log == "deleteNOK" %}
+        <p class="error">La réception n'a pas pu été supprimée.</p>   
     {% endif %}
     <section>
         <p>Saisir une <a href="/incoming/new">Réception Fournisseur</a></p>
@@ -53,7 +55,9 @@
                                 <td>
                                     <ul class="article-edit">
                                         <li><a href="/incoming/show/{{ movement.id }}" class="button icon edit-icon">Editer</a></li>
-                                        <li><a href="/incoming/delete/{{ movement.id }}" class="button icon delete-icon" onclick="return confirm('Etes-vous sûr(e) de vouloir supprimer ce mouvement ?');">Supprimer</a></li>
+                                        {% if movement.status == "pending" %}
+                                            <li><a href="/incoming/delete/{{ movement.id }}" class="button icon delete-icon" onclick="return confirm('Etes-vous sûr(e) de vouloir supprimer ce mouvement ?');">Supprimer</a></li>
+                                        {% endif %}
                                     </ul>
                                 </td>
                             </tr>

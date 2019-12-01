@@ -71,4 +71,13 @@ class IncomingController extends Controller
         $this->setLog($res ? "moveOK" : "moveNOK");
         header('location: /incoming/index');
     }
+
+    public function delete(int $id): void
+    {
+        $res = $this->manager->deleteIncoming($id);
+        if (!$res) {
+            $this->setLog('deleteNOK');
+        }
+        header('location: /incoming/index');
+    }
 }

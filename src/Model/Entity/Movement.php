@@ -6,29 +6,23 @@ namespace App\Model\Entity;
 class Movement extends Entity
 {
     /* private attributes */
-    private $id;
-    private $rows;
-    private $createdAt;
-    private $reference;
-    private $user;
-    private $status;
+    protected $id;
+    protected $rows;
+    protected $createdAt;
+    protected $reference;
+    protected $user;
+    protected $status;
 
     public function checkTypes(): void
     {
         if (!is_null($this->id)) {
             $this->setId((int) $this->id);
         }
-        if (!is_null($this->rows)) {
-            $this->setRows($this->rows);    
-        }        
         if (!is_null($this->created_at)) {
             $this->setCreatedAt($this->created_at);
         }    
         if (!is_null($this->reference)) {
             $this->setReference((string)$this->reference);     
-        }
-        if (!is_null($this->user)) {
-            $this->setUser($this->user);    
         }
         if (!is_null($this->status)) {
             $this->setStatus($this->status);    

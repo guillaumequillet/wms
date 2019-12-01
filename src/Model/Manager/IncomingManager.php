@@ -151,4 +151,27 @@ class IncomingManager extends Manager
 
         return true;
     }
+
+    public function deleteIncoming(int $id): bool
+    {
+        $this->repository = new IncomingRepository($this->database);
+        $incoming = $this->repository->findWhere(['id', '=', $id]);
+
+        if (is_null($incoming)) {
+            return false;
+        }
+
+        // we can delete incomings only if status === "pending"
+        if ($incoming->getStatus() !== 'pending') {
+            return false;
+        }
+
+        // we delete all related rows
+        $this->repository = new RowRepository($this->database);
+        $this->repository->deleteIncomingRows($incoming);
+
+        // and we delete the movement itself
+        $this->repository = new IncomingRepository($this->database);
+        return $this->repository->deleteWhere(['id', '=', $id]);
+    }
 }

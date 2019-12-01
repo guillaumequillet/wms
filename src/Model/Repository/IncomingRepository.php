@@ -7,11 +7,6 @@ use App\Model\Entity\Incoming;
 
 class IncomingRepository extends Repository
 {
-    public function findAllIncomings(int $page): ?array
-    {
-        
-    }
-
     public function createIncoming(Incoming $movement): ?int
     {
         // we create the incoming record

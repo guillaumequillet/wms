@@ -130,6 +130,11 @@ class Router
         $this->router->map('POST', '/incoming/confirm', function() {
             (new IncomingController)->confirm();
         });
+
+        $this->router->map('GET', '/incoming/delete/[i:id]', function(int $id) {
+            (new IncomingController)->delete((int)$id);
+        });
+
     }
 
     private function createUserRoutes(): void

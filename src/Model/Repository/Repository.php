@@ -112,7 +112,6 @@ abstract class Repository
     {
         $reqString = 'DELETE FROM ' . $this->getTableName();
         $reqString .= $this->createConditionString($conditions);
-
         $stmt = $this->database->getPDO()->prepare($reqString);
         $res = $stmt->execute($this->createConditionParams($conditions));
         return $res;

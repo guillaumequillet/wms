@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Model\Repository;
 
 use App\Model\Entity\Row;
+use App\Model\Entity\Incoming;
 
 class RowRepository extends Repository
 {
@@ -17,5 +18,11 @@ class RowRepository extends Repository
         $reqString .= join(',', $reqValues);
         $res = $this->database->getPDO()->exec($reqString); 
         return ($res === count($rows));
+    }
+
+    public function deleteIncomingRows(Incoming $incoming): bool
+    {
+        $req = $this->database->getPDO()->prepare('DELETE FROM `rows` WHERE `movement`=:movement');
+        return $req->execute(['movement' => $incoming->getId()]);
     }
 }
