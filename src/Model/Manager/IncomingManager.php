@@ -33,6 +33,21 @@ class IncomingManager extends Manager
 
     public function createIncoming(): bool
     {
+        // if id is not empty, we are updating an existing order
+        $currentId = $this->superglobalManager->findVariable('post', 'currentId');
+        
+        if (is_null($currentId)) {
+            return false;
+        }
+
+        $currentId = (empty($currentId)) ? null : (int)$currentId;
+
+        // we delete all previous lines
+        if (!is_null($currentId)) {
+            $this->repository = new RowRepository($this->database);
+            $this->repository->deleteIncomingRowsForId($currentId);
+        }
+
         $data = [
             'provider' => $this->superglobalManager->findVariable('post', 'provider'),
             'reference' => $this->superglobalManager->findVariable('post', 'reference'),
@@ -110,13 +125,18 @@ class IncomingManager extends Manager
 
         // we create the incoming DB record
         $this->repository = new IncomingRepository($this->database);
-        $mvtID = $this->repository->createIncoming($movement);
 
-        if (is_null($mvtID)) {
+        $mvtId = (!is_null($currentId)) ? $currentId : $this->repository->createIncoming($movement);
+
+        if (is_null($mvtId)) {
             return false;
         }
 
-        $movement->setId($mvtID);
+        $movement->setId($mvtId);
+
+        if (!is_null($currentId)) {
+            $this->repository->updateIncoming($movement);
+        }
 
         // and the rows themselves
         $this->repository = new RowRepository($this->database);
@@ -128,27 +148,33 @@ class IncomingManager extends Manager
 
         // if status is received, we create the stocks
         if ($data['status'] === 'received') {
-            $stocks = [];
-
-            foreach ($movement->getRows() as $row) {
-                $stock = new Stock();
-                $data = [
-                    'location' => $row->getLocation(),
-                    'article' => $row->getArticle(),
-                    'qty' => $row->getQty()
-                ];
-                $stock->hydrate($data);
-                $stocks[] = $stock;
-            }
-    
-            $this->repository = new StockRepository($this->database);
-            $stockRes = $this->repository->createStocks($stocks);            
-    
-            if (isset($stockRes) && !$stockRes) {
-                return false;
-            }
+            $this->receiveIncoming($movement);
         }
 
+        return true;
+    }
+
+    public function receiveIncoming(Incoming $incoming): bool 
+    {
+        $stocks = [];
+
+        foreach ($incoming->getRows() as $row) {
+            $stock = new Stock();
+            $data = [
+                'location' => $row->getLocation(),
+                'article' => $row->getArticle(),
+                'qty' => $row->getQty()
+            ];
+            $stock->hydrate($data);
+            $stocks[] = $stock;
+        }
+
+        $this->repository = new StockRepository($this->database);
+        $stockRes = $this->repository->createStocks($stocks);            
+
+        if (isset($stockRes) && !$stockRes) {
+            return false;
+        }        
         return true;
     }
 
@@ -173,5 +199,56 @@ class IncomingManager extends Manager
         // and we delete the movement itself
         $this->repository = new IncomingRepository($this->database);
         return $this->repository->deleteWhere(['id', '=', $id]);
+    }
+
+    public function getIncoming(int $id): ?Incoming
+    {
+        $this->repository = new IncomingRepository($this->database);
+        $incoming = $this->repository->findWhere(['id', '=', $id]);
+
+        if (is_null($incoming)) {
+            return null;
+        }
+
+        $this->repository = new UserRepository($this->database);
+        $user = $this->repository->findWhere(['id', '=', $incoming->userId]);
+
+        if (is_null($user)) {
+            return null;
+        }
+
+        $incoming->setUser($user);
+    
+        $this->repository = new RowRepository($this->database);
+        $rows = $this->repository->findIncomingRows($incoming);
+
+        if (is_null($rows)) {
+            return null;
+        }
+
+        foreach ($rows as $row) {
+            $row->setMovement($incoming);
+        }
+
+        $this->repository = new ArticleRepository($this->database);
+        foreach ($rows as $row) {
+            $article = $this->repository->findWhere(['id', '=', $row->articleId]);
+            if (is_null($article)) {
+                return null;
+            }
+            $row->setArticle($article);
+        }
+
+        $this->repository = new LocationRepository($this->database);
+        foreach ($rows as $row) {
+            $location = $this->repository->findWhere(['id', '=', $row->locationId]);
+            if (is_null($location)) {
+                return null;
+            }
+            $row->setLocation($location);
+        }
+
+        $incoming->setRows($rows);
+        return $incoming;
     }
 }

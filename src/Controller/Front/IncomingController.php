@@ -51,10 +51,21 @@ class IncomingController extends Controller
         $this->render($template, $data);
     }
 
-    public function create(): void
+    public function edit(?int $id = null): void
     {
-        $template = 'incoming/new.twig.html';
+        $template = 'incoming/edit.twig.html';
         $data = ['token0' => $this->token->generateString(0)];
+
+        if (!is_null($id)) {
+            $data['incoming'] = $this->manager->getIncoming($id);
+        }
+
+        if (!is_null($id) && is_null($data['incoming'])) {
+            $this->setLog('unfound');
+            header('location: /incoming/index');
+            exit();
+        }
+
         $this->render($template, $data);
     }
 

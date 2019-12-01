@@ -7,8 +7,11 @@ class Row extends Entity
 {
     private $id;
     private $movement;
+    public $movementId;
     private $article;
+    public $articleId;
     private $location;
+    public $locationId;
     private $qty;
 
     public function checkTypes(): void
@@ -17,13 +20,13 @@ class Row extends Entity
             $this->setId((int) $this->id);        
         }
         if (!is_null($this->movement)) {
-            $this->setMovement((int) $this->movement);        
+            $this->movementId = $this->movement;        
         }
         if (!is_null($this->article)) {
-            $this->setArticle($this->article);
+            $this->articleId = $this->article;
         }
         if (!is_null($this->location)) {
-            $this->setLocation($this->location);        
+            $this->locationId = $this->location;        
         }
         if (!is_null($this->qty)) {
             $this->setQty((int) $this->qty);        

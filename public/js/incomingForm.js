@@ -17,12 +17,6 @@ class IncomingForm
         $('#incomingForm').submit(function(e) {
             $('#feedbackIncomingForm').hide();
 
-            // all fields must be completed
-            if ($('input[value=""]').length > 0) {
-                $('#feedbackIncomingForm').show();
-                $('#feedbackIncomingForm').text('Tous les champs doivent être complétés.');
-            }
-
             // some articles must have been added
             if ($('.orderRow').length < 1) {
                 $('#feedbackIncomingForm').show();

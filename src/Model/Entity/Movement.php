@@ -11,21 +11,25 @@ class Movement extends Entity
     protected $createdAt;
     protected $reference;
     protected $user;
+    public $userId;
     protected $status;
 
     public function checkTypes(): void
     {
-        if (!is_null($this->id)) {
+        if (isset($this->id)) {
             $this->setId((int) $this->id);
         }
-        if (!is_null($this->created_at)) {
+        if (isset($this->created_at)) {
             $this->setCreatedAt($this->created_at);
         }    
-        if (!is_null($this->reference)) {
+        if (isset($this->reference)) {
             $this->setReference((string)$this->reference);     
         }
-        if (!is_null($this->status)) {
+        if (isset($this->status)) {
             $this->setStatus($this->status);    
+        }
+        if (isset($this->user)) {
+            $this->userId = $this->user;
         }
     }
 

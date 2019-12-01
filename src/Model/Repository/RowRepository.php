@@ -25,4 +25,19 @@ class RowRepository extends Repository
         $req = $this->database->getPDO()->prepare('DELETE FROM `rows` WHERE `movement`=:movement');
         return $req->execute(['movement' => $incoming->getId()]);
     }
+
+    public function findIncomingRows(Incoming $incoming): ?array
+    {
+        $req = $this->database->getPDO()->prepare('SELECT * FROM `rows` WHERE `movement`=:movement');
+        $req->setFetchMode(\PDO::FETCH_CLASS, Row::class); 
+        $req->execute(['movement' => $incoming->getId()]);
+        $res = $req->fetchAll();
+        return ($res === false) ? null : $res;
+    }
+
+    public function deleteIncomingRowsForId(int $id): bool
+    {
+        $req = $this->database->getPDO()->prepare('DELETE FROM `rows` WHERE `movement`=:movement');
+        return $req->execute(['movement' => $id]);
+    }
 }

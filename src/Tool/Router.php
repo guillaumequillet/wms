@@ -123,8 +123,8 @@ class Router
             (new IncomingController)->index($page);
         });
 
-        $this->router->map('GET', '/incoming/new', function() {
-            (new IncomingController)->create();
+        $this->router->map('GET', '/incoming/edit/[i:id]?', function(?int $id = null) {
+            (new IncomingController)->edit($id);
         });
 
         $this->router->map('POST', '/incoming/confirm', function() {

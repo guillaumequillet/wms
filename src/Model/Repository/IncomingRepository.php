@@ -31,4 +31,18 @@ class IncomingRepository extends Repository
         }
         return $res->fetch()['id'];
     }
+
+    public function updateIncoming(Incoming $incoming): bool
+    {
+        $req = $this->database->getPDO()->prepare('UPDATE incomings SET id=:id, created_at=:createdAt, reference=:reference, user=:user, provider=:provider, status=:status WHERE id=:moveId');
+        return $res = $req->execute([
+            'id' => $incoming->getId(),
+            'createdAt' => $incoming->getCreatedAt(),
+            'reference' => $incoming->getReference(),
+            'user' => $incoming->getUser()->getId(),
+            'provider' => $incoming->getProvider(),
+            'status' => $incoming->getStatus(),
+            'moveId' => $incoming->getId()
+        ]);        
+    }
 }

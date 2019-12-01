@@ -196,6 +196,12 @@ tr:nth-of-type(even) {
     left: 6px;
 }
 
+.view-icon::before {
+    content: "\f06e";
+    color: white;
+    left: 6px;
+}
+
 .delete-icon::before {
     content: "\f014";
     color: white;
