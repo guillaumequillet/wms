@@ -43,14 +43,17 @@ class ArticleController extends Controller
 
     public function articleExists(): void
     {
+        header('Content-type: application/json');
+
         $code = $this->superglobalManager->findVariable('post', 'code');
 
         if (is_null($code)) {
-            echo 'false';
+            echo json_encode(false);
             exit();
         }
 
-        echo ($this->manager->articleExists($code)) ? 'true' : 'false';
+        $exists = $this->manager->articleExists($code);
+        echo json_encode($exists);
     }
 
     public function suggestions(): void

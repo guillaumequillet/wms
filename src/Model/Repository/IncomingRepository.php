@@ -5,18 +5,24 @@ namespace App\Model\Repository;
 
 use App\Model\Entity\Incoming;
 
-class MovementRepository extends Repository
+class IncomingRepository extends Repository
 {
+    public function findAllIncomings(int $page): ?array
+    {
+        
+    }
+
     public function createIncoming(Incoming $movement): ?int
     {
         // we create the incoming record
-        $req = $this->database->getPDO()->prepare('INSERT INTO incomings(created_at, reference, user, provider) 
-        VALUES(:createdAt, :reference, :user, :provider)');
+        $req = $this->database->getPDO()->prepare('INSERT INTO incomings(created_at, reference, user, provider, status) 
+        VALUES(:createdAt, :reference, :user, :provider, :status)');
         $res = $req->execute([
             'createdAt' => $movement->getCreatedAt(),
             'reference' => $movement->getReference(),
             'user' => $movement->getUser()->getId(),
-            'provider' => $movement->getProvider()
+            'provider' => $movement->getProvider(),
+            'status' => $movement->getStatus()
         ]);
 
         if (!$res) {

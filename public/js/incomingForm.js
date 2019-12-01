@@ -1,3 +1,5 @@
+//https://www.developpez.net/forums/d1127096/javascript/bibliotheques-frameworks/jquery/empecher-non-soumission-d-formulaire-jquery/
+
 class IncomingForm
 {
     constructor() 
@@ -10,6 +12,58 @@ class IncomingForm
         $('#addRowButton').click(function(e) {
             e.preventDefault();
             that.addRow();
+        });
+
+        $('#incomingForm').submit(function(e) {
+            $('#feedbackIncomingForm').hide();
+
+            // all fields must be completed
+            if ($('input[value=""]').length > 0) {
+                $('#feedbackIncomingForm').show();
+                $('#feedbackIncomingForm').text('Tous les champs doivent être complétés.');
+            }
+
+            // some articles must have been added
+            if ($('.orderRow').length < 1) {
+                $('#feedbackIncomingForm').show();
+                $('#feedbackIncomingForm').text('Vous devez enregister au moins un article.');
+            }            
+
+            // check of provider and reference
+            let regexp = /^[\w-_ ]+$/;
+            if (!regexp.test($('#provider').val()) || !regexp.test($('#reference').val())) {
+                $('#feedbackIncomingForm').show();
+                $('#feedbackIncomingForm').text('Vous devez utiliser des chiffres, des lettres non accentuées ou bien des tirets ou underscores.');
+            }
+
+            // final check : all rows do have some valid article / qty / location
+            $(".orderRow").each(function() {
+                let article = $(this).find('.orderField input')[0].value;
+                $.post('/article/exists', {code:article}, function(data) {
+                    if (data !== true) {
+                        $('#feedbackIncomingForm').show();
+                        $('#feedbackIncomingForm').text("L'article " + article + " n'existe pas.");
+                    } 
+                });
+
+                let inputQty = $(this).find('.orderField input')[1].value;
+                if (inputQty < 0 || isNaN(inputQty)) {
+                    $('#feedbackIncomingForm').show();
+                    $('#feedbackIncomingForm').text("La quantité indiquée est incorecte.");
+                }
+
+                let location = $(this).find('.orderField input')[2].value;
+                $.post('/location/exists', {concatenate:location}, function(data) {
+                    if (data !== true) {
+                        $('#feedbackIncomingForm').show();
+                        $('#feedbackIncomingForm').text("L'emplacement " + location + " n'existe pas.");
+                    } 
+                });
+            });
+
+            if ($('#feedbackIncomingForm').text().length !== 0) {
+                e.preventDefault();
+            }
         });
     }
 
@@ -50,7 +104,7 @@ class IncomingForm
             let $ul = $(this).parent().find('.dynamicList').first();
             $ul.html('');
 
-            let $articleField = $('.orderRow').last().find('input').first();
+            let $articleField = $(e.target);
 
             if ($.trim($articleField.val()) !== '') {
                 $.ajax({
@@ -59,6 +113,7 @@ class IncomingForm
                     data: {code:$.trim($articleField.val())},
                     success: function(data){
                         if (data.length !== 0) {
+                            $ul.html('');
                             for (let i=0; i < data.length; i++) {
                                 $ul.append('<li class="dynamicListItem">' + data[i] + '</li>');
                                 $ul.find('li').last().click(function(e) {
@@ -81,7 +136,7 @@ class IncomingForm
             let $ul = $(this).parent().find('.dynamicList').first();
             $ul.html('');
 
-            let $locationField = $('.orderRow').last().find('input').last();
+            let $locationField =  $(e.target);
 
             if ($.trim($locationField.val()) !== '') {
                 $.ajax({
@@ -90,6 +145,7 @@ class IncomingForm
                     data: {concatenate:$.trim($locationField.val())},
                     success: function(data) {
                         if (data.length !== 0) {
+                            $ul.html('');
                             for (let i=0; i < data.length; i++) {
                                 $ul.append('<li class="dynamicListItem">' + data[i] + '</li>');
                                 $ul.find('li').last().click(function(e) {

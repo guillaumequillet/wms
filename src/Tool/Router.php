@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Tool;
 
 use App\Controller\Front\ArticleController;
-use App\Controller\Front\MovementController;
+use App\Controller\Front\IncomingController;
 use App\Controller\Front\LoginController;
 use App\Controller\Back\UserController;
 use App\Controller\Back\LocationController;
@@ -114,16 +114,21 @@ class Router
 
     private function createMovementRoutes(): void 
     {
-        $this->router->map('GET', '/movement/index', function() {
-            (new MovementController)->index();
+        $this->router->map('GET', '/incoming/index/[i:page]?', function(int $page = 0) {
+            (new IncomingController)->index($page);
         });
 
-        $this->router->map('GET', '/movement/incoming', function() {
-            (new MovementController)->incoming();
+        // we also need some route from POST, for the search input form
+        $this->router->map('POST', '/incoming/index/[i:page]?', function(int $page = 0) {
+            (new IncomingController)->index($page);
         });
 
-        $this->router->map('POST', '/movement/incomingConfirm', function() {
-            (new MovementController)->incomingConfirm();
+        $this->router->map('GET', '/incoming/new', function() {
+            (new IncomingController)->create();
+        });
+
+        $this->router->map('POST', '/incoming/confirm', function() {
+            (new IncomingController)->confirm();
         });
     }
 

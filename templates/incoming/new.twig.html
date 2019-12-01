@@ -5,14 +5,20 @@
     <section>
         <h1>Saisie d'une <span class="white">Réception Fournisseur</span></h1>
         <p class="error" id="feedbackIncomingForm"></p>
-        <form method="post" id="incomingForm" action="/movement/incomingConfirm">
+        <form method="post" id="incomingForm" action="/incoming/confirm">
             <fieldset>
                 <legend>Entête Réception</legend>
                 <label>Fournisseur
-                    <input type="text" name="provider" id="provider" value="{{ order.provider }}" autocomplete="off" required>
+                    <input type="text" name="provider" id="provider" autocomplete="off" required>
                 </label>
                 <label>Référence
-                    <input type="text" name="reference" id="reference" value="{{ order.reference }}" autocomplete="off" required>
+                    <input type="text" name="reference" id="reference" autocomplete="off" required>
+                </label>
+                <label>Statut
+                    <select name="status" id="status">
+                        <option value="pending">En attente</option>
+                        <option value="received">Réceptionnée</option>
+                    </select>
                 </label>
             </fieldset>
             <fieldset>
@@ -22,7 +28,7 @@
             </fieldset>
             <p><a href="#" class="button icon add-icon" id="addRowButton">Ajouter une ligne</a></p>
             <input type="hidden" name="token0" id="token0" value="{{ token0 }}">
-            <input type="submit" value="Enregister">
+            <input type="submit" id="incomingSubmit" value="Enregister">
         </form>
     </section>    
 {% endblock %}

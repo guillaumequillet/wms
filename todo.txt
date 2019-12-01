@@ -1,7 +1,18 @@
 TODO LIST
 
 Incoming
-revoir JS pour validation des champs
+il faut utiliser AJAX de la façon suivante :
+$('incomingForm').submit(function() {
+    $.post(url, params, function(data) {
+        // data correspondra à un éventuel loupé, un message d'erreur
+
+        // dans le fichier de traitement PHP, on renverra un message d'erreur si besoin
+        // ou alors un message comme quoi tout est ok et dans ce cas on fera une redirection vers la liste,
+        mais en JAVASCRIPT
+    });
+    return false; // pour empêcher la validation du formulaire
+});
+
 
 STOCKS
 ce ne sont que des affichages. Ils sont générés par les mouvements. Prévoir un formulaire de 

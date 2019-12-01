@@ -5,24 +5,25 @@ $(document).ready(function() {
 	$('#articleForm #code').change(function(){
 		let code = $.trim($('#articleForm #code').val());
  
+        $('#articleFeedback').text("");
+        $('#articleFeedback').hide();
+        $('#articleForm #articleSubmit').prop("disabled", false);
+
 		if(code != "")
 		{
             $.post('/article/exists', {code:code}, function(data){
-                if (data === "true") {
+                if (data === true) {
                     $('#articleFeedback').show();
                     $('#articleFeedback').text("L'article existe déjà.");
                     $('#articleForm #articleSubmit').prop("disabled", true);
                 } 
-                else if (!codeRegExp.test(code)) {
-                    $('#articleFeedback').show();
-                    $('#articleFeedback').text("Le format saisi est incorrect");
-                    $('#articleForm #articleSubmit').prop("disabled", true);
-                } else {
-                    $('#articleFeedback').text("");
-                    $('#articleFeedback').hide();
-                    $('#articleForm #articleSubmit').prop("disabled", false);
-                }
-			});
-		}
+            });
+        }
+        
+        if (!codeRegExp.test(code)) {
+            $('#articleFeedback').show();
+            $('#articleFeedback').text("Le format saisi est incorrect");
+            $('#articleForm #articleSubmit').prop("disabled", true);
+        }
     });
 });

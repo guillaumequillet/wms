@@ -104,6 +104,7 @@ abstract class Repository
         $stmt->setFetchMode(\PDO::FETCH_CLASS, $this->getEntityClassName()); 
         $stmt->execute($this->createConditionParams($conditions));
         $res = $stmt->fetchAll();
+
         return empty($res) ? null : $res;        
     }
 

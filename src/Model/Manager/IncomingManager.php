@@ -8,14 +8,14 @@ use App\Model\Entity\Row;
 use App\Model\Entity\Stock;
 use App\Model\Repository\ArticleRepository;
 use App\Model\Repository\LocationRepository;
-use App\Model\Repository\MovementRepository;
+use App\Model\Repository\IncomingRepository;
 use App\Model\Repository\UserRepository;
 use App\Model\Repository\RowRepository;
 use App\Model\Repository\StockRepository;
 use App\Tool\Database;
 use App\Tool\Token;
 
-class MovementManager extends Manager
+class IncomingManager extends Manager
 {
     private $database;
 
@@ -25,11 +25,18 @@ class MovementManager extends Manager
         $this->database = new Database();
     }
 
+    public function findAllIncomings(?string $queryString = null, ?int $page = null): ?array
+    {
+        $this->repository = new IncomingRepository($this->database);
+        return $this->repository->findWhereAllPaginated(['reference', 'like', "%$queryString%"], $page);
+    }
+
     public function createIncoming(): bool
     {
         $data = [
             'provider' => $this->superglobalManager->findVariable('post', 'provider'),
-            'reference' => $this->superglobalManager->findVariable('post', 'reference')
+            'reference' => $this->superglobalManager->findVariable('post', 'reference'),
+            'status' => $this->superglobalManager->findVariable('post', 'status')
         ];
 
         if (in_array(null, $data, true)) {
@@ -95,13 +102,14 @@ class MovementManager extends Manager
             'rows' => $rows,
             'createdAt' => (new \DateTime())->format('Y-m-d H:i:s'),
             'reference' => $data['reference'],
-            'user' => $user
+            'user' => $user,
+            'status' => $data['status']
         ];
         
         $movement->hydrate($movementData);
 
         // we create the incoming DB record
-        $this->repository = new MovementRepository($this->database);
+        $this->repository = new IncomingRepository($this->database);
         $mvtID = $this->repository->createIncoming($movement);
 
         if (is_null($mvtID)) {
@@ -118,8 +126,8 @@ class MovementManager extends Manager
             return false;
         }
 
-        // if status === received, we create the stock
-        if ($movement->getStatus() === 'received') {
+        // if status is received, we create the stocks
+        if ($data['status'] === 'received') {
             $stocks = [];
 
             foreach ($movement->getRows() as $row) {
@@ -132,13 +140,13 @@ class MovementManager extends Manager
                 $stock->hydrate($data);
                 $stocks[] = $stock;
             }
-
+    
             $this->repository = new StockRepository($this->database);
             $stockRes = $this->repository->createStocks($stocks);            
-        }
-
-        if (isset($stockRes) && !$stockRes) {
-            return false;
+    
+            if (isset($stockRes) && !$stockRes) {
+                return false;
+            }
         }
 
         return true;

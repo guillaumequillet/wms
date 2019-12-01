@@ -16,6 +16,8 @@ class LocationController extends Controller
 
     public function suggestions(): void
     {
+        header('Content-type: application/json');
+
         $concatenate = $this->superglobalManager->findVariable('post', 'concatenate');
 
         if (is_null($concatenate)) {
@@ -24,19 +26,21 @@ class LocationController extends Controller
         }
 
         $array = $this->manager->suggestLocations($concatenate);
-        header('Content-type: application/json');
         echo json_encode($array);
     }
 
     public function locationExists(): void
     {
-        $location = $this->superglobalManager->findVariable('post', 'location');
+        header('Content-type: application/json');
+
+        $location = $this->superglobalManager->findVariable('post', 'concatenate');
 
         if (is_null($location)) {
-            echo 'false';
+            echo json_encode(false);
             exit();
         }
 
-        echo ($this->manager->locationExists($location)) ? 'true' : 'false';
+        $exists = $this->manager->locationExists($location);
+        echo json_encode($exists);
     }
 }

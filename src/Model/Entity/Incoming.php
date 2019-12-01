@@ -15,7 +15,7 @@ class Incoming extends Movement
     public function checkTypes(): void
     {
         if (!is_null($this->provider)) {
-            $this->setProvider((int) $this->provider);        
+            $this->setProvider((string) $this->provider);        
         }
         parent::checkTypes();
     }
