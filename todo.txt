@@ -10,4 +10,6 @@ adapter entrées : tout pareil sauf :
 
 vérifier la favicon : erreur html
 
-GERER RESPONSIVE
+terminer RESPONSIVE
+
+réexporter dump sql
