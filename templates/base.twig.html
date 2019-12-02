@@ -11,7 +11,7 @@
     </head>
 
     <body>
-        <header>
+        <header id="top">
             <p id="site-title"><span class="blue">Mana</span><span class="white">Stock</span></p>
             <nav>
                 {% if role is defined %}
@@ -33,7 +33,9 @@
         <main>
             {% block body %}{% endblock %}
         </main>
-
+        <footer>
+            <p><strong>ManaStock</strong> &copy; 2019 - Réalisé par <em>Guillaume Quillet</em> en novembre 2019 pour <em>OpenClassrooms</em> - <a href="#top">Retour haut de page</a></p>
+        </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         {% block js %}{% endblock %}
     </body>

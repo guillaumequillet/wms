@@ -341,6 +341,21 @@ header nav {
 }
 /* end Header*/
 
+/* begin FOOTER */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #dbe2e7;
+    box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.4); 
+    box-sizing: border-box;
+}
+
+footer p {
+    margin: 0;
+    padding: 0;
+}
+/* end FOOTER */
+
 /* article */
 .article-edit {
     margin: 0;
