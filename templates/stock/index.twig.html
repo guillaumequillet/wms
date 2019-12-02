@@ -6,7 +6,7 @@
         <h1 id="list">Liste des <span class="white">Stocks</span></h1>
         <p class="error" id="stockSearchFeedback"></p>
         <form method="POST" id="searchStockForm" action="/stock/index">
-            <label>Rechercher un produit
+            <label for="queryString">Rechercher un produit
                 <input type="text" name="queryString" id="queryString" value="{{ queryString }}">
             </label>
             <input type="submit" value="Rechercher">
