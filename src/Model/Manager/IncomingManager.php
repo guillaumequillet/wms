@@ -28,7 +28,7 @@ class IncomingManager extends Manager
     public function findAllIncomings(?string $queryString = null, ?int $page = null): ?array
     {
         $this->repository = new IncomingRepository($this->database);
-        return $this->repository->findWhereAllPaginated(['reference', 'like', "%$queryString%"], $page);
+        return $this->repository->findWhereAllPaginated(['reference', 'like', "%$queryString%"], $page, 'created_at DESC');
     }
 
     public function createIncoming(): bool

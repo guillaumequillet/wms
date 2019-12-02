@@ -10,7 +10,9 @@
     {% elseif log == "moveOK" %}
         <p class="valid">La réception a bien été mise à jour.</p>
     {% elseif log == "moveNOK" %}
-        <p class="error">La réception n'a pas pu été créée.</p>      
+        <p class="error">La réception n'a pas pu été créée.</p>    
+    {% elseif log == "deleteOK" %}
+        <p class="error">La réception a bien été supprimée.</p>     
     {% elseif log == "deleteNOK" %}
         <p class="error">La réception n'a pas pu été supprimée.</p>     
     {% endif %}

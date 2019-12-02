@@ -85,11 +85,15 @@ abstract class Repository
         return empty($res) ? null : $res;        
     }
 
-    public function findWhereAll(array $conditions = [], ?int $limit = null, ?int $offset = null): ?array
+    public function findWhereAll(array $conditions = [], ?int $limit = null, ?int $offset = null, ?string $orderBy = null): ?array
     {
         $reqString = 'SELECT * FROM ' . $this->getTableName();
         if (!empty($conditions)) {
             $reqString .= $this->createConditionString($conditions);
+        }
+
+        if (!is_null($orderBy)) {
+            $reqString .= ' ORDER BY ' . $orderBy;
         }
 
         if (!is_null($limit)) {
@@ -146,9 +150,9 @@ abstract class Repository
         ];
     }
 
-    public function findWhereAllPaginated(array $conditions = [], int $page): ?array
+    public function findWhereAllPaginated(array $conditions = [], int $page, ?string $orderBy = null): ?array
     {
-        $entities = $this->findWhereAll($conditions, $this->recordsPerPage, $this->recordsPerPage * ($page - 1));
+        $entities = $this->findWhereAll($conditions, $this->recordsPerPage, $this->recordsPerPage * ($page - 1), $orderBy);
         
         if (is_null($entities)) {
             return null;

@@ -87,9 +87,7 @@ class IncomingController extends Controller
     public function delete(int $id): void
     {
         $res = $this->manager->deleteIncoming($id);
-        if (!$res) {
-            $this->setLog('deleteNOK');
-        }
+        $this->setLog($res ? 'deleteOK' : 'deleteNOK');
         header('location: /incoming/index');
     }
 }
