@@ -28,7 +28,7 @@ class OutgoingManager extends Manager
     public function findAllOutgoings(?string $queryString = null, ?int $page = null): ?array
     {
         $this->repository = new OutgoingRepository($this->database);
-        return $this->repository->findWhereAllPaginated(['reference', 'like', "%$queryString%"], $page, 'created_at DESC');
+        return $this->repository->findWhereAllPaginated(['reference', 'like', "%${queryString}%"], $page, 'created_at DESC');
     }
 
     public function getOutgoing(int $id): ?Outgoing

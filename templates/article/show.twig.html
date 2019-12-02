@@ -41,7 +41,7 @@
                     <input type="number" id="length" name="length" value="{{ article.length }}" required>
                 </label>
                 <label for="barcode">Code à Barre
-                    <input type="text" id="barcode" name="barcode" value="{{ article.barcode }}" required>
+                    <input type="text" id="barcode" name="barcode" value="{{ article.barcode }}">
                 </label>
                 <input type="submit" value="Mettre à jour">
                 <input type="hidden" id="code" name="code" value = {{ article.code }}>

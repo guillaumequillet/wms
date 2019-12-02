@@ -30,12 +30,12 @@ class LocationManager extends Manager
             return false;
         }
 
-        foreach($data as $k=>$v) {
-            if (preg_match('/^[a-z]$/', $v)) {
-                $data[$k] = strtoupper($v);
+        foreach($data as $key=>$value) {
+            if (preg_match('/^[a-z]$/', $value)) {
+                $data[$key] = strtoupper($value);
             }
-            if (preg_match('/^[0-9]{1,3}$/', $v)) {
-                $data[$k] = $location->intToString((int)$v);
+            if (preg_match('/^[0-9]{1,3}$/', $value)) {
+                $data[$key] = $location->intToString((int)$value);
             }
         }
 
@@ -61,8 +61,8 @@ class LocationManager extends Manager
         }
 
         $types = [];
-        foreach ($fields as $k=>$v) {
-            $types[$k] = is_numeric($v) ? "int" : "string";
+        foreach ($fields as $key=>$value) {
+            $types[$key] = is_numeric($value) ? "int" : "string";
         }
 
         if ($types['fromAisle'] !== $types['toAisle']) {
@@ -90,12 +90,12 @@ class LocationManager extends Manager
                         'level' => (string)$level                        
                     ];
 
-                    foreach($data as $k=>$v) {
-                        if (preg_match('/^[a-z]$/', $v)) {
-                            $data[$k] = strtoupper($v);
+                    foreach($data as $key=>$value) {
+                        if (preg_match('/^[a-z]$/', $value)) {
+                            $data[$key] = strtoupper($value);
                         }
-                        if (preg_match('/^[0-9]{1,3}$/', $v)) {
-                            $data[$k] = $location->intToString((int)$v);
+                        if (preg_match('/^[0-9]{1,3}$/', $value)) {
+                            $data[$key] = $location->intToString((int)$value);
                         }
                     }                    
 
@@ -126,7 +126,7 @@ class LocationManager extends Manager
         }
 
         if (!isset($filename) || $filename === "") {
-            return false;
+            return 'noneInterval';
         }
 
         $csvFile = new ParserCSV($filename);
@@ -148,14 +148,14 @@ class LocationManager extends Manager
 
             $location = new Location();
 
-            foreach($data as $k=>$v) {
-                if (preg_match('/^[a-z]$/', $v)) {
-                    $data[$k] = strtoupper($v);
+            foreach($data as $key=>$value) {
+                if (preg_match('/^[a-z]$/', $value)) {
+                    $data[$key] = strtoupper($value);
                 }
-                if (preg_match('/^[0-9]{1,3}$/', $v)) {
-                    $data[$k] = $location->intToString((int)$v);
+                if (preg_match('/^[0-9]{1,3}$/', $value)) {
+                    $data[$key] = $location->intToString((int)$value);
                 }
-                if ($v === '') {
+                if ($value === '') {
                     return 'noneInterval';
                 }
             }      
@@ -180,7 +180,7 @@ class LocationManager extends Manager
 
     public function findAllLocations(?string $queryString = null, ?int $page = null): ?array
     {
-        return $this->repository->findWhereAllPaginated(['concatenate', 'like', "%$queryString%"], $page);
+        return $this->repository->findWhereAllPaginated(['concatenate', 'like', "%${queryString}%"], $page);
     }
 
     public function delete(int $id): bool
@@ -191,7 +191,7 @@ class LocationManager extends Manager
     public function suggestLocations($concatenate): array
     {
         $limit = 5;
-        $entities = $this->repository->findWhereAll(['concatenate', 'like', "%$concatenate%"], $limit);
+        $entities = $this->repository->findWhereAll(['concatenate', 'like', "%${concatenate}%"], $limit);
 
         if (is_null($entities)) {
             return [];

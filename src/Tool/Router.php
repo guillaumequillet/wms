@@ -72,44 +72,44 @@ class Router
     private function createArticleRoutes(): void 
     {
         $this->router->map('GET', '/article/index/[i:page]?', function(int $page = 0) {
-            (new ArticleController)->index($page);
+            (new ArticleController())->index($page);
         });
 
         // we also need some route from POST, for the search input form
         $this->router->map('POST', '/article/index/[i:page]?', function(int $page = 0) {
-            (new ArticleController)->index($page);
+            (new ArticleController())->index($page);
         });
     
         $this->router->map('GET', '/article/new', function() {
-            (new ArticleController)->create();
+            (new ArticleController())->create();
         });
 
         $this->router->map('POST', '/article/record', function() {
-            (new ArticleController)->record();
+            (new ArticleController())->record();
         });
 
         $this->router->map('GET', '/article/show/[i:id]', function(int $id) {
-            (new ArticleController)->show((int)$id);
+            (new ArticleController())->show((int)$id);
         });
 
         $this->router->map('GET', '/article/delete/[i:id]', function(int $id) {
-            (new ArticleController)->delete((int)$id);
+            (new ArticleController())->delete((int)$id);
         });
 
         $this->router->map('POST', '/article/import', function() {
-            (new ArticleController)->import();
+            (new ArticleController())->import();
         });
 
         $this->router->map('POST', '/article/update/[i:id]', function(int $id) {
-            (new ArticleController)->update((int)$id);
+            (new ArticleController())->update((int)$id);
         });
 
         $this->router->map('POST', '/article/exists', function() {
-            (new ArticleController)->articleExists();
+            (new ArticleController())->articleExists();
         });
 
         $this->router->map('POST', '/article/suggestions', function() {
-            (new ArticleController)->suggestions();
+            (new ArticleController())->suggestions();
         });
     }
 
@@ -117,118 +117,118 @@ class Router
     {
         // incoming routes        
         $this->router->map('GET', '/incoming/index/[i:page]?', function(int $page = 0) {
-            (new IncomingController)->index($page);
+            (new IncomingController())->index($page);
         });
 
         // we also need some route from POST, for the search input form
         $this->router->map('POST', '/incoming/index/[i:page]?', function(int $page = 0) {
-            (new IncomingController)->index($page);
+            (new IncomingController())->index($page);
         });
 
         $this->router->map('GET', '/incoming/edit/[i:id]?', function(?int $id = null) {
-            (new IncomingController)->edit($id);
+            (new IncomingController())->edit($id);
         });
 
         $this->router->map('POST', '/incoming/confirm', function() {
-            (new IncomingController)->confirm();
+            (new IncomingController())->confirm();
         });
 
         $this->router->map('GET', '/incoming/delete/[i:id]', function(int $id) {
-            (new IncomingController)->delete((int)$id);
+            (new IncomingController())->delete((int)$id);
         });
 
         // outgoing routes
         $this->router->map('GET', '/outgoing/index/[i:page]?', function(int $page = 0) {
-            (new OutgoingController)->index($page);
+            (new OutgoingController())->index($page);
         });
 
         // we also need some route from POST, for the search input form
         $this->router->map('POST', '/outgoing/index/[i:page]?', function(int $page = 0) {
-            (new OutgoingController)->index($page);
+            (new OutgoingController())->index($page);
         });
 
         $this->router->map('GET', '/outgoing/edit/[i:id]?', function(?int $id = null) {
-            (new OutgoingController)->edit($id);
+            (new OutgoingController())->edit($id);
         });
 
         $this->router->map('POST', '/outgoing/confirm', function() {
-            (new OutgoingController)->confirm();
+            (new OutgoingController())->confirm();
         });
 
         $this->router->map('GET', '/outgoing/delete/[i:id]', function(int $id) {
-            (new OutgoingController)->delete((int)$id);
+            (new OutgoingController())->delete((int)$id);
         });
     }
 
     private function createUserRoutes(): void
     {
         $this->router->map('GET', '/user/index', function() {
-            (new UserController)->index();
+            (new UserController())->index();
         });        
 
         $this->router->map('POST', '/user/create', function() {
-            (new UserController)->create();
+            (new UserController())->create();
         });
 
         $this->router->map('GET', '/user/delete/[i:id]', function(int $id) {
-            (new UserController)->delete($id);
+            (new UserController())->delete($id);
         });
 
         $this->router->map('GET', '/user/show/[i:id]', function(int $id) {
-            (new UserController)->show($id);
+            (new UserController())->show($id);
         });
 
         $this->router->map('POST', '/user/update/[i:id]', function(int $id) {
-            (new UserController)->update($id);
+            (new UserController())->update($id);
         });
     }
 
     private function createLocationRoutes(): void
     {
         $this->router->map('GET', '/location/index/[i:page]?', function(int $page = 0) {
-            (new LocationController)->index($page);
+            (new LocationController())->index($page);
         });        
 
         // we also need some route from POST, for the search input form
         $this->router->map('POST', '/location/index/[i:page]?', function(int $page = 0) {
-            (new LocationController)->index($page);
+            (new LocationController())->index($page);
         });
 
         $this->router->map('POST', '/location/createsingle', function() {
-            (new LocationController)->createSingle();
+            (new LocationController())->createSingle();
         });
 
         $this->router->map('POST', '/location/createinterval', function() {
-            (new LocationController)->createInterval();
+            (new LocationController())->createInterval();
         });
 
         $this->router->map('POST', '/location/import', function() {
-            (new LocationController)->import();
+            (new LocationController())->import();
         });
 
         $this->router->map('GET', '/location/delete/[i:id]', function(int $id) {
-            (new LocationController)->delete($id);
+            (new LocationController())->delete($id);
         });
     }
 
     private function createFrontLocationRoutes(): void
     {
         $this->router->map('POST', '/location/suggestions', function() {
-            (new FrontLocationController)->suggestions();
+            (new FrontLocationController())->suggestions();
         });        
 
         $this->router->map('POST', '/location/exists', function() {
-            (new FrontLocationController)->locationExists();
+            (new FrontLocationController())->locationExists();
         });  
     }
 
     private function createStockRoutes(): void
     {
         $this->router->map('GET', '/stock/index/[i:page]?', function(int $page = 0) {
-            (new StockController)->index($page);
+            (new StockController())->index($page);
         }); 
         $this->router->map('POST', '/stock/index/[i:page]?', function(int $page = 0) {
-            (new StockController)->index($page);
+            (new StockController())->index($page);
         });           
     }
 

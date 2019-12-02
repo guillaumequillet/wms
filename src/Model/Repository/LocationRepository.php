@@ -11,14 +11,13 @@ class LocationRepository extends Repository
     {
         $req = $this->database->getPDO()->prepare('INSERT INTO locations(area, aisle, col, level, concatenate) 
             VALUES(:area, :aisle, :col, :level, :concatenate)');
-        $res = $req->execute([
+        return $req->execute([
             'area' => $location->getArea(),
             'aisle' => $location->getAisle(),
             'col' => $location->getCol(),
             'level' => $location->getLevel(),
             'concatenate' => $location->getConcatenate()
         ]);
-        return $res;   
     }
     
     public function createLocations(array $locations): int
@@ -30,6 +29,6 @@ class LocationRepository extends Repository
         }
         $reqString .= join(',', $reqValues);
         $reqString .=  'ON DUPLICATE KEY UPDATE area=area';
-        return $query = $this->database->getPDO()->exec($reqString);
+        return $this->database->getPDO()->exec($reqString);
     }
 }

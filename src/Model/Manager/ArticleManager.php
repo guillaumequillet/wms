@@ -63,7 +63,7 @@ class ArticleManager extends Manager
         }
 
         if (!isset($filename) || $filename === "") {
-            return false;
+            return 'noneInterval';
         }
 
         $csvFile = new ParserCSV($filename);
@@ -157,7 +157,7 @@ class ArticleManager extends Manager
     public function suggestArticles($code): array
     {
         $limit = 5;
-        $entities = $this->repository->findWhereAll(['code', 'like', "%$code%"], $limit);
+        $entities = $this->repository->findWhereAll(['code', 'like', "%${code}%"], $limit);
 
         if (is_null($entities)) {
             return [];

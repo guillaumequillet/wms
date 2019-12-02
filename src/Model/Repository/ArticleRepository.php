@@ -11,7 +11,7 @@ class ArticleRepository extends Repository
     {
         $req = $this->database->getPDO()->prepare('INSERT INTO articles(code, description, weight, width, length, height, barcode) 
             VALUES(:code, :description, :weight, :width, :length, :height, :barcode)');
-        $res = $req->execute([
+        return $req->execute([
             'code' => $article->getCode(),
             'description' => $article->getDescription(),
             'weight' => $article->getWeight(),
@@ -20,7 +20,6 @@ class ArticleRepository extends Repository
             'height' => $article->getHeight(),
             'barcode' => $article->getBarcode()
         ]);
-        return $res;
     }
 
     public function createArticles(array $articles): int
@@ -32,7 +31,7 @@ class ArticleRepository extends Repository
         }
         $reqString .= join(',', $reqValues);
         $reqString .=  'ON DUPLICATE KEY UPDATE code=code';
-        return $query = $this->database->getPDO()->exec($reqString);
+        return $this->database->getPDO()->exec($reqString);
     }
 
     public function updateArticle(Article $article): bool
@@ -40,7 +39,7 @@ class ArticleRepository extends Repository
         $req = $this->database->getPDO()->prepare('UPDATE articles 
             SET code=:code, description=:description, weight=:weight, width=:width, length=:length, height=:height, barcode=:barcode 
             WHERE code=:querycode');
-        $res = $req->execute([
+        return $req->execute([
             'code' => $article->getCode(),
             'description' => $article->getDescription(),
             'weight' => $article->getWeight(),
@@ -50,6 +49,5 @@ class ArticleRepository extends Repository
             'barcode' => $article->getBarcode(),
             'querycode' => $article->getCode()
         ]);
-        return $res;
     }
 }

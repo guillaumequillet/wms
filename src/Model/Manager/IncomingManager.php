@@ -28,7 +28,7 @@ class IncomingManager extends Manager
     public function findAllIncomings(?string $queryString = null, ?int $page = null): ?array
     {
         $this->repository = new IncomingRepository($this->database);
-        return $this->repository->findWhereAllPaginated(['reference', 'like', "%$queryString%"], $page, 'created_at DESC');
+        return $this->repository->findWhereAllPaginated(['reference', 'like', "%${queryString}%"], $page, 'created_at DESC');
     }
 
     public function createIncoming(): bool
@@ -66,15 +66,18 @@ class IncomingManager extends Manager
 
         foreach ($articleKeys as $articleKey) {
             preg_match("#^article([0-9]+)$#", $articleKey, $id);
-            if (is_null($article = $this->superglobalManager->findVariable('post', 'article' . $id[1])))
+            $article = $this->superglobalManager->findVariable('post', 'article' . $id[1]);
+            if (is_null($article))
             {
                 return false;                
             }
-            if (is_null($qty = $this->superglobalManager->findVariable('post', 'quantity' . $id[1])))
+            $qty = $this->superglobalManager->findVariable('post', 'quantity' . $id[1]);
+            if (is_null($qty))
             {
                 return false;                
             }
-            if (is_null($location = $this->superglobalManager->findVariable('post', 'location' . $id[1])))
+            $location = $this->superglobalManager->findVariable('post', 'location' . $id[1]);
+            if (is_null($location))
             {
                 return false;                
             }

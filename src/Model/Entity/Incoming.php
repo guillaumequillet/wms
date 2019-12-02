@@ -7,11 +7,6 @@ class Incoming extends Movement
 {
     private $provider;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function checkTypes(): void
     {
         if (!is_null($this->provider)) {

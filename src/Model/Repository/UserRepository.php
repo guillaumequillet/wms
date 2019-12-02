@@ -20,13 +20,12 @@ class UserRepository extends Repository
     {
         $req = $this->database->getPDO()->prepare('INSERT INTO users(username, password, email, role) 
             VALUES(:username, :password, :email, :role)');
-        $res = $req->execute([
+        return $req->execute([
             'username' => $user->getUsername(),
             'password' => $user->getPassword(),
             'email' => $user->getEmail(),
             'role' => $user->getRole()
         ]);
-        return $res;           
     }
 
     public function updateUser(User $user, bool $newPassword): bool
@@ -48,7 +47,6 @@ class UserRepository extends Repository
 
         $req = $this->database->getPDO()->prepare($queryString);
 
-        $res = $req->execute($params);
-        return $res;
+        return $req->execute($params);
     }
 }
