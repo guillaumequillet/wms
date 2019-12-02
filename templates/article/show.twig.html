@@ -25,22 +25,22 @@
         {% else %}
             <h1>Fiche Article : <span class="white">{{ article.code }}</span> [id: {{ article.id }}]</h1>
             <form method="POST" action="/article/update/{{ article.id }}">
-                <label>Description
+                <label for="description">Description
                     <input type="text" id="description" name="description" value="{{ article.description }}" required>
                 </label>
-                <label>Poids
+                <label for="weight">Poids
                     <input type="number" id="weight" name="weight" value="{{ article.weight }}" required>
                 </label>
-                <label>Largeur
+                <label for="width">Largeur
                     <input type="number" id="width" name="width" value="{{ article.width }}" required>
                 </label>
-                <label>Hauteur
+                <label for="height">Hauteur
                     <input type="number" id="height" name="height" value="{{ article.height }}" required>
                 </label>
-                <label>Longueur
+                <label for="length">Longueur
                     <input type="number" id="length" name="length" value="{{ article.length }}" required>
                 </label>
-                <label>Code à Barre
+                <label for="barcode">Code à Barre
                     <input type="text" id="barcode" name="barcode" value="{{ article.barcode }}" required>
                 </label>
                 <input type="submit" value="Mettre à jour">

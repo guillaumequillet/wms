@@ -5,6 +5,7 @@ namespace App\Tool;
 
 use App\Controller\Front\ArticleController;
 use App\Controller\Front\IncomingController;
+use App\Controller\Front\OutgoingController;
 use App\Controller\Front\LoginController;
 use App\Controller\Back\UserController;
 use App\Controller\Back\LocationController;
@@ -114,6 +115,7 @@ class Router
 
     private function createMovementRoutes(): void 
     {
+        // incoming routes        
         $this->router->map('GET', '/incoming/index/[i:page]?', function(int $page = 0) {
             (new IncomingController)->index($page);
         });
@@ -135,6 +137,27 @@ class Router
             (new IncomingController)->delete((int)$id);
         });
 
+        // outgoing routes
+        $this->router->map('GET', '/outgoing/index/[i:page]?', function(int $page = 0) {
+            (new OutgoingController)->index($page);
+        });
+
+        // we also need some route from POST, for the search input form
+        $this->router->map('POST', '/outgoing/index/[i:page]?', function(int $page = 0) {
+            (new OutgoingController)->index($page);
+        });
+
+        $this->router->map('GET', '/outgoing/edit/[i:id]?', function(?int $id = null) {
+            (new OutgoingController)->edit($id);
+        });
+
+        $this->router->map('POST', '/outgoing/confirm', function() {
+            (new OutgoingController)->confirm();
+        });
+
+        $this->router->map('GET', '/outgoing/delete/[i:id]', function(int $id) {
+            (new OutgoingController)->delete((int)$id);
+        });
     }
 
     private function createUserRoutes(): void

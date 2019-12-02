@@ -22,13 +22,13 @@
             <h1>Fiche Utilisateur : <span class="white">{{ user.username }}</span> [id: {{ user.id }}]</h1>
             <p id="editUserFeedback" class="error"></p>
             <form method="POST" action="/user/update/{{ user.id }}" id="editUserForm">
-                <label>Nom d'Utilisateur
+                <label for="username">Nom d'Utilisateur
                     <input type="text" id="username" name="username" value="{{ user.username }}" required>
                 </label>
-                <label>Email
+                <label for="email">Email
                     <input type="text" id="email" name="email" value="{{ user.email }}" required>
                 </label>
-                <label>Role
+                <label for="role">Role
                     {% if user.id == loggedId %}
                         <input type="text" value="{{ user.role }}" disabled="disabled">
                         <input type="hidden" id="role" name="role" value = {{ user.role }}>
@@ -39,10 +39,10 @@
                         </select>
                     {% endif %}
                 </label>
-                <label>Nouveau mot de passe
+                <label for="newPassword">Nouveau mot de passe
                     <input type="password" id="newPassword" name="newPassword">
                 </label>
-                <label>Confirmer nouveau mot de passe
+                <label for="newPasswordConfirm">Confirmer nouveau mot de passe
                     <input type="password" id="newPasswordConfirm" name="newPasswordConfirm">
                 </label>
                 <input type="submit" value="Mettre à jour">

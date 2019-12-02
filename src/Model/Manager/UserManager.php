@@ -125,7 +125,7 @@ class UserManager extends Manager
             return false;
         }
 
-        if ($data['password'] != $data['confirmPassword']) {
+        if ($data['password'] !== $data['confirmPassword']) {
             return false;
         }
 

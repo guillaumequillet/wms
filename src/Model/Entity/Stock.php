@@ -10,6 +10,7 @@ class Stock extends Entity
     private $location;
     private $article;
     private $qty;    
+    private $reserved;
 
     public function checkTypes(): void
     {
@@ -18,6 +19,9 @@ class Stock extends Entity
         }
         if (!is_null($this->qty)) {
             $this->setQty((int)$this->qty);        
+        }
+        if (!is_null($this->reserved)) {
+            $this->setReserved((int)$this->reserved);        
         }
     }
 
@@ -58,6 +62,11 @@ class Stock extends Entity
         return $this->qty;
     }
 
+    public function getReserved(): int
+    {
+        return $this->reserved;
+    }
+
     /* public setters */
     public function setId(int $id): self
     {
@@ -80,6 +89,12 @@ class Stock extends Entity
     public function setQty(int $qty): self
     {
         $this->qty = $qty;
+        return $this;
+    }
+
+    public function setReserved(int $reserved): self
+    {
+        $this->reserved = $reserved;
         return $this;
     }
 }

@@ -73,8 +73,6 @@ class ArticleManager extends Manager
             return 'noneInterval';
         }
 
-        $locations = [];
-
         foreach($lines as $line) {
             $data = [
                 'code' => (string)$line[0],
@@ -148,7 +146,7 @@ class ArticleManager extends Manager
 
     public function findAllArticles(?string $queryString = null, ?int $page = null): ?array
     {
-        return $this->repository->findWhereAllPaginated(['code', 'like', "%$queryString%"], $page);
+        return $this->repository->findWhereAllPaginated(['code', 'like', "%${queryString}%"], $page);
     }
 
     public function findArticleWithId(int $id): ?Article

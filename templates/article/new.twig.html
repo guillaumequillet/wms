@@ -15,25 +15,25 @@
         <p id="articleFeedback" class="error"></p>
         <h1>Création d'un <span class="white">Article</span></h1>
         <form method="POST" action="/article/record" id="articleForm">
-            <label>Code
+            <label for="code">Code
                 <input type="text" id="code" name="code" required>
             </label>
-            <label>Description
+            <label for="description">Description
                 <input type="text" id="description" name="description">
             </label>
-            <label>Poids
+            <label for="weight">Poids
                 <input type="number" id="weight" name="weight" value="0">
             </label>
-            <label>Largeur
+            <label for="width">Largeur
                 <input type="number" id="width" name="width" value="0">
             </label>
-            <label>Hauteur
+            <label for="height">Hauteur
                 <input type="number" id="height" name="height" value="0">
             </label>
-            <label>Longueur
+            <label for="length">Longueur
                 <input type="number" id="length" name="length" value="0">
             </label>
-            <label>Code à Barre
+            <label for="barcode">Code à Barre
                 <input type="text" id="barcode" name="barcode">
             </label>
             <input type="submit" value="Créer l'article" id="articleSubmit">

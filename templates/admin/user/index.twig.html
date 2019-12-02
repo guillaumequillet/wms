@@ -51,22 +51,22 @@
             <p id="newUserFeedback" class="error"></p>
             <h2>Créer un nouvel Utilisateur</h2>
             <form method="POST" id="userForm" action="/user/create">
-                <label>Nom d'Utilisateur
+                <label for="username">Nom d'Utilisateur
                     <input type="text" id="username" name="username" required>
                 </label>        
-                <label>Email
+                <label for="email">Email
                     <input type="text" id="email" name="email" required>
                 </label> 
-                <label>Role
+                <label for="role">Role
                     <select name="role" id="role">
                         <option value="admin">Admin</option>
                         <option value="simple" selected>Simple</option>
                     </select>
                 </label>
-                <label>Mot de passe
+                <label for="password">Mot de passe
                     <input type="password" id="password" name="password" required>
                 </label>
-                <label>Confirmer le mot de passe
+                <label for="confirmPassword">Confirmer le mot de passe
                     <input type="password" id="confirmPassword" name="confirmPassword" required>
                 </label>
                 <input type="submit" id="userSubmit">

@@ -22,16 +22,16 @@
         <h2>Créer un emplacement unique</h2>
         <p id="locationSingleFeedback" class="error"></p>
         <form method="POST" id="locationSingleForm" action="/location/createsingle">
-            <label>Zone
+            <label for="area">Zone
                 <input type="text" name="area" id="area" required>
             </label>
-            <label>Allée
+            <label for="aisle">Allée
                 <input type="text" name="aisle" id="aisle" required>
             </label>
-            <label>Colonne
+            <label for="col">Colonne
                 <input type="text" name="col" id="col" required>
             </label>
-            <label>Niveau
+            <label for="level">Niveau
                 <input type="text" name="level" id="level" required>
             </label>
             <input type="submit" value="Créer l'emplacement" id="locationSingleSubmit">
@@ -40,33 +40,33 @@
         <h2>Créer un intervalle d'emplacements</h2>
         <p id="locationIntervalFeedback" class="error"></p>
         <form method="POST" id="locationIntervalForm" action="/location/createinterval">
-            <label>Zone
+            <label for="intervalArea">Zone
                 <input type="text" name="intervalArea" id="intervalArea" required>
             </label>
             <fieldset>
                 <legend>Allées</legend>
-                <label>Début
+                <label for="fromAisle">Début
                     <input type="text" name="fromAisle" id="fromAisle" required>
                 </label>
-                <label>Fin
+                <label for="toAisle">Fin
                     <input type="text" name="toAisle" id="toAisle" required>
                 </label>
             </fieldset>
             <fieldset>
                 <legend>Colonnes</legend>
-                <label>Début
+                <label for="fromCol">Début
                     <input type="text" name="fromCol" id="fromCol" required>
                 </label>
-                <label>Fin
+                <label for="toCol">Fin
                     <input type="text" name="toCol" id="toCol" required>
                 </label>
             </fieldset>
             <fieldset>
                 <legend>Niveaux</legend>
-                <label>Début
+                <label for="fromLevel">Début
                     <input type="text" name="fromLevel" id="fromLevel" required>
                 </label>
-                <label>Fin
+                <label for="toLevel">Fin
                     <input type="text" name="toLevel" id="toLevel" required>
                 </label>
             </fieldset>
@@ -76,7 +76,9 @@
         <h2>Importer un fichier</h2>
         <p>Télécharger un <a href="/csv/importLocations.csv">fichier Emplacements</a>.</p>
         <form method="POST" enctype="multipart/form-data" action="/location/import">
-            <input type="file" name="locationFile" id="locationFile" class="button icon file-icon" accept=".csv" required>
+            <label for="locationFile">
+                <input type="file" name="locationFile" id="locationFile" class="button icon file-icon" accept=".csv" required>
+            </label>
             <input type="submit" name="Importer">
             <input type="hidden" name="token2" id="token2" value="{{ token2 }}">
         </form>
@@ -84,7 +86,7 @@
         <h2 id="list">Liste</h2>
         <p class="error" id="locationSearchFeedback"></p>
         <form method="POST" id="searchLocationForm" action="/location/index">
-            <label>Rechercher un emplacement
+            <label for="queryString">Rechercher un emplacement
                 <input type="text" name="queryString" id="queryString" value="{{ queryString }}">
             </label>
             <input type="submit" value="Rechercher">

@@ -5,6 +5,7 @@ namespace App\Model\Repository;
 
 use App\Model\Entity\Row;
 use App\Model\Entity\Incoming;
+use App\Model\Entity\Outgoing;
 
 class RowRepository extends Repository
 {
@@ -22,22 +23,37 @@ class RowRepository extends Repository
 
     public function deleteIncomingRows(Incoming $incoming): bool
     {
-        $req = $this->database->getPDO()->prepare('DELETE FROM `rows` WHERE `movement`=:movement');
+        $req = $this->database->getPDO()->prepare('DELETE FROM `rows` WHERE `type`="incoming" AND `movement`=:movement');
         return $req->execute(['movement' => $incoming->getId()]);
+    }
+
+    public function deleteOutgoingRows(Incoming $outgoing): bool
+    {
+        $req = $this->database->getPDO()->prepare('DELETE FROM `rows` WHERE `type`="outgoing" AND `movement`=:movement');
+        return $req->execute(['movement' => $outgoing->getId()]);
     }
 
     public function findIncomingRows(Incoming $incoming): ?array
     {
-        $req = $this->database->getPDO()->prepare('SELECT * FROM `rows` WHERE `movement`=:movement');
+        $req = $this->database->getPDO()->prepare('SELECT * FROM `rows` WHERE `type`="incoming" AND `movement`=:movement');
         $req->setFetchMode(\PDO::FETCH_CLASS, Row::class); 
         $req->execute(['movement' => $incoming->getId()]);
         $res = $req->fetchAll();
         return ($res === false) ? null : $res;
     }
 
+    public function findOutgoingRows(Outgoing $outgoing): ?array
+    {
+        $req = $this->database->getPDO()->prepare('SELECT * FROM `rows` WHERE `type`="outgoing" AND `movement`=:movement');
+        $req->setFetchMode(\PDO::FETCH_CLASS, Row::class); 
+        $req->execute(['movement' => $outgoing->getId()]);
+        $res = $req->fetchAll();
+        return ($res === false) ? null : $res;
+    }
+
     public function deleteIncomingRowsForId(int $id): bool
     {
-        $req = $this->database->getPDO()->prepare('DELETE FROM `rows` WHERE `movement`=:movement');
+        $req = $this->database->getPDO()->prepare('DELETE FROM `rows` WHERE `type`="incoming" AND `movement`=:movement');
         return $req->execute(['movement' => $id]);
     }
 }

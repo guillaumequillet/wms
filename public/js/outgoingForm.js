@@ -1,11 +1,11 @@
-class IncomingForm
+class OutgoingForm
 {
     constructor() 
     {
         let that = this; // fix around Jquery "this" handling
         this.lineNumber = 0;
 
-        $('#feedbackIncomingForm').hide();
+        $('#feedbackOutgoingForm').hide();
 
         // handling delete button for existing lines
         $('.orderRow').each(function() {
@@ -21,32 +21,32 @@ class IncomingForm
             that.addRow();
         });
 
-        $('#incomingForm').submit(function() {
-            let $url = $('#incomingForm').attr('action');
+        $('#outgoingForm').submit(function() {
+            let $url = $('#outgoingForm').attr('action');
             let $params = $(this).serialize();
 
             // some articles must have been added
             if ($('.orderRow').length < 1) {
-                $('#feedbackIncomingForm').show();
-                $('#feedbackIncomingForm').text('Vous devez enregister au moins un article.');
+                $('#feedbackOutgoingForm').show();
+                $('#feedbackOutgoingForm').text('Vous devez enregister au moins un article.');
                 return false;
             }       
             
             let regexp = /^[\w-_ ]+$/;
             if (!regexp.test($('#provider').val()) || !regexp.test($('#reference').val())) {
-                $('#feedbackIncomingForm').show();
-                $('#feedbackIncomingForm').text('Vous devez utiliser des chiffres, des lettres non accentuées ou bien des tirets ou underscores.');
+                $('#feedbackOutgoingForm').show();
+                $('#feedbackOutgoingForm').text('Vous devez utiliser des chiffres, des lettres non accentuées ou bien des tirets ou underscores.');
                 return false;
             }
 
             $.post($url, $params, function(data) {
                 if (data === 'moveOK' || data == 'tokenError') {
-                    $(window).attr('location', '/incoming/index');
+                    $(window).attr('location', '/outgoing/index');
                 }
 
                 if (data === 'moveNOK') {
-                    $('#feedbackIncomingForm').show();
-                    $('#feedbackIncomingForm').text('Une erreur est survenue lors de la validation.');
+                    $('#feedbackOutgoingForm').show();
+                    $('#feedbackOutgoingForm').text('Une erreur est survenue lors de la validation.');
                 }
             });
             return false; 
@@ -152,5 +152,5 @@ class IncomingForm
 }
 
 $(document).ready(function() {
-    new IncomingForm();
+    new OutgoingForm();
 });

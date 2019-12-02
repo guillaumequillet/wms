@@ -2,10 +2,12 @@
 declare(strict_types=1);
 
 namespace App\Tool;
-use App\Tool\SuperglobalManager;
+// use App\Tool\SuperglobalManager; // inutile
 
 class Token
 {
+    private $superglobalManager;
+
 	public function __construct() {
 		$this->superglobalManager = new SuperglobalManager();
         return $this;

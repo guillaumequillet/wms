@@ -6,6 +6,7 @@ namespace App\Model\Repository;
 use App\Model\Entity\Article;
 use App\Model\Entity\Location;
 use App\Model\Entity\Stock;
+use App\Model\Entity\Row;
 
 class StockRepository extends Repository
 {
@@ -102,5 +103,10 @@ class StockRepository extends Repository
         $req = $this->database->getPDO()->prepare($query);
         $res = $req->execute(['code' => '%' . $queryString . '%']);
         return ($res === false) ? 0 : $req->fetch()['total'];
+    }
+
+    public function confirmRowShipment(Row $row): bool
+    {
+        $query = 'UPDATE FROM stocks SET qty=qty-:a, reserved=reserved-:b WHERE location=:location';
     }
 }
