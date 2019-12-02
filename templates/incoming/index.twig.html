@@ -5,8 +5,10 @@
     <h1>Gestion des <span class="white">Réceptions</span></h1>
     {% if log == "unfound" %}
         <p class="error">La réception n'existe pas.</p>
+    {% elseif log == "tokenError" %}
+        <p class="error">Un problème technique est survenu.</p>
     {% elseif log == "moveOK" %}
-        <p class="valid">La réception a bien mise à jour.</p>
+        <p class="valid">La réception a bien été mise à jour.</p>
     {% elseif log == "moveNOK" %}
         <p class="error">La réception n'a pas pu été créée.</p>      
     {% elseif log == "deleteNOK" %}

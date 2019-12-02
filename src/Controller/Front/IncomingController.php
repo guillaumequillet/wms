@@ -68,19 +68,20 @@ class IncomingController extends Controller
 
         $this->render($template, $data);
     }
-
+    
     public function confirm(): void
     {
-        if ($this->token->check(0) === false) {
+        header('Content-type: application/json');
+
+        if ($this->token->check(0, false) === false) {
+            echo json_encode('tokenError');
             $this->setLog('tokenError');
-            header('location: /incoming/index');
             exit();
         }
 
-        $res = $this->manager->createIncoming();
-
-        $this->setLog($res ? "moveOK" : "moveNOK");
-        header('location: /incoming/index');
+        $log = $this->manager->createIncoming() ? "moveOK" : "moveNOK";;
+        $this->setLog($log);
+        echo json_encode($log);
     }
 
     public function delete(int $id): void

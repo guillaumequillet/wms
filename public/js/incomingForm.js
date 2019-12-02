@@ -23,50 +23,35 @@ class IncomingForm
             that.addRow();
         });
 
-        $('#incomingForm').submit(function(e) {
-            $('#feedbackIncomingForm').hide();
+        $('#incomingForm').submit(function() {
+            let $url = $('#incomingForm').attr('action');
+            let $params = $(this).serialize();
 
             // some articles must have been added
             if ($('.orderRow').length < 1) {
                 $('#feedbackIncomingForm').show();
                 $('#feedbackIncomingForm').text('Vous devez enregister au moins un article.');
-            }            
-
-            // check of provider and reference
+                return false;
+            }       
+            
             let regexp = /^[\w-_ ]+$/;
             if (!regexp.test($('#provider').val()) || !regexp.test($('#reference').val())) {
                 $('#feedbackIncomingForm').show();
                 $('#feedbackIncomingForm').text('Vous devez utiliser des chiffres, des lettres non accentuées ou bien des tirets ou underscores.');
+                return false;
             }
 
-            // final check : all rows do have some valid article / qty / location
-            $(".orderRow").each(function() {
-                let article = $(this).find('.orderField input')[0].value;
-                $.post('/article/exists', {code:article}, function(data) {
-                    if (data !== true) {
-                        $('#feedbackIncomingForm').show();
-                        $('#feedbackIncomingForm').text("L'article " + article + " n'existe pas.");
-                    } 
-                });
-
-                let inputQty = $(this).find('.orderField input')[1].value;
-                if (inputQty < 0 || isNaN(inputQty)) {
-                    $('#feedbackIncomingForm').show();
-                    $('#feedbackIncomingForm').text("La quantité indiquée est incorecte.");
+            $.post($url, $params, function(data) {
+                if (data === 'moveOK' || data == 'tokenError') {
+                    $(window).attr('location', '/incoming/index');
                 }
 
-                let location = $(this).find('.orderField input')[2].value;
-                $.post('/location/exists', {concatenate:location}, function(data) {
-                    if (data !== true) {
-                        $('#feedbackIncomingForm').show();
-                        $('#feedbackIncomingForm').text("L'emplacement " + location + " n'existe pas.");
-                    } 
-                });
+                if (data === 'moveNOK') {
+                    $('#feedbackIncomingForm').show();
+                    $('#feedbackIncomingForm').text('Une erreur est survenue lors de la validation.');
+                }
             });
-
-            if ($('#feedbackIncomingForm').text().length !== 0) {
-                e.preventDefault();
-            }
+            return false; 
         });
     }
 

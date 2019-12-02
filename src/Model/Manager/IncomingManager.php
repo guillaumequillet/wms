@@ -42,12 +42,6 @@ class IncomingManager extends Manager
 
         $currentId = (empty($currentId)) ? null : (int)$currentId;
 
-        // we delete all previous lines
-        if (!is_null($currentId)) {
-            $this->repository = new RowRepository($this->database);
-            $this->repository->deleteIncomingRowsForId($currentId);
-        }
-
         $data = [
             'provider' => $this->superglobalManager->findVariable('post', 'provider'),
             'reference' => $this->superglobalManager->findVariable('post', 'reference'),
@@ -140,6 +134,13 @@ class IncomingManager extends Manager
 
         // and the rows themselves
         $this->repository = new RowRepository($this->database);
+
+        // we delete all previous lines
+        if (!is_null($currentId)) {
+            $this->repository->deleteIncomingRowsForId($currentId);
+        }
+
+        // and add the new ones
         $rwsRes = $this->repository->createIncomingRows($movement->getRows());
 
         if (!$rwsRes) {
