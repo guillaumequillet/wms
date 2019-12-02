@@ -1,21 +1,8 @@
 TODO LIST
 
-- entrée
-finaliser JS
-il faut utiliser AJAX de la façon suivante :
-$('incomingForm').submit(function() {
-    $.post(url, params, function(data) {
-        // data correspondra à un éventuel loupé, un message d'erreur
-
-        // dans le fichier de traitement PHP, on renverra un message d'erreur si besoin
-        // ou alors un message comme quoi tout est ok et dans ce cas on fera une redirection vers la liste,
-        mais en JAVASCRIPT
-    });
-    return false; // pour empêcher la validation du formulaire
-});
+refactoring "rows" : mot clé réservé Sql. Remanier l'ensemble ?
 
 - sortie
-
 adapter entrées : tout pareil sauf :
 - emplacement dynamique si quantité dispo (en tenant compte des réservées)
 - ajouter quantités réservées dans "stocks" 

@@ -53,6 +53,16 @@ h2 {
     color: white;
     font-size: 1.5em;
 }
+
+h3 {
+    padding: 4px;
+    color: black;
+    font-weight: bold;
+    font-size: 1.2em;
+    text-align: center;
+    background-color: #dbe2e7;
+    border-bottom: 2px solid black;
+}
 /* END common */
 
 /* forms */
@@ -252,6 +262,7 @@ tr:nth-of-type(even) {
 
 html, body {
     width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
 }
@@ -340,23 +351,6 @@ header nav {
     display: inline-block;
     margin: 10px;
 }
-
-#articles-actions {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-
-.articles-action {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #dbe2e7;
-    box-shadow: -1px 2px 5px 1px rgba(0, 51, 102, 0.4);
-    border-radius: 15px; 
-}
 /* end article */
 
 /* ORDER */
@@ -417,3 +411,183 @@ header nav {
     cursor: pointer;
 }
 /* end ORDER */
+
+/* RESPONSIVE */
+@media all and (max-width: 1024px) {
+    html, body {
+        min-width: 400px;
+        width: 100%;
+    }
+
+    main {
+        width: 100%;
+        border-radius: 0;
+    }
+
+    header {
+        width: 100%;
+    }
+
+    header ul {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 10%;
+    }
+
+    header li {
+        margin: 10px 0;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    td {
+        border: 1px dashed grey;
+        font-size: 1.5em;
+    }
+
+    tr {
+        border: 1px solid black;
+        display: flex;
+        flex-direction: column;
+    }
+
+    tfoot, thead {
+        display: none;
+    }
+
+    /* Article ID */
+    #articleTable td:nth-of-type(1):before {
+        content: 'ID : ';
+        font-weight: bold;
+    }
+    
+    /* Article Code */
+    #articleTable td:nth-of-type(2):before {
+        content: 'Code : ';
+        font-weight: bold;
+    }    
+
+    /* Article Action */
+    #articleTable td:nth-of-type(3):before {
+        content: 'Action : ';
+        font-weight: bold;
+    }    
+
+    /* Stock ID */
+    #stockTable td:nth-of-type(1):before {
+        content: 'ID : ';
+        font-weight: bold;
+    }    
+
+    /* Stock Code */
+    #stockTable td:nth-of-type(2):before {
+        content: 'Code : ';
+        font-weight: bold;
+    }    
+
+    /* Stock Qty */
+    #stockTable td:nth-of-type(3):before {
+        content: 'Quantité : ';
+        font-weight: bold;
+    }    
+
+    /* Stock Location */
+    #stockTable td:nth-of-type(4):before {
+        content: 'Emplacement : ';
+        font-weight: bold;
+    }    
+
+    /* Incoming ID */
+    #incomingTable td:nth-of-type(1):before {
+        content: 'ID : ';
+        font-weight: bold;
+    }    
+
+    /* Incoming Reference */
+    #incomingTable td:nth-of-type(2):before {
+        content: 'Référence : ';
+        font-weight: bold;
+    }    
+
+    /* Incoming Date */
+    #incomingTable td:nth-of-type(3):before {
+        content: 'Date : ';
+        font-weight: bold;
+    }    
+
+    /* Incoming Status */
+    #incomingTable td:nth-of-type(4):before {
+        content: 'Statut : ';
+        font-weight: bold;
+    }   
+
+    /* Incoming Action */
+    #incomingTable td:nth-of-type(5):before {
+        content: 'Action : ';
+        font-weight: bold;
+    }   
+
+    /* userTable ID */
+    #userTable td:nth-of-type(1):before {
+        content: 'ID : ';
+        font-weight: bold;
+    }    
+
+    /* userTable Username */
+    #userTable td:nth-of-type(2):before {
+        content: "Nom d'utilisateur : ";
+        font-weight: bold;
+    }    
+
+    /* userTable Role */
+    #userTable td:nth-of-type(3):before {
+        content: 'Role : ';
+        font-weight: bold;
+    }    
+
+    /* userTable Action */
+    #userTable td:nth-of-type(4):before {
+        content: 'Action : ';
+        font-weight: bold;
+    }   
+
+    /* locationTable ID */
+    #locationTable td:nth-of-type(1):before {
+        content: 'ID : ';
+        font-weight: bold;
+    }    
+
+    /* locationTable Area */
+    #locationTable td:nth-of-type(2):before {
+        content: "Zone : ";
+        font-weight: bold;
+    }    
+
+    /* locationTable Aisle */
+    #locationTable td:nth-of-type(3):before {
+        content: 'Allée : ';
+        font-weight: bold;
+    }    
+
+    /* locationTable Col */
+    #locationTable td:nth-of-type(4):before {
+        content: 'Colonne : ';
+        font-weight: bold;
+    } 
+
+    /* locationTable Level */
+    #locationTable td:nth-of-type(5):before {
+        content: 'Niveau : ';
+        font-weight: bold;
+    }    
+
+    /* locationTable Action */
+    #locationTable td:nth-of-type(6):before {
+        content: 'Action : ';
+        font-weight: bold;
+    } 
+}
+/* end RESPONSIVE */
