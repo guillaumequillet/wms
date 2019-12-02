@@ -160,8 +160,12 @@ tr:nth-of-type(even) {
     content: "\f1b3";
 }
 
-.movement-icon::before {
-    content: "\f1da";
+.incoming-icon::before {
+    content: "\f274";
+}
+
+.outgoing-icon::before {
+    content: "\f0d1";
 }
 
 .admin-icon::before {

@@ -1,6 +1,7 @@
 TODO LIST
 
-Incoming
+- entrée
+finaliser JS
 il faut utiliser AJAX de la façon suivante :
 $('incomingForm').submit(function() {
     $.post(url, params, function(data) {
@@ -13,16 +14,13 @@ $('incomingForm').submit(function() {
     return false; // pour empêcher la validation du formulaire
 });
 
-
-STOCKS
-ce ne sont que des affichages. Ils sont générés par les mouvements. Prévoir un formulaire de 
-recherche multi critères et éventuellement un EXPORT CSV.
-
-- entrée
-
 - sortie
-- transfert
-- inventaire
-voir si on garde les "status"...
+
+adapter entrées : tout pareil sauf :
+- emplacement dynamique si quantité dispo (en tenant compte des réservées)
+- ajouter quantités réservées dans "stocks" 
+- status "prepare" et "shipped"
+
+vérifier la favicon : erreur html
 
 GERER RESPONSIVE
