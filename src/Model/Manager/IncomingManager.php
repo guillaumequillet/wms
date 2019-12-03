@@ -72,7 +72,7 @@ class IncomingManager extends Manager
                 return false;                
             }
             $qty = $this->superglobalManager->findVariable('post', 'quantity' . $id[1]);
-            if (is_null($qty))
+            if (is_null($qty) || (int)$qty <= 0)
             {
                 return false;                
             }

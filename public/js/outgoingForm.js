@@ -65,7 +65,7 @@ class OutgoingForm
         row += '</div>';
         row += '<div class="orderField">';
         row += `<label for="quantity${i}">Quantité</label>`;
-        row += `<input type="number" name="quantity${i}" id="quantity${i}" required>`;
+        row += `<input type="number" min="1" name="quantity${i}" id="quantity${i}" required>`;
         row += '</div>';
         row += '<div class="orderField">';
         row += `<label for="location${i}">Emplacement</label>`;

@@ -23,7 +23,7 @@ abstract class Repository
         $cut = explode('\\', $repositoryClassname);
         $repositoryName = array_pop($cut);
         $entityName = explode('Repository', $repositoryName)[0];
-        return strtolower($entityName) . 's';        
+        return '`' . strtolower($entityName) . 's`';        
     }
 
     protected function getEntityClassName(): string

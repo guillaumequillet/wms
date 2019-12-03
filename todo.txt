@@ -1,12 +1,10 @@
 TODO LIST
 
-refactoring "rows" : mot clé réservé Sql. Remanier l'ensemble ?
-
-entrées : empecher la ligne à 0 ou < 0
+entrées : ajouter suggestion article/location sur les lignes précédentes (JS, comme pour bouton delete)
 
 - sortie
 adapter entrées : tout pareil sauf :
-- emplacement dynamique si quantité dispo (en tenant compte des réservées)
+- emplacement dynamique si quantité dispo (en tenant compte des réservées et plusieurs lignes)
 - ajouter quantités réservées dans "stocks" 
 - status "pending" et "shipped"
 
@@ -15,8 +13,6 @@ vérifier la favicon : erreur html
 peaufiner le responsive
 
 réexporter dump sql
-
-voir adchecker pour formulaires
 
 mettre un trycatch dans mon loader csv
 
