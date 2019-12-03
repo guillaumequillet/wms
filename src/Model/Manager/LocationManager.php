@@ -130,10 +130,14 @@ class LocationManager extends Manager
         }
 
         $csvFile = new ParserCSV($filename);
-        $lines = $csvFile->parse(4);
 
-        if (is_null($lines)) {
-            return 'noneInterval';
+        try 
+        {
+            $lines = $csvFile->parse(4);
+        }
+        catch (\Exception $e)
+        {
+            return $e->getMessage();
         }
 
         $locations = [];

@@ -9,11 +9,9 @@ class OutgoingForm
 
         // handling delete button for existing lines
         $('.orderRow').each(function() {
-            let $that = $(this);
-            $(this).find('.button').click(function(e) {
-                e.preventDefault();
-                $that.remove();
-            });
+            that.addDeleteEvent($(this));
+            that.addArticleSuggestion($(this));
+            that.addLocationSuggestion($(this));
         });
 
         $('#addRowButton').click(function(e) {
@@ -53,40 +51,17 @@ class OutgoingForm
         });
     }
 
-    addRow()
+    addDeleteEvent(orderRow)
     {
-        let i = this.lineNumber;
-        let row = '';
-        row += '<div class="orderRow">';
-        row += '<div class="orderField">';
-        row += `<label for="article${i}">Article</label>`;
-        row += `<input type="text" name="article${i}" id="article${i}" autocomplete="off" required>`;
-        row += '<ul class="dynamicList"></ul>';
-        row += '</div>';
-        row += '<div class="orderField">';
-        row += `<label for="quantity${i}">Quantité</label>`;
-        row += `<input type="number" min="1" name="quantity${i}" id="quantity${i}" required>`;
-        row += '</div>';
-        row += '<div class="orderField">';
-        row += `<label for="location${i}">Emplacement</label>`;
-        row += `<input type="text" name="location${i}" id="location${i}" autocomplete="off" required>`;
-        row += '<ul class="dynamicList"></ul>';
-        row += '</div>';
-        row += '<div class="orderField">';
-        row += '<a href="#" class="button icon delete-icon">Effacer</a>';
-        row += '</div>';
-        row += '</div>';
-        $('#orderRows').append(row);
-        this.lineNumber++;
-
-        // handling delete button
-        $('.orderRow').last().find('.button').click(function(e) {
+        orderRow.find('.button').click(function(e) {
             e.preventDefault();
-            $('.orderRow').last().remove();
-        });
+            orderRow.remove();
+        });        
+    }
 
-        // handling article input
-        $('.orderRow').last().find('input').first().keyup(function(e) {
+    addArticleSuggestion(orderRow)
+    {
+        orderRow.find('input').first().keyup(function(e) {
             let $ul = $(this).parent().find('.dynamicList').first();
             $ul.html('');
 
@@ -116,9 +91,11 @@ class OutgoingForm
                 });
             }
         });
+    }
 
-        // handling location input
-        $('.orderRow').last().find('input').last().keyup(function(e) {
+    addLocationSuggestion(orderRow)
+    {
+        orderRow.find('input').last().keyup(function(e) {
             let $ul = $(this).parent().find('.dynamicList').first();
             $ul.html('');
 
@@ -148,6 +125,42 @@ class OutgoingForm
                 });
             }
         });
+    }
+
+    addRow()
+    {
+        let i = this.lineNumber;
+        let row = '';
+        row += '<div class="orderRow">';
+        row += '<div class="orderField">';
+        row += `<label for="article${i}">Article</label>`;
+        row += `<input type="text" name="article${i}" id="article${i}" autocomplete="off" required>`;
+        row += '<ul class="dynamicList"></ul>';
+        row += '</div>';
+        row += '<div class="orderField">';
+        row += `<label for="quantity${i}">Quantité</label>`;
+        row += `<input type="number" min="1" name="quantity${i}" id="quantity${i}" required>`;
+        row += '</div>';
+        row += '<div class="orderField">';
+        row += `<label for="location${i}">Emplacement</label>`;
+        row += `<input type="text" name="location${i}" id="location${i}" autocomplete="off" required>`;
+        row += '<ul class="dynamicList"></ul>';
+        row += '</div>';
+        row += '<div class="orderField">';
+        row += '<a href="#" class="button icon delete-icon">Effacer</a>';
+        row += '</div>';
+        row += '</div>';
+        $('#orderRows').append(row);
+        this.lineNumber++;
+
+        // handling delete button
+        this.addDeleteEvent($('.orderRow').last());
+
+        // handling article input
+        this.addArticleSuggestion($('.orderRow').last());
+
+        // handling location input
+        this.addLocationSuggestion($('.orderRow').last());
     }
 }
 

@@ -1,7 +1,5 @@
 TODO LIST
 
-entrées : ajouter suggestion article/location sur les lignes précédentes (JS, comme pour bouton delete)
-
 - sortie
 adapter entrées : tout pareil sauf :
 - emplacement dynamique si quantité dispo (en tenant compte des réservées et plusieurs lignes)

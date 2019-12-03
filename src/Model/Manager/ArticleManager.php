@@ -67,11 +67,17 @@ class ArticleManager extends Manager
         }
 
         $csvFile = new ParserCSV($filename);
-        $lines = $csvFile->parse(7);
 
-        if (is_null($lines)) {
-            return 'noneInterval';
+        try 
+        {
+            $lines = $csvFile->parse(7);
         }
+        catch (\Exception $e)
+        {
+            return $e->getMessage();
+        }
+
+        $articles = [];
 
         foreach($lines as $line) {
             $data = [

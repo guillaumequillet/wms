@@ -6,42 +6,42 @@ namespace App\Tool;
 class ParserCSV 
 {
     private $filename;
+    private $separator = '';
     
     public function __construct(string $filename)
     {
         $this->filename = $filename;
     }
 
-    public function parse(int $headerSize): ?array
+    public function parse(int $headerSize): array
     {
         $file = fopen($this->filename, 'r');
 
-        if ($file === false) {
-            return null;
+        if ($file === false || $headerSize <= 0) {
+            throw new \Exception('noneInterval');
         }
 
         $header = fgets($file);
-        $separator = '';
 
         if (count(explode(';', $header)) === $headerSize) {
-            $separator = ';';
+            $this->separator = ';';
         } elseif (count(explode(',', $header)) === $headerSize) {
-            $separator = ',';
+            $this->separator = ',';
         }
 
         // if neither ; or , was ok as a separator
-        if ($separator === '') {
-            return null;
+        if ($this->separator === '') {
+            throw new \Exception('noneInterval');
         }
 
         $returnArray = [];
         while ($line = fgets($file)) {
-            $returnArray[] = explode($separator, rtrim($line));
+            $returnArray[] = explode($this->separator, rtrim($line));
         }
         fclose($file);
 
         if (empty($returnArray)) {
-            return null;
+            throw new \Exception('noneInterval');
         }
 
         return $returnArray;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  ven. 29 nov. 2019 à 15:16
+-- Généré le :  mar. 03 déc. 2019 à 13:10
 -- Version du serveur :  10.4.6-MariaDB
 -- Version de PHP :  7.3.9
 
@@ -50,7 +50,8 @@ CREATE TABLE `incomings` (
   `created_at` datetime NOT NULL,
   `reference` varchar(255) NOT NULL,
   `user` int(11) NOT NULL,
-  `provider` varchar(255) NOT NULL
+  `provider` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -111,7 +112,8 @@ CREATE TABLE `stocks` (
   `id` int(11) NOT NULL,
   `location` int(11) NOT NULL,
   `article` int(11) NOT NULL,
-  `qty` int(11) NOT NULL
+  `qty` int(11) NOT NULL,
+  `reserved` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -188,7 +190,8 @@ ALTER TABLE `stocks`
 -- Index pour la table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -234,7 +237,7 @@ ALTER TABLE `stocks`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Contraintes pour les tables déchargées
