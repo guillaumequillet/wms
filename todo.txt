@@ -5,13 +5,7 @@ adapter entrées : tout pareil sauf :
 - emplacement dynamique si quantité dispo (en tenant compte des réservées et plusieurs lignes)
 - ajouter quantités réservées dans "stocks" 
 - status "pending" et "shipped"
+j'en suis à stockRepository : confirmRowShipment
 
 vérifier la favicon : erreur html
-
 peaufiner le responsive
-
-réexporter dump sql
-
-mettre un trycatch dans mon loader csv
-
-j'en suis à stockRepository : confirmRowShipment
