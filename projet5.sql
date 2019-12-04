@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mar. 03 déc. 2019 à 13:10
+-- Généré le :  mer. 04 déc. 2019 à 18:40
 -- Version du serveur :  10.4.6-MariaDB
 -- Version de PHP :  7.3.9
 
@@ -112,8 +112,7 @@ CREATE TABLE `stocks` (
   `id` int(11) NOT NULL,
   `location` int(11) NOT NULL,
   `article` int(11) NOT NULL,
-  `qty` int(11) NOT NULL,
-  `reserved` int(11) NOT NULL
+  `qty` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

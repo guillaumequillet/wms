@@ -105,8 +105,167 @@ class StockRepository extends Repository
         return ($res === false) ? 0 : $req->fetch()['total'];
     }
 
-    public function confirmRowShipment(Row $row): bool
+    public function findAvailableStock(Article $article, int $quantity, array $alreadyReserved): ?array
     {
-        $query = 'UPDATE FROM stocks SET qty=qty-:a, reserved=reserved-:b WHERE location=:location';
+        // do we have enough stock at all ?
+        $query = 'SELECT SUM(qty) as total FROM stocks WHERE article=:id';
+        $req = $this->database->getPDO()->prepare($query);
+        $res = $req->execute(['id' => $article->getId()]);
+
+        if (!$res) {
+            return null;
+        }
+
+        $totalQty = $req->fetch()['total'];
+        if ($totalQty < $quantity) {
+            return null;
+        }
+
+        // do we have enough unreserved stock ?
+        $query = 'SELECT SUM(rows.qty) as total FROM `rows`';
+        $query .= ' INNER JOIN outgoings ON rows.movement = outgoings.id';
+        $query .= ' WHERE rows.article=:id AND rows.type="outgoing" AND outgoings.status="pending"';
+        $req = $this->database->getPDO()->prepare($query);
+        $res = $req->execute(['id' => $article->getId()]); 
+        
+        if (!$res) {
+            return null;
+        }
+
+        $reservedQty = $req->fetch()['total'];
+        if ($totalQty - $reservedQty < $quantity) {
+            return null;
+        }
+
+        if ($totalQty - $reservedQty - array_sum(array_values($alreadyReserved)) < $quantity) {
+            return null;
+        }
+
+        // we have enough space to serve the request
+
+        // we get every stock 
+        $query = 'SELECT locations.concatenate, stocks.qty FROM `stocks`';
+        $query .= 'INNER JOIN locations ON locations.id=stocks.location';
+        $query .= ' WHERE stocks.article=:id';
+        $req = $this->database->getPDO()->prepare($query);
+        $res = $req->execute(['id' => $article->getID()]);
+
+        if (!$res) {
+            return false;
+        }
+        $stocks = $req->fetchAll();
+
+        // we get every related reserved stock
+        $query = 'SELECT locations.concatenate, rows.qty FROM `rows`';
+        $query .= ' INNER JOIN locations ON locations.id=rows.location';
+        $query .= ' INNER JOIN outgoings ON rows.movement=outgoings.id';
+        $query .= ' WHERE rows.article=:id AND rows.type="outgoing" AND outgoings.status="pending"';
+        $req = $this->database->getPDO()->prepare($query);
+        $res = $req->execute(['id' => $article->getID()]);
+
+        if (!$res) {
+            return false;
+        }
+        $reservedRows = $req->fetchAll();
+        $reserved = [];
+
+        foreach($reservedRows as $reservedRow) {
+            $key = $reservedRow['concatenate'];
+            $reserved[$key] = $reservedRow['qty'];
+            if (array_key_exists($key, $alreadyReserved)) {
+                $reserved[$key] -= $alreadyReserved[$key];
+            }
+        }
+
+        $returnedStocks = [];
+        $currentSum = 0;
+
+        foreach ($stocks as $stock) {
+            $reservedQty = 0;
+ 
+            if (isset($reserved[$stock['concatenate']])) {
+                $reservedQty = $reserved[$stock['concatenate']];
+            }
+ 
+            $availableQty = $stock['qty'] - $reservedQty;
+            $missingQty = $quantity - $currentSum;
+ 
+            if ($availableQty === $missingQty) {
+                $returnedStocks[] = [
+                    'location' => $stock['concatenate'],
+                    'availableQty' => $stock['qty']
+                ];
+                break;
+            }
+
+            if ($availableQty > $missingQty) {
+                $returnedStocks[] = [
+                    'location' => $stock['concatenate'],
+                    'availableQty' => $missingQty
+                ];
+                break;
+            }
+
+            if ($availableQty < $missingQty) {
+                $returnedStocks[] = [
+                    'location' => $stock['concatenate'],
+                    'availableQty' => $availableQty
+                ];
+                $currentSum += $availableQty;
+            }
+        }
+
+        return empty($returnedStocks) ? null : $returnedStocks;
     }
+
+    // this function can return several Stocks to sastify the quantity
+    // public function findAvailableStock(Article $article, int $quantity, array $alreadyReserved): ?array
+    // {
+    //     $this->database->getPDO()->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+    //     $query = 'SELECT (SUM(qty) - SUM(reserved)) as isAvailable from stocks WHERE article=:article GROUP BY article';
+    //     $req = $this->database->getPDO()->prepare($query);
+    //     $res = $req->execute(['article' => $article->getID()]);
+        
+    //     if (!$res) {
+    //         return null;
+    //     }
+
+    //     if ($req->fetch()['isAvailable'] < $quantity) {
+    //         return null;
+    //     }
+
+    //     $query = 'SELECT locations.concatenate, (stocks.qty - stocks.reserved) as availableQty FROM stocks';
+    //     $query .= ' INNER JOIN locations ON stocks.location = locations.id';
+    //     $query .= ' WHERE stocks.article=:article AND (stocks.qty - stocks.reserved) > 0';
+    //     $req = $this->database->getPDO()->prepare($query);
+    //     $res = $req->execute(['article' => $article->getID()]);
+
+    //     if (!$res) {
+    //         return null;
+    //     }
+
+    //     $availableStocks = [];
+    //     $servedQuantity = 0;
+
+    //     foreach($req->fetchAll() as $availableStock) {
+    //         $remaining = $quantity - $servedQuantity;
+
+    //         if ($availableStock['availableQty'] === $remaining) {
+    //             $availableStocks[] = $availableStock;
+    //             break;
+    //         }
+
+    //         if ($availableStock['availableQty'] < $remaining) {
+    //             $availableStocks[] = $availableStock;
+    //             $servedQuantity += $availableStock['availableQty'];
+    //         }
+
+    //         if ($availableStock['availableQty'] > $remaining) {
+    //             $availableStocks[] = ['location' => $availableStock['location'], 'availableQty' => $remaining];
+    //             break;
+    //         }
+    //     }
+
+    //     return empty($availableStocks) ? null : $availableStocks;
+    // }
 }

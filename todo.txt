@@ -1,11 +1,15 @@
 TODO LIST
 
 - sortie
-adapter entrées : tout pareil sauf :
-- emplacement dynamique si quantité dispo (en tenant compte des réservées et plusieurs lignes)
-- ajouter quantités réservées dans "stocks" 
-- status "pending" et "shipped"
-j'en suis à stockRepository : confirmRowShipment
+j'ai terminé a priori de gérer la méthode dans le repo
 
-vérifier la favicon : erreur html
+il faut modifier le JS pour créer et envoyer le tableau des pré-réservations actuelles sur le code
+de la ligne. On enverra alors ce tableau et on récupèrera les valeurs disponibles.
+
+A la validation du formulaire, on créera createOutgoing.
+
+A la destruction d'une outgoing, on effacera les rows correspondantes (même ID + type="outgoing")
+
+A la confirmation (status = "shipped"), on déduira des différents stocks les valeurs 
+
 peaufiner le responsive

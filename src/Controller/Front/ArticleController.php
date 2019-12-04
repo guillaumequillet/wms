@@ -58,6 +58,8 @@ class ArticleController extends Controller
 
     public function suggestions(): void
     {
+        header('Content-type: application/json');
+
         $code = $this->superglobalManager->findVariable('post', 'code');
 
         if (is_null($code)) {
@@ -66,7 +68,6 @@ class ArticleController extends Controller
         }
 
         $array = $this->manager->suggestArticles($code);
-        header('Content-type: application/json');
         echo json_encode($array);
     }
 

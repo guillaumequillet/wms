@@ -53,7 +53,7 @@ class OutgoingForm
 
     addDeleteEvent(orderRow)
     {
-        orderRow.find('.button').click(function(e) {
+        orderRow.find('.button').last().click(function(e) {
             e.preventDefault();
             orderRow.remove();
         });        
@@ -95,31 +95,37 @@ class OutgoingForm
 
     addLocationSuggestion(orderRow)
     {
-        orderRow.find('input').last().keyup(function(e) {
+        orderRow.find('.button').first().click(function(e) {
+            e.preventDefault();
+
             let $ul = $(this).parent().find('.dynamicList').first();
             $ul.html('');
 
-            let $locationField =  $(e.target);
+            let $articleField = orderRow.children().first().find('input');
+            let $quantityField = $articleField.parent().parent().find('input[type="number"]');
 
-            if ($.trim($locationField.val()) !== '') {
+            if ($.trim($articleField.val()) !== '' && $.trim($quantityField.val()) !== '') {
                 $.ajax({
                     type: 'POST',
-                    url: '/location/suggestions',
-                    data: {concatenate:$.trim($locationField.val())},
+                    url: '/outgoing/available',
+                    data: {
+                        code:$.trim($articleField.val()),
+                        quantity:$.trim($quantityField.val())
+                    },
                     success: function(data) {
+                        console.log(data);
                         if (data.length !== 0) {
                             $ul.html('');
                             for (let i=0; i < data.length; i++) {
-                                $ul.append('<li class="dynamicListItem">' + data[i] + '</li>');
-                                $ul.find('li').last().click(function(e) {
-                                    $locationField.val(data[i]);
-                                    $ul.html('');
-                                });
+                                $ul.append(`<li class="dynamicListItem">${data[i]['concatenate']} [ x ${data[i]['availableQty']} ]</li>`);
                             }
                         } else {
                             $ul.html('');
-                            $ul.append('<li>Pas de résultat</li>');
+                            $ul.append('<li>Quantité insuffisante</li>');
                         }
+                    },
+                    error: function(jqXHR, textStatus) {
+                        console.log('erreur :' + textStatus);
                     },
                     dataType: "json"
                 });
@@ -142,8 +148,8 @@ class OutgoingForm
         row += `<input type="number" min="1" name="quantity${i}" id="quantity${i}" required>`;
         row += '</div>';
         row += '<div class="orderField">';
-        row += `<label for="location${i}">Emplacement</label>`;
-        row += `<input type="text" name="location${i}" id="location${i}" autocomplete="off" required>`;
+        row += `<label for="location${i}">Emplacements</label>`;
+        row += '<a href="#" class="button icon search-icon">Chercher</a>';
         row += '<ul class="dynamicList"></ul>';
         row += '</div>';
         row += '<div class="orderField">';

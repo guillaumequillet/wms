@@ -158,6 +158,10 @@ class Router
         $this->router->map('GET', '/outgoing/delete/[i:id]', function(int $id) {
             (new OutgoingController())->delete((int)$id);
         });
+
+        $this->router->map('POST', '/outgoing/available', function() {
+            (new OutgoingController())->available();
+        });        
     }
 
     private function createUserRoutes(): void

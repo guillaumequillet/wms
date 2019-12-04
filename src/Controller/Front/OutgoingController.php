@@ -14,6 +14,37 @@ class OutgoingController extends Controller
         $this->manager = new OutgoingManager();
     }
 
+    public function available(): void
+    {
+        header('Content-type: application/json');
+
+        $code = $this->superglobalManager->findVariable('post', 'code');
+        $quantity = $this->superglobalManager->findVariable('post', 'quantity');
+
+        if (is_null($code) || is_null($quantity)) {
+            echo json_encode([]);
+            exit();
+        }
+
+        $array = $this->manager->findAvailableStocks($code, (int)$quantity);
+        echo json_encode($array);
+    }
+
+    public function confirm(): void
+    {
+        header('Content-type: application/json');
+
+        if ($this->token->check(0, false) === false) {
+            echo json_encode('tokenError');
+            $this->setLog('tokenError');
+            exit();
+        }
+
+        $log = $this->manager->createOutgoing() ? "moveOK" : "moveNOK";;
+        $this->setLog($log);
+        echo json_encode($log);
+    }
+
     public function index(int $page = 0): void 
     {
         // we reset the queryString if new access from menu
@@ -68,26 +99,9 @@ class OutgoingController extends Controller
 
         $this->render($template, $data);
     }
-    
-    public function confirm(): void
-    {
-        header('Content-type: application/json');
-
-        if ($this->token->check(0, false) === false) {
-            echo json_encode('tokenError');
-            $this->setLog('tokenError');
-            exit();
-        }
-
-        $log = $this->manager->createOutgoing() ? "moveOK" : "moveNOK";;
-        $this->setLog($log);
-        echo json_encode($log);
-    }
 
     public function delete(int $id): void
     {
-        $res = $this->manager->deleteOutgoing($id);
-        $this->setLog($res ? 'deleteOK' : 'deleteNOK');
-        header('location: /outgoing/index');
+        
     }
 }

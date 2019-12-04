@@ -222,6 +222,12 @@ tr:nth-of-type(even) {
     left: 6px;
 }
 
+.search-icon::before {
+    content: "\f002";
+    color: white;
+    left: 6px;
+}
+
 .file-icon::before {
     content: "\f07b";
     color: white;
@@ -379,6 +385,7 @@ footer p {
     justify-content: center;
     align-items: stretch;
     border-bottom: 1px solid rgb(64, 64, 64);
+    padding: 10px;
 }
 
 .orderField {
