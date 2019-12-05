@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Manager;
 
-use App\Model\Entity\User;
 use App\Model\Repository\UserRepository;
 use App\Tool\Token;
 

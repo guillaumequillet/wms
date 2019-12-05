@@ -1,11 +1,12 @@
 TODO LIST
 
-- sortie
-j'ai terminé a priori de gérer la méthode dans le repo
-afficher la quantité réservée dans l'état de stock
+vérifier les use inutiles (sur outgoingmanager)
 
-il faut modifier le JS pour créer et envoyer le tableau des pré-réservations actuelles sur le code
-de la ligne. On enverra alors ce tableau et on récupèrera les valeurs disponibles.
+entrées
+ajouter la gestion du error dans la requete post
+
+- sortie
+on veut empêcher d'avoir la même référence sur plusieurs lignes
 
 A la validation du formulaire, on créera createOutgoing.
 

@@ -8,7 +8,9 @@
         <p class='valid'>Le fichier a bien été importé.</p>
     {% elseif log == 'partialInterval' %}
         <p class='warning'>Le fichier n'a été que partiellement importé.</p>
-    {% elseif log == 2 %}
+    {% elseif log == 'articleDeleteOK' %}
+        <p class='valid'>L'article a bien été supprimé.</p>
+    {% elseif log == 'articleDeleteError' %}
         <p class='error'>L'article ne peut être supprimé.</p>
     {% elseif log == 'tech' %}
         <p class='error'>Une erreur technique est survenue.</p>

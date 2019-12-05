@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Manager;
 
-use App\Model\Entity\Stock;
 use App\Model\Repository\StockRepository;
-use App\Tool\Token;
 
 class StockManager extends Manager
 {

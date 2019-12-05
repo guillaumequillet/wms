@@ -88,9 +88,7 @@ class ArticleController extends Controller
     public function delete(int $id): void
     {
         $res = $this->manager->deleteArticle($id);
-        if (!$res) {
-            $this->setLog('2');
-        }
+        $this->setLog($res ? 'articleDeleteOK' : 'articleDeleteError');
         header('location: /article/index');
     }
 

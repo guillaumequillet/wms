@@ -53,6 +53,8 @@ class OutgoingForm
 
     addDeleteEvent(orderRow)
     {
+        let that = this; // fix around Jquery "this" handling
+
         orderRow.find('.button').last().click(function(e) {
             e.preventDefault();
             orderRow.remove();
@@ -95,6 +97,8 @@ class OutgoingForm
 
     addLocationSuggestion(orderRow)
     {
+        let that = this; // fix around Jquery "this" handling
+
         orderRow.find('.button').first().click(function(e) {
             e.preventDefault();
 
@@ -103,19 +107,29 @@ class OutgoingForm
 
             let $articleField = orderRow.children().first().find('input');
             let $quantityField = $articleField.parent().parent().find('input[type="number"]');
-            // il faudra ajouter un tableau avec les emplacements déjà utilisés pour cet article
-            // il faudra aussi s'assurer que la quantité est >= 1
 
-            if ($.trim($articleField.val()) !== '' && $.trim($quantityField.val()) !== '') {
+            $articleField.val($.trim($articleField.val()));
+
+            let code = $articleField.val();
+            let quantity = $quantityField.val();
+            let articleOccurences = 0;
+
+            // an Article code can only be used once in an order
+            $('.orderRow input[type="text"]').each(function() {
+                if ($(this).val() === code) {
+                    articleOccurences += 1;
+                }
+            });
+
+            if (articleOccurences <= 1 && code !== '' && quantity !== '' && quantity >= 1) {
                 $.ajax({
                     type: 'POST',
                     url: '/outgoing/available',
                     data: {
-                        code:$.trim($articleField.val()),
-                        quantity:$.trim($quantityField.val())
+                        code:code,
+                        quantity:quantity
                     },
                     success: function(data) {
-                        console.log(data);
                         if (data.length !== 0) {
                             $ul.html('');
                             for (let i=0; i < data.length; i++) {
@@ -127,10 +141,18 @@ class OutgoingForm
                         }
                     },
                     error: function(jqXHR, textStatus) {
-                        console.log('erreur :' + textStatus);
+                        $ul.html('');
+                        console.log(jqXHR)
+                        $ul.append('<li>Les données saisies sont incorrectes</li>');
                     },
                     dataType: "json"
                 });
+            } else if (articleOccurences > 1) {
+                $ul.html('');
+                $ul.append(`<li>Le code ${code} se trouve déjà dans la liste</li>`);
+            } else if (quantity <= 0) {
+                $ul.html('');
+                $ul.append('<li>La quantité doit être supérieure ou égale à 1</li>');
             }
         });
     }

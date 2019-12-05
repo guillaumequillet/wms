@@ -6,7 +6,6 @@ namespace App\Model\Repository;
 use App\Model\Entity\Article;
 use App\Model\Entity\Location;
 use App\Model\Entity\Stock;
-use App\Model\Entity\Row;
 
 class StockRepository extends Repository
 {
@@ -105,7 +104,7 @@ class StockRepository extends Repository
         return ($res === false) ? 0 : $req->fetch()['total'];
     }
 
-    public function findAvailableStock(Article $article, int $quantity, array $alreadyReserved): ?array
+    public function findAvailableStock(Article $article, int $quantity): ?array
     {
         // do we have enough stock at all ?
         $query = 'SELECT SUM(qty) as total FROM stocks WHERE article=:id';
@@ -134,10 +133,6 @@ class StockRepository extends Repository
 
         $reservedQty = $req->fetch()['total'];
         if ($totalQty - $reservedQty < $quantity) {
-            return null;
-        }
-
-        if ($totalQty - $reservedQty - array_sum(array_values($alreadyReserved)) < $quantity) {
             return null;
         }
 
@@ -172,9 +167,6 @@ class StockRepository extends Repository
         foreach($reservedRows as $reservedRow) {
             $key = $reservedRow['concatenate'];
             $reserved[$key] = $reservedRow['qty'];
-            if (array_key_exists($key, $alreadyReserved)) {
-                $reserved[$key] -= $alreadyReserved[$key];
-            }
         }
 
         $returnedStocks = [];
@@ -209,55 +201,4 @@ class StockRepository extends Repository
 
         return empty($returnedStocks) ? null : $returnedStocks;
     }
-
-    // this function can return several Stocks to sastify the quantity
-    // public function findAvailableStock(Article $article, int $quantity, array $alreadyReserved): ?array
-    // {
-    //     $this->database->getPDO()->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-    //     $query = 'SELECT (SUM(qty) - SUM(reserved)) as isAvailable from stocks WHERE article=:article GROUP BY article';
-    //     $req = $this->database->getPDO()->prepare($query);
-    //     $res = $req->execute(['article' => $article->getID()]);
-        
-    //     if (!$res) {
-    //         return null;
-    //     }
-
-    //     if ($req->fetch()['isAvailable'] < $quantity) {
-    //         return null;
-    //     }
-
-    //     $query = 'SELECT locations.concatenate, (stocks.qty - stocks.reserved) as availableQty FROM stocks';
-    //     $query .= ' INNER JOIN locations ON stocks.location = locations.id';
-    //     $query .= ' WHERE stocks.article=:article AND (stocks.qty - stocks.reserved) > 0';
-    //     $req = $this->database->getPDO()->prepare($query);
-    //     $res = $req->execute(['article' => $article->getID()]);
-
-    //     if (!$res) {
-    //         return null;
-    //     }
-
-    //     $availableStocks = [];
-    //     $servedQuantity = 0;
-
-    //     foreach($req->fetchAll() as $availableStock) {
-    //         $remaining = $quantity - $servedQuantity;
-
-    //         if ($availableStock['availableQty'] === $remaining) {
-    //             $availableStocks[] = $availableStock;
-    //             break;
-    //         }
-
-    //         if ($availableStock['availableQty'] < $remaining) {
-    //             $availableStocks[] = $availableStock;
-    //             $servedQuantity += $availableStock['availableQty'];
-    //         }
-
-    //         if ($availableStock['availableQty'] > $remaining) {
-    //             $availableStocks[] = ['location' => $availableStock['location'], 'availableQty' => $remaining];
-    //             break;
-    //         }
-    //     }
-
-    //     return empty($availableStocks) ? null : $availableStocks;
-    // }
 }

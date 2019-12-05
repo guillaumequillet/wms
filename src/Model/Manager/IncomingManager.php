@@ -13,7 +13,6 @@ use App\Model\Repository\UserRepository;
 use App\Model\Repository\RowRepository;
 use App\Model\Repository\StockRepository;
 use App\Tool\Database;
-use App\Tool\Token;
 
 class IncomingManager extends Manager
 {
