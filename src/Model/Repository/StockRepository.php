@@ -151,7 +151,7 @@ class StockRepository extends Repository
         $res = $req->execute(['id' => $article->getID()]);
 
         if (!$res) {
-            return false;
+            return null;
         }
         $stocks = $req->fetchAll();
 
@@ -164,7 +164,7 @@ class StockRepository extends Repository
         $res = $req->execute(['id' => $article->getID()]);
 
         if (!$res) {
-            return false;
+            return null;
         }
         $reservedRows = $req->fetchAll();
         $reserved = [];
@@ -190,15 +190,7 @@ class StockRepository extends Repository
             $availableQty = $stock['qty'] - $reservedQty;
             $missingQty = $quantity - $currentSum;
  
-            if ($availableQty === $missingQty) {
-                $returnedStocks[] = [
-                    'location' => $stock['concatenate'],
-                    'availableQty' => $stock['qty']
-                ];
-                break;
-            }
-
-            if ($availableQty > $missingQty) {
+            if ($availableQty >= $missingQty) {
                 $returnedStocks[] = [
                     'location' => $stock['concatenate'],
                     'availableQty' => $missingQty

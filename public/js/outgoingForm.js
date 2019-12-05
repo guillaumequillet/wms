@@ -103,6 +103,8 @@ class OutgoingForm
 
             let $articleField = orderRow.children().first().find('input');
             let $quantityField = $articleField.parent().parent().find('input[type="number"]');
+            // il faudra ajouter un tableau avec les emplacements déjà utilisés pour cet article
+            // il faudra aussi s'assurer que la quantité est >= 1
 
             if ($.trim($articleField.val()) !== '' && $.trim($quantityField.val()) !== '') {
                 $.ajax({
@@ -117,7 +119,7 @@ class OutgoingForm
                         if (data.length !== 0) {
                             $ul.html('');
                             for (let i=0; i < data.length; i++) {
-                                $ul.append(`<li class="dynamicListItem">${data[i]['concatenate']} [ x ${data[i]['availableQty']} ]</li>`);
+                                $ul.append(`<li class="dynamicListItem">${data[i]['location']} [ x ${data[i]['availableQty']} ]</li>`);
                             }
                         } else {
                             $ul.html('');
