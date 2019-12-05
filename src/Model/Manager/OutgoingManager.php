@@ -41,8 +41,31 @@ class OutgoingManager extends Manager
         return $this->repository->findWhereAllPaginated(['reference', 'like', "%${queryString}%"], $page, 'created_at DESC');
     }
 
-    public function createOutgoing(): string
+    public function createOutgoing(): bool
     {
+        return true;
+    }
 
+    public function deleteOutgoing(int $id): bool
+    {
+        $this->repository = new OutgoingRepository($this->database);
+        $outgoing = $this->repository->findWhere(['id', '=', $id]);
+
+        if (is_null($outgoing)) {
+            return false;
+        }
+
+        // we can delete outgoings only if status === "pending"
+        if ($outgoing->getStatus() !== 'pending') {
+            return false;
+        }
+
+        // we delete all related rows
+        $this->repository = new RowRepository($this->database);
+        $this->repository->deleteOutgoingRows($outgoing);
+
+        // and we delete the movement itself
+        $this->repository = new OutgoingRepository($this->database);
+        return $this->repository->deleteWhere(['id', '=', $id]);
     }
 }

@@ -102,6 +102,8 @@ class OutgoingController extends Controller
 
     public function delete(int $id): void
     {
-        
+        $res = $this->manager->deleteOutgoing($id);
+        $this->setLog($res ? 'deleteOK' : 'deleteNOK');
+        header('location: /outgoing/index');
     }
 }
