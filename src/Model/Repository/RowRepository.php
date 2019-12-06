@@ -69,4 +69,10 @@ class RowRepository extends Repository
         $req = $this->database->getPDO()->prepare('DELETE FROM `rows` WHERE `type`="incoming" AND `movement`=:movement');
         return $req->execute(['movement' => $id]);
     }
+
+    public function deleteOutgoingRowsForId(int $id): bool
+    {
+        $req = $this->database->getPDO()->prepare('DELETE FROM `rows` WHERE `type`="outgoing" AND `movement`=:movement');
+        return $req->execute(['movement' => $id]);
+    } 
 }

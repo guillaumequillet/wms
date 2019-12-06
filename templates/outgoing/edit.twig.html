@@ -39,21 +39,25 @@
                     {% for article in outgoing.getOrderRows|keys %}
                         <div class="orderRow">
                             <div class="orderField">
-                                <label for="article{{ loop.index }}">Article</label>
-                                <input type="text" name="article{{ loop.index }}" id="article{{ loop.index }}" value="{{ article }}" autocomplete="off" required{% if outgoing.status == "shipped" %} disabled{% endif %}>
+                                <label for="article{{ loop.index - 1 }}">Article</label>
+                                <input type="text" name="article{{ loop.index - 1 }}" id="article{{ loop.index - 1 }}" value="{{ article }}" autocomplete="off" readonly>
                                 <ul class="dynamicList"></ul>
                             </div>
                             <div class="orderField">
-                                <label for="quantity{{ loop.index }}">Quantité</label>
-                                <input type="number" name="quantity{{ loop.index }}" id="quantity{{ loop.index }}" value="{{ outgoing.getOrderRows[article].totalQty }}" required{% if outgoing.status == "shipped" %} disabled{% endif %}>                        
+                                <label for="globalQty{{ loop.index - 1 }}">Quantité</label>
+                                <input type="number" name="globalQty{{ loop.index - 1 }}" id="globalQty{{ loop.index - 1 }}" value="{{ outgoing.getOrderRows[article].totalQty }}" readonly>                        
                             </div>
                             <div class="orderField">
                                 <h4>Emplacements</h4>
-                                <a href="#" class="button icon search-icon">Chercher</a>
                                 <div class="stocksList">
-                                    {% for row in outgoing.getOrderRows[article][rows] %}
-                                        {{ row.location }} : {{ row.qty }}<br>
-                                    {% endfor %}                           
+                                    {% for row in outgoing.getOrderRows[article]['rows'] %}
+                                        <label for="location{{ loop.parent.loop.index - 1 }}_{{ loop.index - 1 }}">Loc.
+                                            <input type="text" name="location{{ loop.parent.loop.index - 1 }}_{{ loop.index - 1 }}" id="location{{ loop.parent.loop.index - 1 }}_{{ loop.index - 1 }}" value="{{ row.location }}" readonly>
+                                        </label>
+                                        <label for="qty{{ loop.parent.loop.index - 1 }}_{{ loop.index - 1 }}">Qté
+                                            <input type="text" name="qty{{ loop.parent.loop.index - 1 }}_{{ loop.index - 1 }}" id="qty{{ loop.parent.loop.index - 1 }}_{{ loop.index - 1 }}" value="{{ row.qty }}" readonly>
+                                        </label>
+                                    {% endfor %}   
                                 </div>
                             </div>
                             {% if outgoing.status != "shipped" %}

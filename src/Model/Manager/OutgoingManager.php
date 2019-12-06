@@ -217,7 +217,7 @@ class OutgoingManager extends Manager
         return $this->repository->deleteWhere(['id', '=', $id]);
     }
 
-    public function shipOutgoing(Outgoing $movement): bool
+    public function shipOutgoing(Outgoing $outgoing): bool
     {
         $stocks = [];
 

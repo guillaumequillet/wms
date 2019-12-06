@@ -10,8 +10,6 @@ class OutgoingForm
         // handling delete button for existing lines
         $('.orderRow').each(function() {
             that.addDeleteEventForReserved($(this));
-            that.addArticleSuggestion($(this));
-            that.addLocationSuggestion($(this));
         });
 
         $('#addRowButton').click(function(e) {
