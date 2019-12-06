@@ -133,9 +133,11 @@ class OutgoingForm
                         if (data.length !== 0) {
                             $sl.html('');
                             for (let i=0; i < data.length; i++) {
-                                $sl.append('<hr>');
                                 $sl.append(`<label for="location${i}">Loc.<input type="text" name="location${i}" id="location${i}" value="${data[i]['location']}" disabled></label>`);
                                 $sl.append(`<label for="qty${i}">Qté<input type="text" name="qty${i}" id="qty${i}" value="${data[i]['availableQty']}" disabled></label>`);
+                                if (i < data.length - 1) {
+                                    $sl.append('<hr>');
+                                }
                             }
                         } else {
                             $sl.html('');
