@@ -65,7 +65,7 @@
                 <p><a href="#" class="button icon add-icon" id="addRowButton">Ajouter une ligne</a></p>
             {% endif %}
             <input type="hidden" name="token0" id="token0" value="{{ token0 }}">
-            <input type="hidden" name="currentId" id="currentId" value="{{ incoming.id }}">
+            <input type="hidden" name="currentId" id="currentId" value="{{ outgoing.id }}">
             <input type="submit" id="outgoingSubmit" value="Enregister"{% if outgoing.status == "shipped" %} disabled{% endif %}>
         </form>
     </section>    

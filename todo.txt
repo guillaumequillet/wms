@@ -6,12 +6,15 @@ entrées
 ajouter la gestion du error dans la requete post
 
 - sortie
-on veut empêcher d'avoir la même référence sur plusieurs lignes
+outgoingManager L93
+IL FAUT prévoir dans le JS de créer un input type=hidden ou de serialize car la liste des articles n'est
+pas passée en formulaire (!)
 
 A la validation du formulaire, on créera createOutgoing.
 
-A la destruction d'une outgoing, on effacera les rows correspondantes (même ID + type="outgoing")
 
 A la confirmation (status = "shipped"), on déduira des différents stocks les valeurs 
 
-peaufiner le responsive
+peaufiner le responsive (forms notamment, comme orderRows)
+
+mettre en ligne (!)

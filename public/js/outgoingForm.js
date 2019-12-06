@@ -102,8 +102,8 @@ class OutgoingForm
         orderRow.find('.button').first().click(function(e) {
             e.preventDefault();
 
-            let $ul = $(this).parent().find('.dynamicList').first();
-            $ul.html('');
+            let $sl = $(this).parent().find('.stocksList').first();
+            $sl.html('');
 
             let $articleField = orderRow.children().first().find('input');
             let $quantityField = $articleField.parent().parent().find('input[type="number"]');
@@ -131,28 +131,30 @@ class OutgoingForm
                     },
                     success: function(data) {
                         if (data.length !== 0) {
-                            $ul.html('');
+                            $sl.html('');
                             for (let i=0; i < data.length; i++) {
-                                $ul.append(`<li class="dynamicListItem">${data[i]['location']} [ x ${data[i]['availableQty']} ]</li>`);
+                                $sl.append('<hr>');
+                                $sl.append(`<label for="location${i}">Loc.<input type="text" name="location${i}" id="location${i}" value="${data[i]['location']}" disabled></label>`);
+                                $sl.append(`<label for="qty${i}">Qté<input type="text" name="qty${i}" id="qty${i}" value="${data[i]['availableQty']}" disabled></label>`);
                             }
                         } else {
-                            $ul.html('');
-                            $ul.append('<li>Quantité insuffisante</li>');
+                            $sl.html('');
+                            $sl.append('<p>Quantité insuffisante</p>');
                         }
                     },
                     error: function(jqXHR, textStatus) {
-                        $ul.html('');
+                        $sl.html('');
                         console.log(jqXHR)
-                        $ul.append('<li>Les données saisies sont incorrectes</li>');
+                        $sl.append('<p>Les données saisies sont incorrectes</p>');
                     },
                     dataType: "json"
                 });
             } else if (articleOccurences > 1) {
-                $ul.html('');
-                $ul.append(`<li>Le code ${code} se trouve déjà dans la liste</li>`);
+                $sl.html('');
+                $sl.append(`<p>Le code ${code} se trouve déjà dans la liste</p>`);
             } else if (quantity <= 0) {
-                $ul.html('');
-                $ul.append('<li>La quantité doit être supérieure ou égale à 1</li>');
+                $sl.html('');
+                $sl.append('<p>La quantité doit être supérieure ou égale à 1</p>');
             }
         });
     }
@@ -172,9 +174,9 @@ class OutgoingForm
         row += `<input type="number" min="1" name="quantity${i}" id="quantity${i}" required>`;
         row += '</div>';
         row += '<div class="orderField">';
-        row += `<label for="location${i}">Emplacements</label>`;
+        row += `<h4>Emplacements</h4>`;
         row += '<a href="#" class="button icon search-icon">Chercher</a>';
-        row += '<ul class="dynamicList"></ul>';
+        row += '<div class="stocksList"></div>';
         row += '</div>';
         row += '<div class="orderField">';
         row += '<a href="#" class="button icon delete-icon">Effacer</a>';
