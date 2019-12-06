@@ -106,6 +106,8 @@ class OutgoingManager extends Manager
                 return false;
             }
 
+            $linesQty = 0;
+
             foreach ($locationKeys as $locationKey) {
                 preg_match("#^location" . $currentLine . "_([0-9]+)$#", $locationKey, $id);
                 
@@ -119,6 +121,7 @@ class OutgoingManager extends Manager
                 {
                     return false;                
                 }               
+                $linesQty += (int)$postQty;
 
                 $this->repository = new LocationRepository($this->database);
                 $location = $this->repository->findWhere(['concatenate', '=', $postLocation]);
@@ -138,6 +141,11 @@ class OutgoingManager extends Manager
     
                 $row->hydrate($rowData);
                 $rows[] = $row;
+            }
+
+            // the total quantity must be the same as the sum of individual quantities
+            if ($linesQty !== $qty) {
+                return false;
             }
         }
        

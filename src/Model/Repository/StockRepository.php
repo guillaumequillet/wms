@@ -106,6 +106,7 @@ class StockRepository extends Repository
                 'article' => $this->getArticleFromId($result['article']),
                 'qty' => $result['qty']
             ];
+
             $stock->hydrate($data);
             $stocks[] = $stock;
         }  

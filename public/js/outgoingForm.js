@@ -29,7 +29,8 @@ class OutgoingForm
             }       
             
             let regexp = /^[\w-_ ]+$/;
-            if (!regexp.test($('#provider').val()) || !regexp.test($('#reference').val())) {
+            
+            if (!regexp.test($('#reference').val())) {
                 $('#feedbackOutgoingForm').show();
                 $('#feedbackOutgoingForm').text('Vous devez utiliser des chiffres, des lettres non accentuées ou bien des tirets ou underscores.');
                 return false;
