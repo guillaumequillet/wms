@@ -9,7 +9,7 @@ class OutgoingForm
 
         // handling delete button for existing lines
         $('.orderRow').each(function() {
-            that.addDeleteEvent($(this));
+            that.addDeleteEventForReserved($(this));
             that.addArticleSuggestion($(this));
             that.addLocationSuggestion($(this));
         });
@@ -59,6 +59,42 @@ class OutgoingForm
             e.preventDefault();
             orderRow.remove();
         });        
+    }
+
+    addDeleteEventForReserved(orderRow)
+    {
+        let $currentId = $('#currentId').val(); 
+
+        orderRow.find('.button').last().click(function(e) {
+            if ($currentId !== '' && confirm('Ces produits ne seront plus réservés. Confirmer ?')) {
+                e.preventDefault();
+                let $articleField = orderRow.children().first().find('input');
+                $articleField.val($.trim($articleField.val()));
+                let code = $articleField.val();
+                $.ajax({
+                    type: 'POST',
+                    url: '/outgoing/unreserve',
+                    data: {
+                        id:$currentId, 
+                        code:code
+                    },
+                    success: function(data){
+                        console.log(data);
+                        if (data === true) {
+                            orderRow.remove();
+                        } else {
+                            $('#feedbackOutgoingForm').show();
+                            $('#feedbackOutgoingForm').text('Une erreur est survenue lors de la dé-réservation');
+                        }
+                    },
+                    error: function(jqXHR, textStatus) {
+                        $('#feedbackOutgoingForm').show();
+                        $('#feedbackOutgoingForm').text('Une erreur est survenue lors de la dé-réservation');
+                    },
+                    dataType: "json"
+                });
+            }    
+        });
     }
 
     addArticleSuggestion(orderRow)
@@ -111,6 +147,10 @@ class OutgoingForm
             $articleField.val($.trim($articleField.val()));
 
             let code = $articleField.val();
+
+            let regex = /^article([0-9]+)$/;
+            let currentLine = $articleField.attr('name').match(regex)[1];
+
             let quantity = $quantityField.val();
             let articleOccurences = 0;
 
@@ -133,8 +173,8 @@ class OutgoingForm
                         if (data.length !== 0) {
                             $sl.html('');
                             for (let i=0; i < data.length; i++) {
-                                $sl.append(`<label for="location${i}">Loc.<input type="text" name="location${i}" id="location${i}" value="${data[i]['location']}" disabled></label>`);
-                                $sl.append(`<label for="qty${i}">Qté<input type="text" name="qty${i}" id="qty${i}" value="${data[i]['availableQty']}" disabled></label>`);
+                                $sl.append(`<label for="location${currentLine}_${i}">Loc.<input type="text" name="location${currentLine}_${i}" id="location${currentLine}_${i}" value="${data[i]['location']}" readonly></label>`);
+                                $sl.append(`<label for="qty${currentLine}_${i}">Qté<input type="text" name="qty${currentLine}_${i}" id="qty${currentLine}_${i}" value="${data[i]['availableQty']}" readonly></label>`);
                                 if (i < data.length - 1) {
                                     $sl.append('<hr>');
                                 }
@@ -172,8 +212,8 @@ class OutgoingForm
         row += '<ul class="dynamicList"></ul>';
         row += '</div>';
         row += '<div class="orderField">';
-        row += `<label for="quantity${i}">Quantité</label>`;
-        row += `<input type="number" min="1" name="quantity${i}" id="quantity${i}" required>`;
+        row += `<label for="globalQty${i}">Quantité</label>`;
+        row += `<input type="number" min="1" name="globalQty${i}" id="globalQty${i}" required>`;
         row += '</div>';
         row += '<div class="orderField">';
         row += `<h4>Emplacements</h4>`;

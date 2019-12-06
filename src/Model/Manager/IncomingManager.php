@@ -53,7 +53,7 @@ class IncomingManager extends Manager
 
         $articleKeys = $this->superglobalManager->findVariablesLike("post", "/^article[0-9]+$/");
         
-        if (empty($articleKeys)) {
+        if (is_null($articleKeys)) {
             return false;
         }
 

@@ -36,21 +36,25 @@
             <fieldset>
                 <legend>Produits</legend>
                 <div id="orderRows">
-                    {% for row in outgoing.rows %}
+                    {% for article in outgoing.getOrderRows|keys %}
                         <div class="orderRow">
                             <div class="orderField">
                                 <label for="article{{ loop.index }}">Article</label>
-                                <input type="text" name="article{{ loop.index }}" id="article{{ loop.index }}" value="{{ row.article.code }}" autocomplete="off" required{% if outgoing.status == "shipped" %} disabled{% endif %}>
+                                <input type="text" name="article{{ loop.index }}" id="article{{ loop.index }}" value="{{ article }}" autocomplete="off" required{% if outgoing.status == "shipped" %} disabled{% endif %}>
                                 <ul class="dynamicList"></ul>
                             </div>
                             <div class="orderField">
                                 <label for="quantity{{ loop.index }}">Quantité</label>
-                                <input type="number" name="quantity{{ loop.index }}" id="quantity{{ loop.index }}" value="{{ row.qty }}" required{% if outgoing.status == "shipped" %} disabled{% endif %}>                        
+                                <input type="number" name="quantity{{ loop.index }}" id="quantity{{ loop.index }}" value="{{ outgoing.getOrderRows[article].totalQty }}" required{% if outgoing.status == "shipped" %} disabled{% endif %}>                        
                             </div>
                             <div class="orderField">
-                                <label for="location{{ loop.index }}">Emplacement</label>
-                                <input type="text" name="location{{ loop.index }}" id="location{{ loop.index }}" value="{{ row.location.concatenate }}" autocomplete="off" required{% if outgoing.status == "shipped" %} disabled{% endif %}>
-                                <ul class="dynamicList"></ul>                            
+                                <h4>Emplacements</h4>
+                                <a href="#" class="button icon search-icon">Chercher</a>
+                                <div class="stocksList">
+                                    {% for row in outgoing.getOrderRows[article][rows] %}
+                                        {{ row.location }} : {{ row.qty }}<br>
+                                    {% endfor %}                           
+                                </div>
                             </div>
                             {% if outgoing.status != "shipped" %}
                                 <div class="orderField">

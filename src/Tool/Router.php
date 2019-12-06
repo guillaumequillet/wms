@@ -162,6 +162,10 @@ class Router
         $this->router->map('POST', '/outgoing/available', function() {
             (new OutgoingController())->available();
         });        
+
+        $this->router->map('POST', '/outgoing/unreserve', function() {
+            (new OutgoingController())->unreserve();
+        });   
     }
 
     private function createUserRoutes(): void

@@ -7,17 +7,17 @@ use App\Model\Entity\Incoming;
 
 class IncomingRepository extends Repository
 {
-    public function createIncoming(Incoming $movement): ?int
+    public function createIncoming(Incoming $incoming): ?int
     {
         // we create the incoming record
         $req = $this->database->getPDO()->prepare('INSERT INTO incomings(created_at, reference, user, provider, status) 
         VALUES(:createdAt, :reference, :user, :provider, :status)');
         $res = $req->execute([
-            'createdAt' => $movement->getCreatedAt(),
-            'reference' => $movement->getReference(),
-            'user' => $movement->getUser()->getId(),
-            'provider' => $movement->getProvider(),
-            'status' => $movement->getStatus()
+            'createdAt' => $incoming->getCreatedAt(),
+            'reference' => $incoming->getReference(),
+            'user' => $incoming->getUser()->getId(),
+            'provider' => $incoming->getProvider(),
+            'status' => $incoming->getStatus()
         ]);
 
         if (!$res) {

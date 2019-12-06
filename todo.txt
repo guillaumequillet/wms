@@ -1,19 +1,19 @@
 TODO LIST
 
+stock : voir si on affiche les réservés / en attente de réception ou pas
+
 vérifier les use inutiles (sur outgoingmanager)
 
 entrées
 ajouter la gestion du error dans la requete post
 
 - sortie
-outgoingManager L93
-IL FAUT prévoir dans le JS de créer un input type=hidden ou de serialize car la liste des articles n'est
-pas passée en formulaire (!)
+probleme majeur : modifier une sortie est très compliqué car la quantité est déjà annoncée comme réservée.
+donc si on clique à nouveau sur "chercher" ça pose un problème même si on a supprimé la quantité Les lignes réservées ne peuvent
+pas être modifiées, mais uniquement supprimées. Effacer la ligne enverra une requête de réservation.
 
-A la validation du formulaire, on créera createOutgoing.
-
-
-A la confirmation (status = "shipped"), on déduira des différents stocks les valeurs 
+revoir probleme token si modification en parallèle
+ajouter les différents controles de cohérence (code postal, référence etc et QuantitéTotale par rapport à somme des quantités)
 
 peaufiner le responsive (forms notamment, comme orderRows)
 

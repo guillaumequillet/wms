@@ -36,6 +36,31 @@ class Outgoing extends Movement
         parent::checkTypes();
     }
 
+    public function getOrderRows(): array
+    {
+        $rows = $this->getRows();
+        $compactRows = [];
+
+        foreach($rows as $row) {
+            $article = $row->getArticle()->getCode();
+            $location = $row->getLocation()->getConcatenate();
+            $qty = $row->getQty();
+            if (!isset($compactRows[$article])) {
+                $compactRows[$article] = [
+                    'totalQty' => 0,
+                    'rows' => []
+                ];
+            }
+            $compactRows[$article]['totalQty'] += $qty;
+            $compactRows[$article]['rows'][] = [
+                'location' => $location, 
+                'qty' => $qty
+            ];
+        }
+
+        return $compactRows;
+    }
+
     public function getRecipient(): string
     {
         return $this->recipient;

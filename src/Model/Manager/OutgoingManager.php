@@ -68,7 +68,7 @@ class OutgoingManager extends Manager
 
         $articleKeys = $this->superglobalManager->findVariablesLike("post", "/^article[0-9]+$/");
         
-        if (empty($articleKeys)) {
+        if (is_null($articleKeys)) {
             return false;
         }
 
@@ -80,18 +80,15 @@ class OutgoingManager extends Manager
 
         foreach ($articleKeys as $articleKey) {
             preg_match("#^article([0-9]+)$#", $articleKey, $id);
-            $article = $this->superglobalManager->findVariable('post', 'article' . $id[1]);
+            $currentLine = $id[1];
+
+            $article = $this->superglobalManager->findVariable('post', 'article' . $currentLine);
             if (is_null($article))
             {
                 return false;                
             }
-            $qty = $this->superglobalManager->findVariable('post', 'quantity' . $id[1]);
+            $qty = $this->superglobalManager->findVariable('post', 'globalQty' . $currentLine);
             if (is_null($qty) || (int)$qty <= 0)
-            {
-                return false;                
-            }
-            $location = $this->superglobalManager->findVariable('post', 'location' . $id[1]);
-            if (is_null($location))
             {
                 return false;                
             }
@@ -103,41 +100,66 @@ class OutgoingManager extends Manager
                 return false;
             }
 
-            $this->repository = new LocationRepository($this->database);
-            $location = $this->repository->findWhere(['concatenate', '=', $location]);
+            $locationKeys = $this->superglobalManager->findVariablesLike("post", "#^location" . $currentLine . "_([0-9]+)$#");
 
-            if (is_null($location)) {
+            if (is_null($locationKeys)) {
                 return false;
             }
 
-            $row = new Row();
+            foreach ($locationKeys as $locationKey) {
+                preg_match("#^location" . $currentLine . "_([0-9]+)$#", $locationKey, $id);
+                
+                $postLocation = $this->superglobalManager->findVariable('post', 'location' . $currentLine . "_" . $id[1]);
+                if (is_null($postLocation))
+                {
+                    return false;                
+                }
+                $postQty = $this->superglobalManager->findVariable('post', 'qty' . $currentLine . "_" . $id[1]);
+                if (is_null($postQty) || (int)$postQty <= 0)
+                {
+                    return false;                
+                }               
 
-            $rowData = [
-                'movement' => $movement,
-                'article' => $article,
-                'location' => $location,
-                'qty' => (int)$qty      
-            ];
+                $this->repository = new LocationRepository($this->database);
+                $location = $this->repository->findWhere(['concatenate', '=', $postLocation]);
+    
+                if (is_null($location)) {
+                    return false;
+                }                
 
-            $row->hydrate($rowData);
-            $rows[] = $row;
+                $row = new Row();
+
+                $rowData = [
+                    'movement' => $movement,
+                    'article' => $article,
+                    'location' => $location,
+                    'qty' => (int)$postQty      
+                ];
+    
+                $row->hydrate($rowData);
+                $rows[] = $row;
+            }
         }
        
         $movementData = [
-            'provider' => $data['provider'],
             'rows' => $rows,
             'createdAt' => (new \DateTime())->format('Y-m-d H:i:s'),
             'reference' => $data['reference'],
             'user' => $user,
-            'status' => $data['status']
+            'status' => $data['status'],
+            'recipient' => $data['recipient'],
+            'address' => $data['address'],
+            'zipcode' => $data['zipcode'],
+            'city' => $data['city'],
+            'country' => $data['country']
         ];
         
         $movement->hydrate($movementData);
 
-        // we create the incoming DB record
-        $this->repository = new IncomingRepository($this->database);
+        // we create the outgoing DB record
+        $this->repository = new OutgoingRepository($this->database);
 
-        $mvtId = (!is_null($currentId)) ? $currentId : $this->repository->createIncoming($movement);
+        $mvtId = (!is_null($currentId)) ? $currentId : $this->repository->createOutgoing($movement);
 
         if (is_null($mvtId)) {
             return false;
@@ -146,7 +168,7 @@ class OutgoingManager extends Manager
         $movement->setId($mvtId);
 
         if (!is_null($currentId)) {
-            $this->repository->updateIncoming($movement);
+            $this->repository->updateOutgoing($movement);
         }
 
         // and the rows themselves
@@ -154,19 +176,19 @@ class OutgoingManager extends Manager
 
         // we delete all previous lines
         if (!is_null($currentId)) {
-            $this->repository->deleteIncomingRowsForId($currentId);
+            $this->repository->deleteOutgoingRowsForId($currentId);
         }
 
         // and add the new ones
-        $rwsRes = $this->repository->createIncomingRows($movement->getRows());
+        $rwsRes = $this->repository->createOutgoingRows($movement->getRows());
 
         if (!$rwsRes) {
             return false;
         }
 
         // if status is received, we create the stocks
-        if ($data['status'] === 'received') {
-            $this->receiveIncoming($movement);
+        if ($data['status'] === 'shipped') {
+            $this->shipOutgoing($movement);
         }
 
         return true;
@@ -193,5 +215,89 @@ class OutgoingManager extends Manager
         // and we delete the movement itself
         $this->repository = new OutgoingRepository($this->database);
         return $this->repository->deleteWhere(['id', '=', $id]);
+    }
+
+    public function shipOutgoing(Outgoing $movement): bool
+    {
+        $stocks = [];
+
+        foreach ($outgoing->getRows() as $row) {
+            $stock = new Stock();
+            $data = [
+                'location' => $row->getLocation(),
+                'article' => $row->getArticle(),
+                'qty' => $row->getQty()
+            ];
+            $stock->hydrate($data);
+            $stocks[] = $stock;
+        }
+
+        $this->repository = new StockRepository($this->database);
+        $stockRes = $this->repository->pickFromStocks($stocks);            
+
+        if (isset($stockRes) && !$stockRes) {
+            return false;
+        }        
+        return true;
+    }
+
+    public function getOutgoing(int $id): ?Outgoing
+    {
+        $this->repository = new OutgoingRepository($this->database);
+        $outgoing = $this->repository->findWhere(['id', '=', $id]);
+
+        if (is_null($outgoing)) {
+            return null;
+        }
+
+        $this->repository = new UserRepository($this->database);
+        $user = $this->repository->findWhere(['id', '=', $outgoing->userId]);
+
+        if (is_null($user)) {
+            return null;
+        }
+
+        $outgoing->setUser($user);
+    
+        $this->repository = new RowRepository($this->database);
+        $rows = $this->repository->findOutgoingRows($outgoing);
+
+        if (is_null($rows)) {
+            return null;
+        }
+
+        foreach ($rows as $row) {
+            $row->setMovement($outgoing);
+        }
+
+        $this->repository = new ArticleRepository($this->database);
+        foreach ($rows as $row) {
+            $article = $this->repository->findWhere(['id', '=', $row->articleId]);
+            if (is_null($article)) {
+                return null;
+            }
+            $row->setArticle($article);
+        }
+
+        $this->repository = new LocationRepository($this->database);
+        foreach ($rows as $row) {
+            $location = $this->repository->findWhere(['id', '=', $row->locationId]);
+            if (is_null($location)) {
+                return null;
+            }
+            $row->setLocation($location);
+        }
+
+        $outgoing->setRows($rows);
+        return $outgoing;
+    }
+
+    public function unreserve(string $code, int $outgoingId): bool
+    {
+        $this->repository = new ArticleRepository();
+        $article = $this->repository->findWhere(['code', '=', $code]);
+        $this->repository = new OutgoingRepository();
+        $outgoing = $this->repository->findWhere(['id', '=', $outgoingId]);
+        return $this->repository->unreserve($article, $outgoing);
     }
 }

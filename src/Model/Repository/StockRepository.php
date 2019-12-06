@@ -9,7 +9,7 @@ use App\Model\Entity\Stock;
 
 class StockRepository extends Repository
 {
-    public function createStocks(array $stocks): void
+    public function createStocks(array $stocks): bool
     {
         $reqString = 'INSERT INTO stocks(location, article, qty) VALUES ';
         $reqValues = [];
@@ -18,8 +18,27 @@ class StockRepository extends Repository
         }
         $reqString .= join(',', $reqValues);
         $reqString .=  'ON DUPLICATE KEY UPDATE qty=qty+VALUES(qty)';
-        $query = $this->database->getPDO()->exec($reqString);        
+        $query = $this->database->getPDO()->exec($reqString);   
+        return $query > 0;     
     }
+
+    public function pickFromStocks(array $stocks): bool
+    {
+        // updating each stock
+        $reqString = 'INSERT INTO stocks(location, article, qty) VALUES ';
+        $reqValues = [];
+        foreach ($stocks as $stock) {
+            $reqValues[] = '("' . join('","', [$stock->getLocation()->getId(), $stock->getArticle()->getId(), $stock->getQty()]) . '")';
+        }
+        $reqString .= join(',', $reqValues);
+        $reqString .=  'ON DUPLICATE KEY UPDATE qty=qty-VALUES(qty)';
+        $query = $this->database->getPDO()->exec($reqString);   
+
+        // deleting all empty stock
+        $this->database->getPDO()->exec('DELETE FROM stocks WHERE qty=0');
+
+        return $query > 0;   
+    }   
 
     private function getArticleFromId(int $id): ?Article
     {
@@ -190,7 +209,7 @@ class StockRepository extends Repository
                 break;
             }
 
-            if ($availableQty < $missingQty) {
+            if ($availableQty > 0 && $availableQty < $missingQty) {
                 $returnedStocks[] = [
                     'location' => $stock['concatenate'],
                     'availableQty' => $availableQty

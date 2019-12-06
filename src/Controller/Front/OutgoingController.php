@@ -106,4 +106,19 @@ class OutgoingController extends Controller
         $this->setLog($res ? 'deleteOK' : 'deleteNOK');
         header('location: /outgoing/index');
     }
+
+    public function unreserve(): void
+    {
+        header('Content-type: application/json');
+
+        $code = $this->superglobalManager->findVariable('post', 'code');
+        $orderId = $this->superglobalManager->findVariable('post', 'id');
+
+        if (is_null($code) || is_null($orderId)) {
+            echo json_encode(false);
+            exit();
+        }
+
+        echo json_encode($this->manager->unreserve($code, (int)$orderId));
+    }
 }

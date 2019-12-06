@@ -438,6 +438,7 @@ footer p {
 
 .stocksList {
     margin: 10px 0;
+    padding-left: 10px;
     border-left: 4px solid rgba(0, 51, 102, 0.4);
 }
 /* end ORDER */
