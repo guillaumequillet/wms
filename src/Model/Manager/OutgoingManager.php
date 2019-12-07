@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Model\Manager;
 
-use App\Model\Entity\Article;
 use App\Model\Entity\Outgoing;
 use App\Model\Entity\Row;
 use App\Model\Entity\Stock;
@@ -14,7 +13,6 @@ use App\Model\Repository\UserRepository;
 use App\Model\Repository\RowRepository;
 use App\Model\Repository\StockRepository;
 use App\Tool\Database;
-use App\Tool\Token;
 
 class OutgoingManager extends Manager
 {
@@ -144,7 +142,7 @@ class OutgoingManager extends Manager
             }
 
             // the total quantity must be the same as the sum of individual quantities
-            if ($linesQty !== $qty) {
+            if ($linesQty !== (int)$qty) {
                 return false;
             }
         }

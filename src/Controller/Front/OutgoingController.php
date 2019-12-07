@@ -34,7 +34,7 @@ class OutgoingController extends Controller
     {
         header('Content-type: application/json');
 
-        if ($this->token->check(0, false) === false) {
+        if (($this->token->check(0, false)) === false) {
             echo json_encode('tokenError');
             $this->setLog('tokenError');
             exit();

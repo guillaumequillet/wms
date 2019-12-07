@@ -78,7 +78,6 @@ class OutgoingForm
                         code:code
                     },
                     success: function(data){
-                        console.log(data);
                         if (data === true) {
                             orderRow.remove();
                         } else {
@@ -123,6 +122,11 @@ class OutgoingForm
                             $ul.html('');
                             $ul.append('<li>Pas de résultat</li>');
                         }
+                    },
+                    error: function(jqXHR, textStatus) {
+                        $sl.html('');
+                        console.log(jqXHR)
+                        $sl.append('<p>Les données saisies sont incorrectes</p>');
                     },
                     dataType: "json"
                 });

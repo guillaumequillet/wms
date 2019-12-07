@@ -1,15 +1,6 @@
 TODO LIST
 
-vérifier les use inutiles (sur outgoingmanager)
 revoir les méthodes repository => des choses à enlever ?
-
-entrées
-ajouter la gestion du error dans la requete post
-
-- sortie
-
-revoir probleme token si modification en parallèle
-ajouter les différents controles de cohérence (code postal, référence etc et QuantitéTotale par rapport à somme des quantités)
 
 peaufiner le responsive (forms notamment, comme orderRows)
 

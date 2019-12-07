@@ -63,27 +63,27 @@ class Outgoing extends Movement
 
     public function getRecipient(): string
     {
-        return $this->recipient;
+        return html_entity_decode($this->recipient);
     }
 
     public function getAddress(): string
     {
-        return $this->address;
+        return html_entity_decode($this->address);
     }
 
     public function getZipcode(): string
     {
-        return $this->zipcode;
+        return html_entity_decode($this->zipcode);
     }
 
     public function getCity(): string
     {
-        return $this->city;
+        return html_entity_decode($this->city);
     }
 
     public function getCountry(): string
     {
-        return $this->country;
+        return html_entity_decode($this->country);
     }
 
     public function setRecipient(string $recipient): self

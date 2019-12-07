@@ -86,6 +86,10 @@ class IncomingForm
                             $ul.append('<li>Pas de résultat</li>');
                         }
                     },
+                    error: function(jqXHR, textStatus) {
+                        $ul.html('');
+                        $ul.append('<li>Une erreur est survenue</li>');
+                    },
                     dataType: "json"
                 });
             }
@@ -119,6 +123,10 @@ class IncomingForm
                             $ul.html('');
                             $ul.append('<li>Pas de résultat</li>');
                         }
+                    },
+                    error: function(jqXHR, textStatus) {
+                        $ul.html('');
+                        $ul.append('<li>Une erreur est survenue</li>');
                     },
                     dataType: "json"
                 });
