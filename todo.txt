@@ -1,7 +1,4 @@
 TODO LIST
 
-revoir les méthodes repository => des choses à enlever ?
-
-peaufiner le responsive (forms notamment, comme orderRows)
-
-mettre en ligne (!)
+serait dû à ad block : https://stackoverflow.com/questions/53919591/chrome-angular-unchecked-runtime-lasterror-the-message-port-closed-before-a-res
+Unchecked runtime.lastError: The message port closed before a response was received.
