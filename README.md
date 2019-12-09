@@ -8,7 +8,7 @@ J’ai choisi de réaliser un logiciel de type WMS (Warehouse Management System)
 
 ### Périmètre
 
-Il s’agit de réaliser un logiciel de gestion de stocks disposant des fonctionnalités élémentaires afin de pouvoir gérer effectivement un stock. Ce projet sera développé en maximum 1.5 mois et doit donc aller à l’essentiel tout en proposant au minimum les fonctionnalités suivantes :
+Il s’agit de réaliser un logiciel de gestion de stocks disposant des fonctionnalités élémentaires afin de pouvoir gérer effectivement un stock. Ce projet sera développé en maximum 2 mois et doit donc aller à l’essentiel tout en proposant au minimum les fonctionnalités suivantes :
 
 * Accès par IDENTIFICATION à l’ensemble du logiciel.
 * Il y aura un compte "superadmin" et des comptes "admin" / "simple". On prévoit une gestion des  UTILISATEURS afin de créer des comptes supplémentaires, aux droits restreints par ces status.
@@ -85,7 +85,7 @@ Métier :
 
 On a alors accès à un formulaire dont l’entête diffère selon le choix (informations fournisseur / informations destinataire) et à une liste d’articles à saisir (code, quantité, emplacement)
 
-* Dans le cadre d’une sortie, l’emplacement est automatiquement affecté par le système.
+* Dans le cadre d’une sortie, les emplacements sont automatiquement affectés par le système (en cliquant sur un bouton "rechercher").
 
 Technique :
 * tous les types de mouvement ont un impact similaire sur le stock : faire varier des quantités à des emplacements (pouvant amener à la création ou la destruction de stocks) donc on souhaite factoriser le code en ce sens.
