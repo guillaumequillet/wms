@@ -3,7 +3,6 @@ class OutgoingForm
     constructor() 
     {
         let that = this; // fix around Jquery "this" handling
-        this.lineNumber = 0;
 
         $('#feedbackOutgoingForm').hide();
 
@@ -11,6 +10,8 @@ class OutgoingForm
         $('.orderRow').each(function() {
             that.addDeleteEventForReserved($(this));
         });
+
+        this.lineNumber = $('.orderRow').length;
 
         $('#addRowButton').click(function(e) {
             e.preventDefault();
