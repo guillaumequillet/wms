@@ -27,17 +27,17 @@
                     {% for row in incoming.rows %}
                         <div class="orderRow">
                             <div class="orderField">
-                                <label for="article{{ loop.index }}">Article</label>
-                                <input type="text" name="article{{ loop.index }}" id="article{{ loop.index }}" value="{{ row.article.code }}" autocomplete="off" required{% if incoming.status == "received" %} disabled{% endif %}>
+                                <label for="article{{ loop.index - 1 }}">Article</label>
+                                <input type="text" name="article{{ loop.index - 1 }}" id="article{{ loop.index - 1 }}" value="{{ row.article.code }}" autocomplete="off" required{% if incoming.status == "received" %} disabled{% endif %}>
                                 <ul class="dynamicList"></ul>
                             </div>
                             <div class="orderField">
-                                <label for="quantity{{ loop.index }}">Quantité</label>
-                                <input type="number" min="1" name="quantity{{ loop.index }}" id="quantity{{ loop.index }}" value="{{ row.qty }}" required{% if incoming.status == "received" %} disabled{% endif %}>                        
+                                <label for="quantity{{ loop.index - 1 }}">Quantité</label>
+                                <input type="number" min="1" name="quantity{{ loop.index - 1 }}" id="quantity{{ loop.index - 1 }}" value="{{ row.qty }}" required{% if incoming.status == "received" %} disabled{% endif %}>                        
                             </div>
                             <div class="orderField">
-                                <label for="location{{ loop.index }}">Emplacement</label>
-                                <input type="text" name="location{{ loop.index }}" id="location{{ loop.index }}" value="{{ row.location.concatenate }}" autocomplete="off" required{% if incoming.status == "received" %} disabled{% endif %}>
+                                <label for="location{{ loop.index - 1}}">Emplacement</label>
+                                <input type="text" name="location{{ loop.index - 1 }}" id="location{{ loop.index - 1 }}" value="{{ row.location.concatenate }}" autocomplete="off" required{% if incoming.status == "received" %} disabled{% endif %}>
                                 <ul class="dynamicList"></ul>                            
                             </div>
                             {% if incoming.status != "received" %}

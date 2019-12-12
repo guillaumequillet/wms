@@ -3,7 +3,7 @@ class IncomingForm
     constructor() 
     {
         let that = this; // fix around Jquery "this" handling
-        this.lineNumber = 0;
+        this.lineNumber = $('.orderRow').length;
 
         $('#feedbackIncomingForm').hide();
 

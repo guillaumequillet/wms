@@ -14,7 +14,7 @@ class View
     public function __construct()
     {
         $this->twigLoader = new FilesystemLoader('../templates');
-        $this->twigEnvironment = new Environment($this->twigLoader, []); // we'll add cache later
+        $this->twigEnvironment = new Environment($this->twigLoader, []); 
     }
 
     public function render(string $template, ?array $data = null): void 
