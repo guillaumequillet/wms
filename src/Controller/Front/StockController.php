@@ -43,6 +43,14 @@ class StockController extends Controller
 
         $stocks = $this->manager->findAllStocks($queryString, $page);
 
+        if (!is_null($stocks)) {
+            $reserved = $this->manager->findReservedStocks($stocks['entities']);
+        }
+
+        if (!is_null($reserved)) {
+            $data['reserved'] = $reserved;
+        }
+
         foreach (['entities', 'currentPage', 'previousPage', 'nextPage'] as $key) {
             if (isset($stocks[$key]) && !is_null($stocks[$key])) {
                 $data[$key] = $stocks[$key];

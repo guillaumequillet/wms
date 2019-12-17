@@ -21,6 +21,7 @@
                         <th>ID</th>
                         <th>Code</th>
                         <th>Quantité</th>
+                        <th>Réservée</th>
                         <th>Emplacement</th>
                     </tr>
                 </thead>
@@ -30,12 +31,17 @@
                             <td>{{ stock.id }}</td>
                             <td>{{ stock.article.code }}</td>
                             <td>{{ stock.qty }}</td>
+                            {% if reserved[loop.index - 1] == null %}
+                               <td>0</td>
+                            {% else %}
+                                <td>{{ reserved[loop.index - 1] }}</td>
+                            {% endif %}
                             <td>{{ stock.location.concatenate }}</td>
                         </tr>
                     {% endfor %}
                     {% if currentPage is defined %}
                         <tr>
-                            <td colspan="6">
+                            <td colspan="7">
                                 Page(s) :
                                 {% if previousPage is defined %} 
                                     <a href="/stock/index/{{ previousPage }}">{{ previousPage }}</a>

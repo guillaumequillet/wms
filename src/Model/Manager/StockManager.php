@@ -35,4 +35,9 @@ class StockManager extends Manager
         
         return $this->repository->paginate($entities, $totalResults, $page);
     }
+
+    public function findReservedStocks(array $stocks): ?array
+    {
+        return $this->repository->findReservedStocks($stocks);
+    }
 }

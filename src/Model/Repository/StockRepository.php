@@ -221,4 +221,21 @@ class StockRepository extends Repository
 
         return empty($returnedStocks) ? null : $returnedStocks;
     }
+
+    public function findReservedStocks(array $stocks): ?array {
+        $reserved = [];
+
+        foreach ($stocks as $stock) {
+            $query = 'SELECT SUM(qty) AS sum_qty FROM `rows`';
+            $query .= ' INNER JOIN outgoings ON rows.movement = outgoings.id';
+            $query .= ' WHERE article=:article AND location=:location AND type="outgoing" AND outgoings.status="pending"';
+            $req = $this->database->getPDO()->prepare($query);
+            $res = $req->execute([
+                'article' => $stock->getArticle()->getId(),
+                'location' => $stock->getLocation()->getId()
+            ]);
+            $reserved[] = $res ? $req->fetch()['sum_qty'] : 0;            
+        }
+        return empty($reserved) ? null : $reserved;
+    }
 }
