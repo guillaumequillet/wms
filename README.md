@@ -108,6 +108,6 @@ L'entrepôt sera également créé sous le Back-End (Emplacements).
 
 ## UML Design / Arborescence du site
 
-Le schéma UML est disponible [ici](https://docs.google.com/spreadsheets/d/1e8GH1DivJCnVaNDi2MvVgp4dRYz9yQcRUVLldaiGxB0/edit?usp=sharing).
+Le schéma UML est disponible [ici](https://drive.google.com/open?id=1e8GH1DivJCnVaNDi2MvVgp4dRYz9yQcRUVLldaiGxB0).
 
-L'arborescence du site [ici](https://docs.google.com/spreadsheets/d/1SVmNaadsA0J5EWMEUMeJGEDcW7I8_bL9ZaFVG9w5zTE/edit?usp=sharing).
+L'arborescence du site [ici](https://drive.google.com/open?id=1SVmNaadsA0J5EWMEUMeJGEDcW7I8_bL9ZaFVG9w5zTE).
