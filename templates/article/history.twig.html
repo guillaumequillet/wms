@@ -39,7 +39,7 @@
                                 <td>{{ line.code }}</td>
                                 <td><a href="/{{ line.type }}/edit/{{ line.id }}">{{ line.type }}</a></td>
                                 <td>{{ line.location }}</td>
-                                <td>{{ line.qty }}</td>
+                                <td>{% if line.type == "outgoing" %}-{% endif %}{{ line.qty }}</td>
                             </tr>
                         {% endfor %}
                         <tr></tr>
