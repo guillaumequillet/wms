@@ -36,7 +36,8 @@ class ParserCSV
 
         $returnArray = [];
         while ($line = fgets($file)) {
-            $returnArray[] = explode($this->separator, rtrim($line));
+            $lineArray = explode($this->separator, rtrim($line));
+            $returnArray[] = array_map(function($element) { return htmlentities($element); }, $lineArray);
         }
         fclose($file);
 

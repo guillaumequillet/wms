@@ -31,7 +31,8 @@ class ArticleRepository extends Repository
         }
         $reqString .= join(',', $reqValues);
         $reqString .=  'ON DUPLICATE KEY UPDATE code=code';
-        return $this->database->getPDO()->exec($reqString);
+        $res = $this->database->getPDO()->exec($reqString);
+        return ($res === false) ? 0 : $res;
     }
 
     public function updateArticle(Article $article): bool

@@ -93,7 +93,7 @@ class ArticleManager extends Manager
             $article = new Article();
 
             // if code is not correct
-            if (!preg_match('/^[\w_]+$/', $data['code']))
+            if (!preg_match('/^[\w_-]+$/', $data['code']))
             {
                 return 'noneInterval';
             }
