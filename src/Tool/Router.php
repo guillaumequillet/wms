@@ -238,6 +238,9 @@ class Router
         $this->router->map('POST', '/stock/index/[i:page]?', function(int $page = 0) {
             (new StockController())->index($page);
         });           
+        $this->router->map('GET', '/stock/export', function() {
+            (new StockController())->exportAsFile();
+        });
     }
 
     public function getRoute(): void

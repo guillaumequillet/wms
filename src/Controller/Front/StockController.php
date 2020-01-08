@@ -42,6 +42,7 @@ class StockController extends Controller
         }
 
         $stocks = $this->manager->findAllStocks($queryString, $page);
+        $reserved = null;
 
         if (!is_null($stocks)) {
             $reserved = $this->manager->findReservedStocks($stocks['entities']);
@@ -57,5 +58,29 @@ class StockController extends Controller
             }
         }
         $this->render($template, $data);
+    }
+
+    public function exportAsFile(): void 
+    {
+        header('Content-type: text/csv');
+        header("Content-Disposition: attachment; filename=file.csv");
+
+        $queryString = $this->superglobalManager->findVariable('session', 'queryString');
+        $stocks = $this->manager->exportAllStocks($queryString);
+        $reserved = null;
+
+        if (!is_null($stocks)) {
+            $reserved = $this->manager->findReservedStocks($stocks);
+        }
+
+        $csvFile = fopen('php://output', 'w');
+        fputcsv($csvFile, ['id', 'article', 'qty', 'reserved', 'location'], ';');
+
+        if (!is_null($stocks)) {
+            foreach($stocks as $key => $stock) {
+                $fields = [$stock->getId(), $stock->getArticle()->getCode(), $stock->getQty(), $reserved[$key], $stock->getLocation()->getConcatenate()];
+                fputcsv($csvFile, $fields, ';');
+            }
+        }
     }
 }

@@ -234,7 +234,11 @@ class StockRepository extends Repository
                 'article' => $stock->getArticle()->getId(),
                 'location' => $stock->getLocation()->getId()
             ]);
-            $reserved[] = $res ? $req->fetch()['sum_qty'] : 0;            
+
+            if ($res !== false) {
+                $sum = $req->fetch()['sum_qty'];
+                $reserved[] = is_null($sum) ? 0 : (int)$sum;
+            }
         }
         return empty($reserved) ? null : $reserved;
     }

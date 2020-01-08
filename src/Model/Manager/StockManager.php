@@ -40,4 +40,12 @@ class StockManager extends Manager
     {
         return $this->repository->findReservedStocks($stocks);
     }
+
+    public function exportAllStocks(?string $queryString = null): ?array
+    {
+        if (is_null($queryString)) {
+            $queryString = '%%';
+        }
+        return $this->repository->findAllStocksWithArticleLike($queryString, null);   
+    }
 }
