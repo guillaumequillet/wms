@@ -159,4 +159,13 @@ class ArticleController extends Controller
 
         $this->render($template, $data);
     }
+
+    public function history(int $id): void
+    {
+        $template = 'article/history.twig.html';
+        $data = [];
+        $data['code'] = $this->manager->findArticleWithId($id)->getCode();
+        $data['lines'] = $this->manager->findArticleHistory($id);
+        $this->render($template, $data);
+    }
 }

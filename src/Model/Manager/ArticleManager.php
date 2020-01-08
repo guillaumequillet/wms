@@ -160,7 +160,7 @@ class ArticleManager extends Manager
         return $this->repository->findWhere(['id', '=', $id]);
     }
 
-    public function suggestArticles($code): array
+    public function suggestArticles(string $code): array
     {
         $limit = 5;
         $entities = $this->repository->findWhereAll(['code', 'like', "%${code}%"], $limit);
@@ -176,5 +176,16 @@ class ArticleManager extends Manager
         }
 
         return $results;
+    }
+
+    public function findArticleHistory(int $id): ?array
+    {
+        $article = $this->repository->findWhere(['id', '=', $id]);
+
+        if (is_null($article)) {
+            return null;
+        }
+
+        return $this->repository->findArticleHistory($article);
     }
 }

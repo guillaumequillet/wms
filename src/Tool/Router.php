@@ -111,6 +111,10 @@ class Router
         $this->router->map('POST', '/article/suggestions', function() {
             (new ArticleController())->suggestions();
         });
+
+        $this->router->map('GET', '/article/history/[i:id]', function(int $id) {
+            (new ArticleController())->history($id);
+        });
     }
 
     private function createMovementRoutes(): void 

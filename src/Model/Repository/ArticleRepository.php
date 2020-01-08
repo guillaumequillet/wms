@@ -51,4 +51,28 @@ class ArticleRepository extends Repository
             'querycode' => $article->getCode()
         ]);
     }
+
+    public function findArticleHistory(Article $article): ?array
+    {
+        $this->database->getPDO()->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+        $query = 'SELECT articles.code AS code, locations.concatenate AS location, rows.type AS type, rows.movement as id, rows.qty AS qty, incomings.reference AS incRef, outgoings.reference AS outRef, incomings.created_at AS incDate, outgoings.created_at AS outDate'; 
+        $query .= ' FROM `rows`';
+        $query .= ' INNER JOIN locations ON locations.id = rows.location';    
+        $query .= ' INNER JOIN articles ON articles.id = rows.article';
+        $query .= ' LEFT JOIN incomings ON (incomings.id = rows.movement AND rows.type="incoming")';
+        $query .= ' LEFT JOIN outgoings ON (outgoings.id = rows.movement AND rows.type="outgoing")';
+        $query .= ' WHERE rows.article = :article';
+        $query .= ' ORDER BY rows.id';
+
+        $req = $this->database->getPDO()->prepare($query);
+        $res = $req->execute(['article' => $article->getId()]);
+
+        if ($res === null) {
+            return null;
+        }
+
+        $res = $req->fetchAll();
+        return empty($res) ? null : $res;
+    }
 }

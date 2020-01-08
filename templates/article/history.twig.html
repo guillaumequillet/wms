@@ -1,0 +1,50 @@
+{% extends "base.twig.html" %}
+{% block title %}Historique de l'article {{ code }}{% endblock %}
+
+{% block body %}
+    <h1>Historique de l'article <span class="white">{{ code }}</span></h1>
+    <section>
+        <h2 id="list">Liste des Mouvements</h2>
+            {% if lines == null %}
+                <p class="error">Aucun historique à afficher.</p>
+            {% else %}
+                <table id="historyTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Référence</th>
+                            <th>Article</th>
+                            <th>Type</th>
+                            <th>Emplacement</th>
+                            <th>Quantité</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for line in lines %}
+                            <tr>
+                                <td>{{ line.ref }}
+                                    {% if line.type == 'incoming' %}
+                                        {{ line.incDate }}
+                                    {% else %}
+                                        {{ line.outDate }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ line.ref }}
+                                    {% if line.type == 'incoming' %}
+                                        {{ line.incRef }}
+                                    {% else %}
+                                        {{ line.outRef }}
+                                    {% endif %}
+                                </td>
+                                <td>{{ line.code }}</td>
+                                <td><a href="/{{ line.type }}/edit/{{ line.id }}">{{ line.type }}</a></td>
+                                <td>{{ line.location }}</td>
+                                <td>{{ line.qty }}</td>
+                            </tr>
+                        {% endfor %}
+                        <tr></tr>
+                    </tbody>
+                </table>
+        {% endif %}
+    </section>
+{% endblock %}
