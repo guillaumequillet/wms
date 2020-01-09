@@ -164,6 +164,11 @@ class ArticleManager extends Manager
     {
         $limit = 5;
         $entities = $this->repository->findWhereAll(['code', 'like', "%${code}%"], $limit);
+        $barcodeProduct = $this->repository->findWhere(['barcode', '=', $code]);
+
+        if (!is_null($barcodeProduct)) {
+            $entities[]= $barcodeProduct;
+        }
 
         if (is_null($entities)) {
             return [];

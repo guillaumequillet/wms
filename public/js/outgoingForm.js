@@ -112,12 +112,17 @@ class OutgoingForm
                     success: function(data){
                         if (data.length !== 0) {
                             $ul.html('');
-                            for (let i=0; i < data.length; i++) {
-                                $ul.append('<li class="dynamicListItem">' + data[i] + '</li>');
-                                $ul.find('li').last().click(function(e) {
-                                    $articleField.val(data[i]);
-                                    $ul.html('');
-                                });
+                            // if only one result exists, we set it directly
+                            if (data.length === 1) {
+                                $articleField.val(data[0]);
+                            } else {
+                                for (let i=0; i < data.length; i++) {
+                                    $ul.append('<li class="dynamicListItem">' + data[i] + '</li>');
+                                    $ul.find('li').last().click(function(e) {
+                                        $articleField.val(data[i]);
+                                        $ul.html('');
+                                    });
+                                }
                             }
                         } else {
                             $ul.html('');
